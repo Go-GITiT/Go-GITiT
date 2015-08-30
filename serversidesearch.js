@@ -24,4 +24,4 @@
 
 // write a function that iterates through each repository, running our finder functions on them
 	// can only increment a library's count once for each repository
- 
+	// updates the count in our database 
