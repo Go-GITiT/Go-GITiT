@@ -1,0 +1,31 @@
+{
+  "name": "gitit",
+  "version": "1.0.0",
+  "description": "A statistical visualization of javascript frontend frameworks used on github",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gitit-TGA/Gitit.git"
+  },
+  "keywords": [
+    "javascript",
+    "frontend",
+    "data",
+    "visualization",
+    "node",
+    "data",
+    "cleaning"
+  ],
+  "author": "fusupo, demesheo, dhernz, rybry_mcfly",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Gitit-TGA/Gitit/issues"
+  },
+  "homepage": "https://github.com/Gitit-TGA/Gitit#readme",
+  "dependencies": {
+    "jsdom": "^3.1.2"
+  }
+}
