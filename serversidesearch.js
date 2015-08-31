@@ -70,7 +70,7 @@ var handler = new htmlparser.DomHandler(function (error, dom) {
     if (error){
 		console.log(error);
     } else {
-        console.log(dom);
+        console.log(dom[1].children[3]);
     }
 });
 var parser = new htmlparser.Parser(handler);
