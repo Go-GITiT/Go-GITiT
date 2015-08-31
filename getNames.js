@@ -11,7 +11,6 @@ var i = 0;
 var fullnames = [];
 
 function getName() {
-
   if (i < 11) {
     var req = {
       url: 'https://api.github.com/search/repositories?q=language:JavaScript+created:>2015-01-01&sort=stars&page=' + i,
@@ -30,7 +29,6 @@ function getName() {
           fullnames.push(data.full_name);
         }
       });
-
       i++;
       getName();
     };
@@ -41,8 +39,6 @@ function getName() {
   }
 }
 getName();
-
-
 
 var getHtml = function() {
   var full_name = fullnames.pop();
@@ -61,14 +57,11 @@ var getHtml = function() {
       } else {}
 
       var bod = JSON.parse(body);
-
       fs.appendFile('log.txt', JSON.stringify(bod) + '\n', function(err) {
         if (err) throw err;
-
         if (bod.items !== undefined && bod.items.length > 0) {
 
           var i = 0;
-
           var saveUrlsToDB = function() {
             if (i < bod.items.length) {
 
@@ -79,7 +72,6 @@ var getHtml = function() {
                 repoName: full_name,
                 file: url
               });
-
 
               info.save(function(err, data) {
                 if (err) {
