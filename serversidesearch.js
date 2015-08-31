@@ -4,6 +4,7 @@ var htmlparser = require("htmlparser2");
 
 // create a single list of frameworks that we are searching for
 	// needs to ignore version and source differences for frameworks
+	// create a single document that tracks the count of framework occurences in repos by framework
 
 var libraryCollection = {
 	React : 0,
@@ -18,7 +19,7 @@ var libraryCollection = {
 	Aurelia: 0
 };
 
-// create a single document that tracks the count of framework occurences in repos by framework
+var htmlparser = require("htmlparser2");
 var parser = new htmlparser.Parser({
     onopentag: function(name, attribs){
         if(name === "script" && attribs.type === "text/javascript"){
@@ -34,7 +35,35 @@ var parser = new htmlparser.Parser({
         }
     }
 }, {decodeEntities: true});
-parser.write("Xyz <script type='text/javascript'>var foo = '<<bar>>';</ script>");
+parser.write("<!doctype html>\
+<html lang='en'>\
+  <head>\
+    <meta charset='utf-8'>\
+    <meta name='viewport' content='width=device-width, initial-scale=1'>\
+    <title>Relay • Star Wars</title>\
+  </head>\
+  <body>\
+    <div id='root'></div>\
+    <script type='text/javascript'>\
+      // Force `fetch` polyfill to workaround Chrome not displaying request body\
+      // in developer tools for the native `fetch`.\
+      self.fetch = null;\
+      function warnRelayMissing() {\
+        document.body.innerHTML = (\
+          '<h2>Could not find relay.js</h2>' +\
+          '<p>' +\
+            'Be sure to run <code>npm run build</code> ' +\
+            'in the <code>relay/</code> directory.' +\
+          '</p>'\
+        );\
+      }\
+    </script>\
+    <script src='http://localhost:3000/webpack-dev-server.js'></script>\
+    <script src='node_modules/react/dist/react.min.js'></script>\
+    <script src='node_modules/react-relay/dist/relay.js' onerror='warnRelayMissing()'></script>\
+    <script src='js/app.js'></script>\
+  </body>\
+</html>");
 parser.end();
 
 
