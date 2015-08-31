@@ -1,9 +1,43 @@
 // SERVER SIDE REPOSITORY SEARCH
 
+var htmlparser = require("htmlparser2");
+
 // create a single list of frameworks that we are searching for
 	// needs to ignore version and source differences for frameworks
 
+var libraryCollection = {
+	React : 0,
+	Angular: 0,
+	Ember: 0,
+	Backbone: 0,
+	Mithril: 0,
+	Polymer: 0,
+	Flight: 0,
+	Capuccino: 0,
+	Spine: 0,
+	Aurelia: 0
+};
+
 // create a single document that tracks the count of framework occurences in repos by framework
+var parser = new htmlparser.Parser({
+    onopentag: function(name, attribs){
+        if(name === "script" && attribs.type === "text/javascript"){
+            console.log("JS! Hooray!");
+        }
+    },
+    ontext: function(text){
+        console.log("-->", text);
+    },
+    onclosetag: function(tagname){
+        if(tagname === "script"){
+            console.log("That's it?!");
+        }
+    }
+}, {decodeEntities: true});
+parser.write("Xyz <script type='text/javascript'>var foo = '<<bar>>';</ script>");
+parser.end();
+
+
 
 // for html files write a finder function that iterates through all script tags
 	// will find all src files ending in .js, both local, api, and cdnjs hosted
