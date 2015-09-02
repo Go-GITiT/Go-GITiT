@@ -1,6 +1,10 @@
 var jsdom = require("jsdom");
 var http = require("http");
 var request = require("request");
+String.prototype.contains = function(str, ignoreCase) {
+  return (ignoreCase ? this.toUpperCase() : this)
+    .indexOf(ignoreCase ? str.toUpperCase() : str) >= 0;
+};
 
 var githubUrl = 'https://raw.githubusercontent.com/facebook/relay/2a86be3e71cdc6511fa994e3de539f72070da1b4/examples/star-wars/public/index.html';
 
@@ -33,12 +37,15 @@ request(githubUrl, function (error, response, body) {
 		// console.log(test);
 		for(var i = 0; i < test.length; i++){
 			test[i] = test[i].match(/[^/]*$/gi);
-			foundLibs.push(test[i][0]);
-			// if(test[i]){
-			// if string in that array contains any of our library names, increment that name
-
-			// }
+			var foundlib = test[i][0];
+			foundLibs.push(foundlib);
+			for(var key in libraryCollection){
+				if(foundlib.contains(key, true)){
+					libraryCollection[key]++;
+				}
+			}
 		}
 		console.log(foundLibs);
+		console.log(libraryCollection);
    }
 });
