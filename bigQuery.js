@@ -2,7 +2,7 @@ var api = require('./api.js');
 var bigquery = require('bigquery-model');
 
 bigquery.auth({
-  email: 'mcbrideryan89@gmail.com',
+  email: api.EMAIL,
   key: api.PEM
 });
 
@@ -12,14 +12,21 @@ var table = new bigquery.Table({
   table: 'yes',
   schema: {
     fields: [
-      {name: 'repository_owner', type: 'STRING'},
-      {name: 'repository_name', type: 'STRING'},
-      {name: 'repository_created_at', type: 'STRING'}
+      //{name: 'repository_owner', type: 'STRING'},
+      //{name: 'repository_name', type: 'STRING'},
+      /*{name: 'repository_created_at', type: 'STRING'}*/
     ]
   }
 });
 
-table.query('SELECT repository_owner, FROM [yes] LIMIT 10;')
+table.query('SELECT id FROM [githubarchive:day.yesterday] LIMIT 10')
+  
   .then(function(records){
-    console.log(records);
-  });
+    records[0].rows.forEach(function(row){
+      console.log(row.f[0].v); 
+    });
+  }) 
+  .catch(function(err){
+    console.log('ERROR', arguments);
+    console.error('ERROR: ', err);
+});
