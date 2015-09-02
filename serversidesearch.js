@@ -1,51 +1,50 @@
-var jsdom = require("jsdom");
+
 var http = require("http");
 var request = require("request");
+
 String.prototype.contains = function(str, ignoreCase) {
-  return (ignoreCase ? this.toUpperCase() : this)
-    .indexOf(ignoreCase ? str.toUpperCase() : str) >= 0;
+	return (ignoreCase ? this.toUpperCase() : this)
+	.indexOf(ignoreCase ? str.toUpperCase() : str) >= 0;
 };
 
 var githubUrl = 'https://raw.githubusercontent.com/facebook/relay/2a86be3e71cdc6511fa994e3de539f72070da1b4/examples/star-wars/public/index.html';
-
-// jsdom.env(
-//   "" + githubUrl + "",
-//   function(err, window) {
-//     window.$("script").each(function(i, v) {
-//       console.log("here is some script", window.$(v).attr('src'));
-//     });
-//   });
-var libraryCollection = {
-	react : 0,
-	angular: 0,
-	ember: 0,
-	backbone: 0,
-	mithril: 0,
-	polymer: 0,
-	flight: 0,
-	capuccino: 0,
-	spine: 0,
-	aurelia: 0
-};
+var tests = [];
 // REGEX /\S*.js\w*/gi 
 
-var foundLibs = [];
+var parseForJS = function(url){
+		var repoData = {
+			libraryCollection: {
+				react : false,
+				angular: false,
+				ember: false,
+				backbone: false,
+				mithril: false,
+				polymer: false,
+				flight: false,
+				capuccino: false,
+				spine: false,
+				aurelia: false
+			}
+		};
 
-request(githubUrl, function (error, response, body) {
-    if (!error && response.statusCode == 200) {
-		var test = body.match(/\S*.js\w*/gi);
+	request(url, function (error, response, body) {
+
+		if (!error && response.statusCode == 200) {
+			var test = body.match(/\S*.js\w*/gi);
 		// console.log(test);
 		for(var i = 0; i < test.length; i++){
 			test[i] = test[i].match(/[^/]*$/gi);
 			var foundlib = test[i][0];
-			foundLibs.push(foundlib);
-			for(var key in libraryCollection){
+			for(var key in repoData.libraryCollection){
 				if(foundlib.contains(key, true)){
-					libraryCollection[key]++;
+					repoData.libraryCollection[key] = true;
 				}
 			}
 		}
-		console.log(foundLibs);
-		console.log(libraryCollection);
-   }
+	tests.push(repoData);
+	console.log(tests);
+	}
 });
+};
+
+parseForJS(githubUrl);
