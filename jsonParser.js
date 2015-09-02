@@ -5,7 +5,8 @@ String.prototype.contains = function(str, ignoreCase) {
 };
 
 var jsonParser = function(JSON){
-
+	var dependencies = JSON[dependencies];
+	
 	var repoData = {
 			libraryCollection: {
 				react : false,
