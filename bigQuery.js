@@ -10,23 +10,21 @@ var table = new bigquery.Table({
   projectId: 'test1000-1055',
   datasetId: 'oldstuff',
   table: 'yes',
-  schema: {
-    fields: [
-      //{name: 'repository_owner', type: 'STRING'},
-      //{name: 'repository_name', type: 'STRING'},
-      /*{name: 'repository_created_at', type: 'STRING'}*/
-    ]
-  }
 });
 
-table.query('SELECT id FROM [githubarchive:day.yesterday] LIMIT 10')
+table.query('SELECT repo.name, repo.url \
+  FROM [githubarchive:day.yesterday] \
+  WHERE payload CONTAINS \'"language":"JavaScript"\' \
+  GROUP EACH BY repo.name, repo.url \
+  ORDER BY repo.name')
   
   .then(function(records){
     records[0].rows.forEach(function(row){
-      console.log(row.f[0].v); 
+      row.f.forEach(function(col){
+        console.log(col.v);
+      }); 
     });
   }) 
   .catch(function(err){
-    console.log('ERROR', arguments);
     console.error('ERROR: ', err);
 });
