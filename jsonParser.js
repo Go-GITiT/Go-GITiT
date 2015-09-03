@@ -31,4 +31,5 @@ var jsonParser = function(JSON){
 				}
 			}
 		}
+		return repoData;
 };
