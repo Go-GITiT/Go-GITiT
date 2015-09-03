@@ -1,90 +1,59 @@
-// SERVER SIDE REPOSITORY SEARCH
 
-var htmlparser = require("htmlparser2");
+var http = require("http");
+var request = require("request");
 
-// create a single list of frameworks that we are searching for
-	// needs to ignore version and source differences for frameworks
-	// create a single document that tracks the count of framework occurences in repos by framework
+String.prototype.contains = function(str, ignoreCase) {
+	return (ignoreCase ? this.toUpperCase() : this)
+	.indexOf(ignoreCase ? str.toUpperCase() : str) >= 0;
+};
+// sample url just for testing
+var githubUrl = 'https://raw.githubusercontent.com/facebook/relay/2a86be3e71cdc6511fa994e3de539f72070da1b4/examples/star-wars/public/index.html';
+// REGEX /\S*.js\w*/gi 
 
-var libraryCollection = {
-	React : 0,
-	Angular: 0,
-	Ember: 0,
-	Backbone: 0,
-	Mithril: 0,
-	Polymer: 0,
-	Flight: 0,
-	Capuccino: 0,
-	Spine: 0,
-	Aurelia: 0
+
+var parseForJS = function(url){
+
+	request(url, function (error, response, body) {
+		// create an object to track framework occurences
+		var repoData = {
+			libraryCollection: {
+				react : false,
+				angular: false,
+				ember: false,
+				backbone: false,
+				mithril: false,
+				polymer: false,
+				flight: false,
+				capuccino: false,
+				spine: false,
+				aurelia: false
+			}
+		};
+
+		if (!error && response.statusCode == 200) {
+			// parse raw html for all strings ending in js 
+			var test = body.match(/\S*.js\w*/gi);
+		// console.log(test);
+
+		for(var i = 0; i < test.length; i++){
+			// loop through the array of matches
+			test[i] = test[i].match(/[^/]*$/gi);
+			var foundlib = test[i][0];
+			// shorten each string
+			for(var key in repoData.libraryCollection){
+				// compare each framework in our collection 
+				// to see if that string is contained in our js strings
+				if(foundlib.contains(key, true)){
+					repoData.libraryCollection[key] = true;
+					// set that framework to true indicating use
+				}
+			}
+		}
+		console.log(repoData);
+	// will show accurate data, but can't save it asnyc yet
+	// need to handle async issue to return repoData obj after execution of search
+}
+});
 };
 
-var htmlparser = require("htmlparser2");
-var parser = new htmlparser.Parser({
-    onopentag: function(name, attribs){
-        if(name === "script" && attribs.type === "text/javascript"){
-            console.log("JS! Hooray!");
-        }
-    },
-    ontext: function(text){
-        console.log("-->", text);
-    },
-    onclosetag: function(tagname){
-        if(tagname === "script"){
-            console.log("That's it?!");
-        }
-    }
-}, {decodeEntities: true});
-parser.write("<!doctype html>\
-<html lang='en'>\
-  <head>\
-    <meta charset='utf-8'>\
-    <meta name='viewport' content='width=device-width, initial-scale=1'>\
-    <title>Relay • Star Wars</title>\
-  </head>\
-  <body>\
-    <div id='root'></div>\
-    <script type='text/javascript'>\
-      // Force `fetch` polyfill to workaround Chrome not displaying request body\
-      // in developer tools for the native `fetch`.\
-      self.fetch = null;\
-      function warnRelayMissing() {\
-        document.body.innerHTML = (\
-          '<h2>Could not find relay.js</h2>' +\
-          '<p>' +\
-            'Be sure to run <code>npm run build</code> ' +\
-            'in the <code>relay/</code> directory.' +\
-          '</p>'\
-        );\
-      }\
-    </script>\
-    <script src='http://localhost:3000/webpack-dev-server.js'></script>\
-    <script src='node_modules/react/dist/react.min.js'></script>\
-    <script src='node_modules/react-relay/dist/relay.js' onerror='warnRelayMissing()'></script>\
-    <script src='js/app.js'></script>\
-  </body>\
-</html>");
-parser.end();
-
-
-
-// for html files write a finder function that iterates through all script tags
-	// will find all src files ending in .js, both local, api, and cdnjs hosted
-	// will check each file against a list of framework by name
-	// if there is a match, the count for that framework increments
-
-// for package.json files write a finder function that iterates through all dependencies
-	// will find all dependencies that exist the a list of frameworks by name
-	// upon match, the count for that framework increments
-
-// for bower.json files write a finder function that iterates through all dependencies
-	// will find all dependencies that exist in a list of frameworks by name
-	// upon match, the count for that framework increments
-
-// for browserify files write a finder function that iterates through all dependencies
-	// will find all dependencies that exist in a list of libraries by name
-	// upon match, the count for that library increments
-
-// write a function that iterates through each repository, running our finder functions on them
-	// can only increment a library's count once for each repository
-	// updates the count in our database 
+parseForJS(githubUrl);
