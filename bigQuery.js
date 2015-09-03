@@ -3,7 +3,9 @@ var api = require('./api.js');
 var bigquery = require('bigquery-model');
 var unparsed_records;
 var parsed_records = [];
-var async = require('async');
+var parsed_legacy = [];
+var final_records = [];
+var queryString;
 
 bigquery.auth({
   email: api.EMAIL,
@@ -26,8 +28,7 @@ table.query('SELECT repo.name, repo.url \
   FROM [githubarchive:day.yesterday] \
   WHERE payload CONTAINS \'"language":"JavaScript"\' \
   GROUP EACH BY repo.name, repo.url \
-  ORDER BY repo.name \
-  LIMIT 50')
+  ORDER BY repo.name')
   .then(function(records){
     unparsed_records = records;
   })
@@ -41,8 +42,40 @@ table.query('SELECT repo.name, repo.url \
   })
   .then(function(){
     var count = 0;
-    async.each(parsed_records, function(name){
-      table.query('SELECT * FROM [gitit.records] WHERE repo_name = "' + name.repo_name + '" LIMIT 10')
+    var repo_arr = [];
+    parsed_records.forEach(function(name){
+      repo_arr.push(name.repo_name);
+    });
+    queryString = 'SELECT * FROM [gitit.records] WHERE repo_name = "' + repo_arr.join('" OR repo_name = "') + '"';
+  })
+  .then(function(){
+    table.query(queryString)
+      .then(function(records){
+        records[0].rows.forEach(function(row){
+          var current = {};
+          current.repo_name = row.f[0].v;
+          current.repo_url = row.f[1].v;
+          parsed_legacy.push(current);
+        });
+      })
+      .then(function(){
+        parsed_legacy = JSON.stringify(parsed_legacy);
+        console.log('TYPE: ', typeof parsed_legacy);
+        parsed_records.forEach(function(repo){
+          var reg = new RegExp(repo.repo_name, "g");
+          if( parsed_legacy.match(reg) === null ){
+            final_records.push(repo);
+          }
+        });
+      });
+
+  });
+  
+
+
+
+
+     /* table.query('SELECT * FROM [gitit.records] WHERE repo_name = "' + name.repo_name + '" LIMIT 10')
         .then(function(records){
           console.log(++count);
           if(records[0].tableRows === 0){
