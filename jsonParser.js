@@ -23,9 +23,11 @@ var jsonParser = function(JSON){
 		};
 		// loop through the dependencies
 		for(var dep in dependencies){
+			// loop through our comparators
 			for(var key in repoData){
 				if(dep.contains(key, true)){
 					repoData.libraryCollection[key] = true;
+					// flag comparator as true if found
 				}
 			}
 		}
