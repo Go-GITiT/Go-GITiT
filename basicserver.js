@@ -11,5 +11,6 @@ var port = 3000;
 var ip = "127.0.0.1";
 // We use node's http module to create a serv
 
-console.log("Listening on http://" + ip + ":" + port);
-server.listen(port, ip);
+http.createServer(app).listen(port, function(){
+	console.log('Server listening on port : ', port);
+});
