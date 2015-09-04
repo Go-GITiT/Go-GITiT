@@ -1,6 +1,9 @@
 
 var http = require("http");
 var request = require("request");
+var db = require('./config.js');
+var FetchedRepos = require('./fetchedRepos.js').FetchedRepos;
+
 
 String.prototype.contains = function(str, ignoreCase) {
 	return (ignoreCase ? this.toUpperCase() : this)
@@ -14,6 +17,7 @@ var githubUrl = 'https://raw.githubusercontent.com/facebook/relay/2a86be3e71cdc6
 var parseForJS = function(url){
 	var result;
 	var repoData = {
+		repoLink : url,
 		libraryCollection: {
 			react : false,
 			angular: false,
@@ -49,10 +53,8 @@ var parseForJS = function(url){
 				}
 			}
 			console.log("Repo framework stats : ", repoData);
-	// will show accurate data, but can't save it asnyc yet
-	// need to handle async issue to return repoData obj after execution of search
-}
-});
+		}
+	});
 };
 
 parseForJS(githubUrl);

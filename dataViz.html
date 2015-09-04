@@ -13,15 +13,18 @@ var width = 960,
 var n = 200, // total number of nodes
     m = 10; // number of distinct clusters
 
+
+// need to distinguish color by framework
 var color = d3.scale.category10()
     .domain(d3.range(m));
 
 // The largest node for each cluster.
 var clusters = new Array(m);
-
+// node needs a framework value to determine its color value
 var nodes = d3.range(n).map(function() {
+  // determines which cluster/color/framework each node belongs to
   var i = Math.floor(Math.random() * m),
-      r = m,
+      r = 12,
       d = {cluster: i, radius: r};
   if (!clusters[i] || (r > clusters[i].radius)) clusters[i] = d;
   return d;
@@ -52,6 +55,7 @@ var svg = d3.select("body").append("svg")
 var node = svg.selectAll("circle")
     .data(nodes)
     .enter().append("circle")
+    // Need an if statement where each node gets color based on framwork
     .style("fill", function(d) { return color(d.cluster); })
     .call(force.drag)
     .on("mousedown", function() { d3.event.stopPropagation(); });
