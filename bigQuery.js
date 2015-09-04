@@ -85,12 +85,14 @@ table.query('SELECT repo.name, repo.url \
   .then(function(){ // QUERY'S LEGACY TABLE WITH GIANT QUERY STRING
     table.query(queryString)
       .then(function(records){ // PARSES INPUT AND STORES IN PARSED LEGACY
-        records[0].rows.forEach(function(row){
-          var current = {};
-          current.repo_name = row.f[0].v;
-          current.repo_url = row.f[1].v;
-          parsed_legacy.push(current);
-        });
+        if(records[0].rows !== undefined){
+          records[0].rows.forEach(function(row){
+            var current = {};
+            current.repo_name = row.f[0].v;
+            current.repo_url = row.f[1].v;
+            parsed_legacy.push(current);
+          });
+        }
       })
       .then(function(){ // COMPARES STRINGIFIED LEGACY TABLE TO NEW RECORDS
         parsed_legacy = JSON.stringify(parsed_legacy);
