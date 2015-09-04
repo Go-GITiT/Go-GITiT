@@ -1,5 +1,5 @@
 /*jshint multistr: true */
-//var api = require('./api.js');
+var api = require('./api.js');
 var bigquery = require('bigquery-model');
 var db = require('./config.js');
 var QueryData = require('./queryData.js').QueryData;
@@ -68,6 +68,15 @@ table.query('SELECT repo.name, repo.url \
     });
     queryString = 'SELECT * FROM [gitit.records] WHERE repo_name = "' + repo_arr.join('" OR repo_name = "') + '"';
   }) 
+  .then(function(){
+    records_table.register()
+      .then(function(tableid){
+        console.log(tableid);
+      })
+      .catch(function(err){
+        console.log(err);
+      });
+  })
   .then(function(){ // QUERY'S LEGACY TABLE WITH GIANT QUERY STRING
     table.query(queryString)
       .then(function(records){ // PARSES INPUT AND STORES IN PARSED LEGACY
