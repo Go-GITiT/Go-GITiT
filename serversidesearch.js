@@ -2,17 +2,29 @@
 var http = require("http");
 var request = require("request");
 var db = require('./config.js');
-var FetchedRepos = require('./fetchedRepos.js').FetchedRepos;
-
+var FetchedRepo = require('./fetchedRepos.js').FetchedRepo;
+var Result = require('./result.js').Result;
 
 String.prototype.contains = function(str, ignoreCase) {
 	return (ignoreCase ? this.toUpperCase() : this)
 	.indexOf(ignoreCase ? str.toUpperCase() : str) >= 0;
 };
 // sample url just for testing
-var githubUrl = 'https://raw.githubusercontent.com/facebook/relay/2a86be3e71cdc6511fa994e3de539f72070da1b4/examples/star-wars/public/index.html';
 // REGEX /\S*.js\w*/gi 
+var repoObjs;
 
+var urlRetrieve = FetchedRepo.find(function(err, data){
+	if(err){
+		throw err;
+	} else {
+		repoObjs = data;
+		repoObjs.forEach(function(item){
+			var repo = item;
+			parseForJS(repo.repo_url);
+		});
+		}
+	}
+);
 
 var parseForJS = function(url){
 	var result;
@@ -53,6 +65,13 @@ var parseForJS = function(url){
 				}
 			}
 			console.log("Repo framework stats : ", repoData);
+			var repoStats = new Result({
+				repo_name: repo.repo_name,
+				repo_url: repo.repo_url,
+				file_url: repo.file_url,
+				repo_data: repoData
+
+			});
 		}
 	});
 };
