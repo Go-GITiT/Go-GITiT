@@ -9,7 +9,7 @@ var parsed_legacy = []; // ARRAY TO STORE PARSED LEGACY DATA FROM GOOGLE BG TABL
 var final_records = []; // FINAL RECORDS TO BE STORED
 var queryString; // WHERE WE STORE OUR GIANT QUERY STRING
 
-var bqemail = process.env.BIGDATA_EMAILi || api.EMAIL;
+var bqemail = process.env.BIGDATA_EMAIL || api.EMAIL;
 var bqpem = process.env.BIGDATA_PEM || api.PEN;
 bigquery.auth({ // AUTHORIZATION INFO FOR GOOGLE BIG QUERY
   email: bqemail,
