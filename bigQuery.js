@@ -36,14 +36,12 @@ var records_table = new bigquery.Table({ // LEGACY TABLE THAT STORES ALL RECORDS
 var saveUrlsToDB = function() { // FUNCTION THAT INSERTS ARRAY OF OBJECTS INTO DB
   final_records.forEach(function(val){
     var info = new QueryData({
-      repoName: val.repo_name,
-      url: val.repo_url
+      repo_name: val.repo_name,
+      repo_url: val.repo_url
     });
     info.save(function(err, data){
       if(err){
         throw err;
-      } else {
-        console.log('SAVED!');
       }
     });
   });
