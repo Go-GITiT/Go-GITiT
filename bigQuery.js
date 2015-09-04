@@ -25,7 +25,12 @@ var table = new bigquery.Table({ // TABLE THAT HANDLES GET REQUESTS
 var records_table = new bigquery.Table({ // LEGACY TABLE THAT STORES ALL RECORDS
   projectId: 'test1000-1055',
   datasetId: 'gitit',
-  tableId: 'records'
+  tableId: 'records',
+  schema: {
+    fields: [
+      {name: repo_name, type: string},
+      {name: repo_url, type: string}
+    ]}
 });
 
 var saveUrlsToDB = function() {
