@@ -20,10 +20,11 @@ var color = d3.scale.category10()
 
 // The largest node for each cluster.
 var clusters = new Array(m);
-
+// node needs a framework value to determine its color value
 var nodes = d3.range(n).map(function() {
+  // determines which cluster/color/framework each node belongs to
   var i = Math.floor(Math.random() * m),
-      r = m,
+      r = 12,
       d = {cluster: i, radius: r};
   if (!clusters[i] || (r > clusters[i].radius)) clusters[i] = d;
   return d;
