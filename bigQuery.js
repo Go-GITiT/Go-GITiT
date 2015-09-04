@@ -1,6 +1,8 @@
 /*jshint multistr: true */
 var api = require('./api.js');
 var bigquery = require('bigquery-model');
+var db = require('./config.js');
+var QueryData = require('./queryData.js').QueryData;
 var unparsed_records; // VARIABLE TO STORE RAW INCOMING RECORDS
 var parsed_records = []; // ARRAY TO STORE PARSED RECORD INFORMATION
 var parsed_legacy = []; // ARRAY TO STORE PARSED LEGACY DATA FROM GOOGLE BG TABLE
@@ -23,6 +25,22 @@ var records_table = new bigquery.Table({ // LEGACY TABLE THAT STORES ALL RECORDS
   datasetId: 'gitit',
   tableId: 'records'
 });
+
+var saveUrlsToDB = function() {
+  final_records.forEach(function(val){
+    var info = new QueryData({
+      repoName: val.repo_name,
+      url: val.repo_url
+    });
+    info.save(function(err, data){
+      if(err){
+        throw err;
+      } else {
+        console.log('SAVED!');
+      }
+    });
+  });
+};
 
 // QUERY TO GET NEW RECORDS FROM YESTERDAY
 table.query('SELECT repo.name, repo.url \
@@ -71,6 +89,7 @@ table.query('SELECT repo.name, repo.url \
         if(records_table.length > 0){
           records_table.push(final_records)
             .then(function(){
+              saveUrlsToDB();
               console.log('FINISHED!');
             })
             .catch(function(err){

@@ -2,6 +2,7 @@
   var fs = require('fs');
   var db = require('./config.js');
   var Repo = require('./repos.js').Repo;
+  var QueryData = require('./queryData.js').QueryData;
   var api = require('./api.js');
 
   var fullnames;
