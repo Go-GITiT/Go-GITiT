@@ -22,13 +22,13 @@ var nameRetrieve = QueryData.find(function(err,data){
 });
 
 var getHtml = function() {
-  var full_name = fullnames.pop().repo_name;
-
+  var repoObj = fullnames.pop();
+  
   if (fullnames.length > 0) {
     var apiUser = process.env.GITHUB_API_NAME || api.API_NAME;
     var apiToken = process.env.GITHUB_API_TOKEN || api.API_TOKEN;
     var req = {
-      url: "https://api.github.com/search/code?q=in:file+language:html+filename:index+repo:" + full_name,
+      url: "https://api.github.com/search/code?q=in:file+language:html+filename:index+repo:" + repoObj.repo_name,
       headers: {
         'User-Agent': apiUser,
         'Authorization': apiToken
@@ -52,9 +52,9 @@ var getHtml = function() {
             var url = data.html_url.replace('https://github.com', 'https://raw.githubusercontent.com').replace('/blob', '');
 
             var info = new FetchedRepo({
-              repo_name: String,
-              repo_url: String,
-              file_url: String
+              repo_name:repoObj.repo_name,
+              repo_url: repoObj.repo_url,
+              file_url: url
             });
 
             info.save(function(err, data) {
