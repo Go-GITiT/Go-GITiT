@@ -10,7 +10,7 @@ var final_records = []; // FINAL RECORDS TO BE STORED
 var queryString; // WHERE WE STORE OUR GIANT QUERY STRING
 
 var bqemail = process.env.BIGDATA_EMAIL || api.EMAIL;
-var bqpem = process.env.BIGDATA_PEM || api.PEN;
+var bqpem = process.env.BIGDATA_PEM || api.PEM;
 bigquery.auth({ // AUTHORIZATION INFO FOR GOOGLE BIG QUERY
   email: bqemail,
   key: bqpem
@@ -33,7 +33,7 @@ var records_table = new bigquery.Table({ // LEGACY TABLE THAT STORES ALL RECORDS
     ]}
 });
 
-var saveUrlsToDB = function() {
+var saveUrlsToDB = function() { // FUNCTION THAT INSERTS ARRAY OF OBJECTS INTO DB
   final_records.forEach(function(val){
     var info = new QueryData({
       repoName: val.repo_name,
@@ -73,7 +73,7 @@ table.query('SELECT repo.name, repo.url \
     });
     queryString = 'SELECT * FROM [gitit.records] WHERE repo_name = "' + repo_arr.join('" OR repo_name = "') + '"';
   }) 
-  .then(function(){
+  .then(function(){ // CREATES TABLE IF IT DOESN'T EXIST.
     records_table.register()
       .then(function(tableid){
         console.log(tableid);
@@ -104,7 +104,7 @@ table.query('SELECT repo.name, repo.url \
         });
       })
       .then(function(){ // CREATES ARRAY OF RECORDS TO BE STORED (THEY ARE NOT DUPLICATES)
-        if(records_table.length > 0){
+        if(final_records.length > 0){
           records_table.push(final_records)
             .then(function(){
               saveUrlsToDB();
