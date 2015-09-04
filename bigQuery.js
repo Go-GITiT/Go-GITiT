@@ -28,8 +28,8 @@ var records_table = new bigquery.Table({ // LEGACY TABLE THAT STORES ALL RECORDS
   tableId: 'records',
   schema: {
     fields: [
-      {name: repo_name, type: string},
-      {name: repo_url, type: string}
+      {name: 'repo_name', type: 'string'},
+      {name: 'repo_url', type: 'string'}
     ]}
 });
 
