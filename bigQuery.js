@@ -1,5 +1,5 @@
 /*jshint multistr: true */
-var api = require('./api.js');
+//var api = require('./api.js');
 var bigquery = require('bigquery-model');
 var db = require('./config.js');
 var QueryData = require('./queryData.js').QueryData;
