@@ -1,0 +1,8 @@
+{
+  "name":"Gitit",
+  "scripts":{},
+  "env":{},
+  "addons":[
+    "mongolab"
+  ]
+}
