@@ -54,7 +54,7 @@ var parseForJS = function(url){
 				// loop through the array of matches
 				test[i] = test[i].match(/[^/]*$/gi);
 				var foundlib = test[i][0];
-				console.log('JS file found in Repo', foundlib);
+
 				for(var key in repoData.libraryCollection){
 					// compare each framework in our collection 
 					// to see if that string is contained in our js strings
@@ -64,7 +64,7 @@ var parseForJS = function(url){
 					}
 				}
 			}
-			console.log("Repo framework stats : ", repoData);
+
 			var repoStats = new Result({
 				repo_name: repo.repo_name,
 				repo_url: repo.repo_url,
@@ -75,5 +75,3 @@ var parseForJS = function(url){
 		}
 	});
 };
-
-parseForJS(githubUrl);
