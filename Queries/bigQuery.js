@@ -52,7 +52,7 @@ table.query('SELECT repo.name, repo.url \
   FROM [githubarchive:day.yesterday] \
   WHERE payload CONTAINS \'"language":"JavaScript"\' \
   GROUP EACH BY repo.name, repo.url \
-  ORDER BY repo.name')
+  ORDER BY repo.name LIMIT 10')
   .then(function(records){ // STORES RECORDS
     unparsed_records = records;
   })
