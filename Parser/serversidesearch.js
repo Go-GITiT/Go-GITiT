@@ -1,9 +1,7 @@
-
-var http = require("http");
 var request = require("request");
-var db = require('./config.js');
-var FetchedRepo = require('./fetchedRepos.js').FetchedRepo;
-var Results = require('./result.js').Results;
+var db = require('../Schemas/config.js');
+var FetchedRepo = require('../Schemas/fetchedRepos.js').FetchedRepo;
+var Results = require('../Schemas/result.js').Results;
 
 
 String.prototype.contains = function(str, ignoreCase) {

@@ -1,8 +1,8 @@
 var request = require("request");
 var fs = require('fs');
-var db = require('./config.js');
-var FetchedRepo = require('./fetchedRepos.js').FetchedRepo;
-var QueryData = require('./queryData.js').QueryData;
+var db = require('../Schemas/config.js');
+var FetchedRepo = require('../Schemas/fetchedRepos.js').FetchedRepo;
+var QueryData = require('../Schemas/queryData.js').QueryData;
 //var api = require('./api.js');
 
 var fullnames;

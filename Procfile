@@ -1,3 +1,3 @@
-bigQueryWorker: node bigQuery.js
-githubFetchWorker: node getNames.js
-parserWorker: node serversidesearch.js
+bigQueryWorker: node Queries/bigQuery.js
+githubFetchWorker: node Queries/getNames.js
+parserWorker: node Parser/serversidesearch.js
