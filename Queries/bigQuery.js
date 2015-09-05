@@ -46,6 +46,7 @@ var records_table = new bigquery.Table({ // LEGACY TABLE THAT STORES ALL RECORDS
 });
 
 var saveUrlsToDB = function() { // FUNCTION THAT INSERTS ARRAY OF OBJECTS INTO DB
+  var numSavedRecords = final_records.length;
   final_records.forEach(function(val) {
     var info = new QueryData({
       repo_name: val.repo_name,
@@ -55,7 +56,10 @@ var saveUrlsToDB = function() { // FUNCTION THAT INSERTS ARRAY OF OBJECTS INTO D
       if (err) {
         throw err;
       }
-      emitPubNubEvent();
+      numSavedRecords --;
+      if(numSavedRecords === 0){
+        emitPubNubEvent();
+      }
     });
   });
 };
