@@ -11,7 +11,7 @@ var pubnub = require("pubnub")({
 /* ---------------------------------------------------------------------------
  Publish Messages
  --------------------------------------------------------------------------- */
-var message = { "type" : "heroku_scheduler_event:test" };
+var message = { "type" : "heroku_scheduler_event" };
 pubnub.publish({
   channel   : 'gitit_messages',
   message   : message,
@@ -19,4 +19,4 @@ pubnub.publish({
   error     : function(e) { console.log( "FAILED! RETRY PUBLISH!", e ); }
 });
 
-console.log('PERIODIC EVENT INITIATED');
+console.log('SCHEDULED EVENT INITIATED');
