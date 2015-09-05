@@ -30,9 +30,8 @@ var retrieveFiles = function() {
 };
 
 var getHtml = function() {
-  var repoObj = fullnames.pop();
-
-  if (fullnames.length >= 0) {
+  if (fullnames.length > 0) {
+    var repoObj = fullnames.pop();
     var apiUser = process.env.GITHUB_API_NAME || api.API_NAME;
     var apiToken = process.env.GITHUB_API_TOKEN || api.API_TOKEN;
     var req = {
@@ -89,12 +88,12 @@ var getHtml = function() {
         QueryData.find({
           repo_name: repoObj.repo_name
         }).remove().exec();
-        
+
         setTimeout(getHtml.bind(this), 2500);
       }
 
     });
-  }else{
+  } else {
     emitPubNubEvent();
   }
 };
