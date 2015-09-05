@@ -5,6 +5,7 @@ var db = require('./config.js');
 var FetchedRepo = require('./fetchedRepos.js').FetchedRepo;
 var Results = require('./result.js').Results;
 
+
 String.prototype.contains = function(str, ignoreCase) {
 	return (ignoreCase ? this.toUpperCase() : this)
 	.indexOf(ignoreCase ? str.toUpperCase() : str) >= 0;
@@ -20,16 +21,16 @@ var urlRetrieve = FetchedRepo.find(function(err, data){
 		repoObjs = data;
 		repoObjs.forEach(function(item){
 			var repo = item;
-			parseForJS(repo.repo_url);
+			parseForJS(repo);
 		});
-		}
 	}
+}
 );
 
-var parseForJS = function(url){
+var parseForJS = function(obj){
 	var result;
 	var repoData = {
-		repoLink : url,
+		repoLink : obj.file_url,
 		libraryCollection: {
 			react : false,
 			angular: false,
@@ -43,14 +44,16 @@ var parseForJS = function(url){
 			aurelia: false
 		}
 	};
-	request(url, function (error, response, body) {
+	request(obj.file_url, function (error, response, body) {
 		// create an object to track framework occurences
+		console.log('URL : ', obj.file_url);
+		console.log('Error : ', error);
 		if (!error && response.statusCode == 200) {
 				// parse raw html for all strings ending in js 
 				var test = body.match(/\S*.js\w*/gi);
 			// console.log(test);
-
-			for(var i = 0; i < test.length; i++){
+			if(test !== null){
+				for(var i = 0; i < test.length; i++){
 				// loop through the array of matches
 				test[i] = test[i].match(/[^/]*$/gi);
 				var foundlib = test[i][0];
@@ -64,18 +67,22 @@ var parseForJS = function(url){
 					}
 				}
 			}
-
-			var repoStats = new Results({
-				repo_name: repo.repo_name,
-				repo_url: repo.repo_url,
-				file_url: repo.file_url,
-				repo_data: JSON.stringify(repoData)
-			});
-			repoStats.save(function(err){
-				if(err){
-					throw err;
-				}
-			});
 		}
-	});
+
+
+		var repoStats = new Results({
+			repo_name: obj.repo_name,
+			repo_url: obj.repo_url,
+			file_url: obj.file_url,
+			repo_data: JSON.stringify(repoData)
+		});
+		repoStats.save(function(err){
+			if(err){
+				console.log('Error : ', err);
+				throw err;
+			}
+		});
+	}
+});
 };
+
