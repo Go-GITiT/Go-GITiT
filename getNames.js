@@ -57,7 +57,7 @@ var getHtml = function() {
               file_url: url
             });
 
-            info.save(function(err, data) {
+            info.save(function(err) {
               if (err) {
                 throw err;
               } else {
