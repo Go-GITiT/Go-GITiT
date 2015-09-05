@@ -70,7 +70,7 @@ var runQuery = function() {
   FROM [githubarchive:day.yesterday] \
   WHERE payload CONTAINS \'"language":"JavaScript"\' \
   GROUP EACH BY repo.name, repo.url \
-  ORDER BY repo.name LIMIT 10')
+  ORDER BY repo.name')
     .then(function(records) { // STORES RECORDS
       unparsed_records = records;
     })
