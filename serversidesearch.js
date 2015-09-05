@@ -80,7 +80,9 @@ var parseForJS = function(obj){
 			if(err){
 				console.log('Error : ', err);
 				throw err;
-			}
+			} else {
+        FetchedRepo.find({repo_name: obj.repo_name}).remove().exec();
+      }
 		});
 	}
 });
