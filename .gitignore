@@ -1,3 +1,5 @@
 api.js
 node_modules
 *.pem
+/Queries/.tern-port
+/.DS_Store
