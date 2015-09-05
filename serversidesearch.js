@@ -3,7 +3,7 @@ var http = require("http");
 var request = require("request");
 var db = require('./config.js');
 var FetchedRepo = require('./fetchedRepos.js').FetchedRepo;
-var Result = require('./result.js').Result;
+var Results = require('./result.js').Results;
 
 String.prototype.contains = function(str, ignoreCase) {
 	return (ignoreCase ? this.toUpperCase() : this)
@@ -65,12 +65,16 @@ var parseForJS = function(url){
 				}
 			}
 
-			var repoStats = new Result({
+			var repoStats = new Results({
 				repo_name: repo.repo_name,
 				repo_url: repo.repo_url,
 				file_url: repo.file_url,
-				repo_data: repoData
-
+				repo_data: JSON.stringify(repoData)
+			});
+			repoStats.save(function(err){
+				if(err){
+					throw err;
+				}
 			});
 		}
 	});
