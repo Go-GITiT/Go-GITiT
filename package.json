@@ -30,6 +30,7 @@
     "htmlparser2": "^3.8.3",
     "jsdom": "^3.1.2",
     "mongoose": "^4.1.4",
+    "pubnub": "^3.7.14",
     "request": "^2.61.0"
   }
 }
