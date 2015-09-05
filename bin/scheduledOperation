@@ -1,0 +1,22 @@
+#!/usr/bin/env node
+
+var pubnubPublishKey = process.env.PUBNUB_PUBLISH_KEY || api.PUBNUB_PUBLISH_KEY;
+var pubnubSubscribeKey = process.env.PUBNUB_SUBSCRIBE_KEY || api.PUBNUB_SUBSCRIBE_KEY;
+var pubnub = require("pubnub")({
+  ssl: true, // <- enable TLS Tunneling over TCP
+  publish_key: pubnubPublishKey,
+  subscribe_key: pubnubSubscribeKey
+});
+
+/* ---------------------------------------------------------------------------
+ Publish Messages
+ --------------------------------------------------------------------------- */
+var message = { "type" : "heroku_scheduler_event:test" };
+pubnub.publish({
+  channel   : 'gitit_messages',
+  message   : message,
+  callback  : function(e) { console.log( "SUCCESS!", e ); },
+  error     : function(e) { console.log( "FAILED! RETRY PUBLISH!", e ); }
+});
+
+console.log('PERIODIC EVENT INITIATED');
