@@ -85,6 +85,11 @@ var getHtml = function() {
 
         saveUrlsToDB();
       } else {
+
+        QueryData.find({
+          repo_name: repoObj.repo_name
+        }).remove().exec();
+        
         setTimeout(getHtml.bind(this), 2500);
       }
 
