@@ -46,12 +46,9 @@ var parseForJS = function(obj){
 	};
 	request(obj.file_url, function (error, response, body) {
 		// create an object to track framework occurences
-		console.log('URL : ', obj.file_url);
-		console.log('Error : ', error);
 		if (!error && response.statusCode == 200) {
 				// parse raw html for all strings ending in js 
 				var test = body.match(/\S*.js\w*/gi);
-			// console.log(test);
 			if(test !== null){
 				for(var i = 0; i < test.length; i++){
 				// loop through the array of matches
@@ -82,6 +79,11 @@ var parseForJS = function(obj){
 				throw err;
 			} else {
         FetchedRepo.find({repo_name: obj.repo_name}).remove().exec();
+        for(var key in repoData.libraryCollection){
+          if(repoData.libraryCollection[key] === true){
+            console.log(obj.repo_name, key);
+          }
+        }
       }
 		});
 	}
