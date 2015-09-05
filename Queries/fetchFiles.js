@@ -3,27 +3,35 @@ var fs = require('fs');
 var db = require('../Schemas/config.js');
 var FetchedRepo = require('../Schemas/fetchedRepos.js').FetchedRepo;
 var QueryData = require('../Schemas/queryData.js').QueryData;
+var pubnubPublishKey = process.env.PUBNUB_PUBLISH_KEY || api.PUBNUB_PUBLISH_KEY;
+var pubnubSubscribeKey = process.env.PUBNUB_SUBSCRIBE_KEY || api.PUBNUB_SUBSCRIBE_KEY;
+var pubnub = require("pubnub")({
+  ssl: true, // <- enable TLS Tunneling over TCP
+  publish_key: pubnubPublishKey,
+  subscribe_key: pubnubSubscribeKey
+});
 //var api = require('./api.js');
 
 var fullnames;
 
+var retrieveFiles = function() {
+  QueryData.find(function(err, data) {
 
-var nameRetrieve = QueryData.find(function(err,data){
+    if (err) {
+      throw err;
 
-  if(err){
-    throw err;
+    } else {
 
-  } else {
+      fullnames = data; //data array, retrieved from DB
+      getHtml(); //
+    }
 
-    fullnames = data; //data array, retrieved from DB
-    getHtml(); //
-  }
-
-});
+  });
+};
 
 var getHtml = function() {
   var repoObj = fullnames.pop();
-  
+
   if (fullnames.length > 0) {
     var apiUser = process.env.GITHUB_API_NAME || api.API_NAME;
     var apiToken = process.env.GITHUB_API_TOKEN || api.API_TOKEN;
@@ -38,7 +46,7 @@ var getHtml = function() {
     request(req, function(error, response, body) {
       if (error) {
         console.log(error);
-      } 
+      }
 
       var bod = JSON.parse(body);
 
@@ -52,7 +60,7 @@ var getHtml = function() {
             var url = data.html_url.replace('https://github.com', 'https://raw.githubusercontent.com').replace('/blob', '');
 
             var info = new FetchedRepo({
-              repo_name:repoObj.repo_name,
+              repo_name: repoObj.repo_name,
               repo_url: repoObj.repo_url,
               file_url: url
             });
@@ -62,9 +70,11 @@ var getHtml = function() {
                 throw err;
               } else {
                 console.log('Saved!');
-                QueryData.find({repo_name: repoObj.repo_name}).remove().exec();
+                QueryData.find({
+                  repo_name: repoObj.repo_name
+                }).remove().exec();
               }
-            
+
               i++;
               saveUrlsToDB();
             });
@@ -79,5 +89,35 @@ var getHtml = function() {
       }
 
     });
+  }else{
+    emitPubNubEvent();
   }
+};
+
+// LISTEN ON PUBNUB MESSAGES !
+pubnub.subscribe({
+  channel: "gitit_messages",
+  callback: function(message) {
+    console.log("fetchFilesWorker > ", message);
+    if (message.type === 'bigQueryWorker_job_complete') {
+      retrieveFiles();
+    }
+  }
+});
+
+var emitPubNubEvent = function() {
+  var message = {
+    "type": "fetchFilesWorker_job_complete"
+  };
+
+  pubnub.publish({
+    channel: 'gitit_messages',
+    message: message,
+    callback: function(e) {
+      console.log("SUCCESS!", e);
+    },
+    error: function(e) {
+      console.log("FAILED! RETRY PUBLISH!", e);
+    }
+  });
 };
