@@ -1,8 +1,8 @@
 /*jshint multistr: true */
 //var api = require('./api.js');
 var bigquery = require('bigquery-model');
-var db = require('./config.js');
-var QueryData = require('./queryData.js').QueryData;
+var db = require('../Schemas/config.js');
+var QueryData = require('../Schemas/queryData.js').QueryData;
 var unparsed_records; // VARIABLE TO STORE RAW INCOMING RECORDS
 var parsed_records = []; // ARRAY TO STORE PARSED RECORD INFORMATION
 var parsed_legacy = []; // ARRAY TO STORE PARSED LEGACY DATA FROM GOOGLE BG TABLE
