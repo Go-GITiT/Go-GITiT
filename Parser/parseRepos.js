@@ -77,11 +77,6 @@ var parseForJS = function(obj){
 				throw err;
 			} else {
         FetchedRepo.find({repo_name: obj.repo_name}).remove().exec();
-        for(var key in repoData.libraryCollection){
-          if(repoData.libraryCollection[key] === true){
-            console.log(obj.repo_name, key);
-          }
-        }
       }
 		});
 	}
