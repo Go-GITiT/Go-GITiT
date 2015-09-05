@@ -3,7 +3,7 @@ var fs = require('fs');
 var db = require('./config.js');
 var FetchedRepo = require('./fetchedRepos.js').FetchedRepo;
 var QueryData = require('./queryData.js').QueryData;
-// var api = require('./api.js');
+//var api = require('./api.js');
 
 var fullnames;
 
@@ -62,8 +62,9 @@ var getHtml = function() {
                 throw err;
               } else {
                 console.log('Saved!');
+                QueryData.find({repo_name: repoObj.repo_name}).remove().exec();
               }
-
+            
               i++;
               saveUrlsToDB();
             });
