@@ -1,13 +1,16 @@
 language: node_js
 node_js:
-  - "0.12"
-  - "0.11"
-  - "0.10"
-  - "0.8"
-  - "0.6"
-  - "iojs"
-  - "iojs-v1.0.4"
-
+- '0.12'
+- '0.11'
+- '0.10'
+- '0.8'
+- '0.6'
+- iojs
+- iojs-v1.0.4
 before_script:
-  - npm install -g gulp
+- npm install -g gulp
 script: gulp
+deploy:
+  provider: heroku
+  api_key:
+    secure: UddqQbBuH/IwKnWzbzd2ba5R0UfEKLFwQvbIt34iBygrsF9b1FpYaMjJ3whZfZtEgoJla0Y/bRUYBAzr0iD92iaXP7P33V/4SiZW+nOGMO2Nc9fgmD5hXJt7NFROfR5qGwtF4m8IdU2hdQsCStQ7bWYov5jH9dy6ZQGP0sSDX7nAOeSafXJgUHfAe2ihiVmuVbkqxuq9gW0mXeYL4cbjYS/c/s70CCDefY7ksk8DwcnZh7h5yRFTI4MELmwBLOAR+d0Fq5fmHNmegMyNRjBATwAzVYXV/7+dA7eL8CUDE7fio/hGNKXuJLImC5SyEqX2D3cKaySsgWedRcrPukj6kY9SznldJYzDXdWTqHIR9u89toLAtxbLFji5VCOkS8hvEfjGdDCG8Gca66HVNICaF+1HahBeND2pNPb2e09GFM9J39rznReA7/s7C0gFra922HPyh8J93QVn/Z0Ts4mbrv/w5TDZQzihCVMHjfdmDKHh4y/7hNyUSngCFcD10KIGMBFG1qAWVwLc2Q5gCywVJGoL7fBg8i3vHZjYfYK4PqznSuDLarEj1z9SGWqUd0lL24Fv8JKehREuYVedwcL4BfZe0XnKW6hiPVPKXV0qE25rV5xwB240gAtF4ctFvYGP8l/agPZ1C9wsz7ZONRtLT0ZFm42EJuYdwFGycBkussg=
