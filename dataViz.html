@@ -5,7 +5,7 @@
 <script>
 
 
-// Need to import data from counter(yet to be made)
+
 
 var width = 960,
     height = 500,
@@ -23,10 +23,24 @@ var color = d3.scale.category10()
 
 // The largest node for each cluster.
 var clusters = new Array(m);
+
+// Need to import data from counter
+// d = individual nodes
+
+// first we need to pass the var nodes function to a variable.
+// then we will invoke that creator function N times of framework occurences
+// each node will have a name property, related to its representative framework
+// the representative framework will determine its color given a number 1-10
+
+// loop through the frameworks
+// the number of occurences is how many nodes we will make of the same name and color
+
+// Creator function ||||||||
+//                  VVVVVVVV
 // node needs a framework value to determine its color value
 var nodes = d3.range(n).map(function() {
   // determines which cluster/color/framework each node belongs to
-  var i = Math.floor(Math.random() * m), // which cluster, need to change to framework
+  var i = Math.floor(Math.random() * m), // which cluster/color, need to change to framework
       r = 12, // size
       d = {cluster: i, radius: r}; // individual nodes that will be individual bubbles
   if (!clusters[i] || (r > clusters[i].radius)) clusters[i] = d;
