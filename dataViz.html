@@ -4,6 +4,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
 <script>
 
+
+// Need to import data from counter(yet to be made)
+// Need to create objects upon
+
 var width = 960,
     height = 500,
     padding = 0.5, // separation between same-color nodes
@@ -23,9 +27,9 @@ var clusters = new Array(m);
 // node needs a framework value to determine its color value
 var nodes = d3.range(n).map(function() {
   // determines which cluster/color/framework each node belongs to
-  var i = Math.floor(Math.random() * m),
-      r = 12,
-      d = {cluster: i, radius: r};
+  var i = Math.floor(Math.random() * m), // which cluster, need to change to framework
+      r = 12, // size
+      d = {cluster: i, radius: r}; // individual nodes that will be individual bubbles
   if (!clusters[i] || (r > clusters[i].radius)) clusters[i] = d;
   return d;
 });
@@ -68,7 +72,7 @@ node.transition()
       return function(t) { return d.radius = i(t); };
     });
 
-
+// function giving nodes location attributes
 function tick(e) {
   node
       .each(cluster(10 * e.alpha * e.alpha))
