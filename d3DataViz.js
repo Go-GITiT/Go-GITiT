@@ -1,3 +1,5 @@
+window.onload = function(){
+
 var width = 960,
     height = 500,
     padding = 0.5, // separation between same-color nodes
@@ -132,3 +134,4 @@ function collide(alpha) {
     });
   };
 }
+};
