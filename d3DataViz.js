@@ -1,5 +1,4 @@
-var mongoose = require('mongoose');
-var Tally = require('./Schemas/tally.js').tally;
+var Tally = require('/Schemas/tally.js').tally;
 
 console.log(Tally);
 
