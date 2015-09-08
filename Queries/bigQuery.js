@@ -14,6 +14,7 @@ if (process.env.NODE_ENV === 'TESTING' || process.env.NODE_ENV === 'LOCAL') {
 
 var bigquery = require('bigquery-model');
 var QueryData = require('../Schemas/queryData.js').QueryData;
+var Results = require('../Schemas/result.js').Results;
 var pubnubPublishKey = process.env.PUBNUB_PUBLISH_KEY || api.PUBNUB_PUBLISH_KEY;
 var pubnubSubscribeKey = process.env.PUBNUB_SUBSCRIBE_KEY || api.PUBNUB_SUBSCRIBE_KEY;
 var pubnub = require("pubnub")({
@@ -21,14 +22,10 @@ var pubnub = require("pubnub")({
   publish_key: pubnubPublishKey,
   subscribe_key: pubnubSubscribeKey
 });
-
-
+var db;
 var unparsed_records; // VARIABLE TO STORE RAW INCOMING RECORDS
 var parsed_records = []; // ARRAY TO STORE PARSED RECORD INFORMATION
-var parsed_legacy = []; // ARRAY TO STORE PARSED LEGACY DATA FROM GOOGLE BG TABLE
-var final_records = []; // FINAL RECORDS TO BE STORED
-var queryString; // WHERE WE STORE OUR GIANT QUERY STRING
-
+var results_records; // STRING TO CHECK FOR DUPES
 var bqemail = process.env.BIGDATA_EMAIL || api.EMAIL;
 var bqpem = process.env.BIGDATA_PEM || api.PEM;
 bigquery.auth({ // AUTHORIZATION INFO FOR GOOGLE BIG QUERY
@@ -42,25 +39,9 @@ var table = new bigquery.Table({ // TABLE THAT HANDLES GET REQUESTS
   table: 'yes'
 });
 
-var records_table = new bigquery.Table({ // LEGACY TABLE THAT STORES ALL RECORDS
-  projectId: 'test1000-1055',
-  datasetId: 'gitit',
-  tableId: 'records',
-  schema: {
-    fields: [{
-      name: 'repo_name',
-      type: 'string'
-    }, {
-      name: 'repo_url',
-      type: 'string'
-    }]
-  }
-});
-
 var saveUrlsToDB = function() { // FUNCTION THAT INSERTS ARRAY OF OBJECTS INTO DB
-  var db = require('../Schemas/config.js');
-  var numSavedRecords = final_records.length;
-  final_records.forEach(function(val) {
+  var numSavedRecords = parsed_records.length;
+  parsed_records.forEach(function(val) {
     var info = new QueryData({
       repo_name: val.repo_name,
       repo_url: val.repo_url
@@ -71,6 +52,7 @@ var saveUrlsToDB = function() { // FUNCTION THAT INSERTS ARRAY OF OBJECTS INTO D
       }
       numSavedRecords --;
       if(numSavedRecords === 0){
+        console.log('BIGQUERY COMPLETE');
         db.close();
         emitPubNubEvent();
       }
@@ -79,6 +61,7 @@ var saveUrlsToDB = function() { // FUNCTION THAT INSERTS ARRAY OF OBJECTS INTO D
 };
 
 var runQuery = function() {
+  db = require('../Schemas/config.js');
   // QUERY TO GET NEW RECORDS FROM YESTERDAY
   table.query('SELECT repo.name, repo.url \
   FROM [githubarchive:day.yesterday] \
@@ -89,63 +72,19 @@ var runQuery = function() {
       unparsed_records = records;
     })
     .then(function() { // PARSES RECORDS
-      unparsed_records[0].rows.forEach(function(row) {
-        var current = {};
-        current.repo_name = row.f[0].v;
-        current.repo_url = row.f[1].v;
-        parsed_records.push(current);
-      });
-    })
-    .then(function() { // CONSTRUCTS GIANT STRING TO CHECK IF NEW RECORDS ALREADY EXIST
-      var repo_arr = [];
-      parsed_records.forEach(function(name) {
-        repo_arr.push(name.repo_name);
-      });
-      queryString = 'SELECT * FROM [gitit.records] WHERE repo_name = "' + repo_arr.join('" OR repo_name = "') + '"';
-    })
-    .then(function() { // CREATES TABLE IF IT DOESN'T EXIST.
-      records_table.register()
-        .then(function(tableid) {
-          console.log(tableid);
-        })
-        .catch(function(err) {
-          console.log(err);
-        });
-    })
-    .then(function() { // QUERY'S LEGACY TABLE WITH GIANT QUERY STRING
-      table.query(queryString)
-        .then(function(records) { // PARSES INPUT AND STORES IN PARSED LEGACY
-          if (records[0].rows !== undefined) {
-            records[0].rows.forEach(function(row) {
-              var current = {};
-              current.repo_name = row.f[0].v;
-              current.repo_url = row.f[1].v;
-              parsed_legacy.push(current);
-            });
-          }
-        })
-        .then(function() { // COMPARES STRINGIFIED LEGACY TABLE TO NEW RECORDS
-          parsed_legacy = JSON.stringify(parsed_legacy);
-          parsed_records.forEach(function(repo) {
-            var reg = new RegExp(repo.repo_name, "g");
-            if (parsed_legacy.match(reg) === null) {
-              final_records.push(repo);
+        Results.find(function(err, data){
+          data = JSON.stringify(data);
+          unparsed_records[0].rows.forEach(function(row, ind, arr) {
+            var current = {};
+            current.repo_name = row.f[0].v;
+            current.repo_url = row.f[1].v;
+            if(data.indexOf(current.repo_name === -1)){
+              parsed_records.push(current);
+            }
+            if(ind === arr.length-1){ 
+              saveUrlsToDB();
             }
           });
-        })
-        .then(function() { // CREATES ARRAY OF RECORDS TO BE STORED (THEY ARE NOT DUPLICATES)
-          if (final_records.length > 0) {
-            records_table.push(final_records)
-              .then(function() {
-                saveUrlsToDB();
-                console.log('FINISHED!');
-              })
-              .catch(function(err) {
-                console.error(err);
-              });
-          } else {
-            console.log('NO INSERTIONS!');
-          }
         });
     });
 };
