@@ -4,7 +4,7 @@
   {
     repo_name: String,
     repo_url: String,
-    file_url: String
+    file_url: {type: String, unique: true}
   },
   {collection: 'fetchedRepo'});
 
