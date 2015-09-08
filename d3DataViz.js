@@ -1,7 +1,3 @@
-var Tally = require('./Schemas/tally.js').Tally;
-
-console.log(Tally);
-
 var width = 960,
     height = 500,
     padding = 0.5, // separation between same-color nodes
