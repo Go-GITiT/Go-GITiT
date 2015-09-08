@@ -1,3 +1,8 @@
+var mongoose = require('mongoose');
+var Tally = require('./Schemas/tally.js').tally;
+
+console.log(Tally);
+
 var width = 960,
     height = 500,
     padding = 0.5, // separation between same-color nodes
@@ -29,6 +34,7 @@ var clusters = new Array(m);
 // Creator function ||||||||
 //                  VVVVVVVV
 // node needs a framework value to determine its color value
+// d3.range runs this function n number of times, adding d/node to an array of nodes
 var nodes = d3.range(n).map(function() {
   // determines which cluster/color/framework each node belongs to
   var i = Math.floor(Math.random() * m), // which cluster/color, need to change to framework
