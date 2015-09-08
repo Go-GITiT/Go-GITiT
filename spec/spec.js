@@ -1,5 +1,5 @@
 var expect = require('chai').expect
-,foo = 'no'
+,foo = 'bar'
 ,beverages = { tea: [ 'chai', 'matcha', 'oolong' ] };
 
 describe('testing',function(){
