@@ -1,6 +1,6 @@
 /*jshint multistr: true */
 
-var api;
+  var api;
 var pubnub_message_a;
 var pubnub_message_b;
 if (process.env.NODE_ENV === 'TESTING' || process.env.NODE_ENV === 'LOCAL') {
@@ -13,7 +13,6 @@ if (process.env.NODE_ENV === 'TESTING' || process.env.NODE_ENV === 'LOCAL') {
 }
 
 var bigquery = require('bigquery-model');
-var db = require('../Schemas/config.js');
 var QueryData = require('../Schemas/queryData.js').QueryData;
 var pubnubPublishKey = process.env.PUBNUB_PUBLISH_KEY || api.PUBNUB_PUBLISH_KEY;
 var pubnubSubscribeKey = process.env.PUBNUB_SUBSCRIBE_KEY || api.PUBNUB_SUBSCRIBE_KEY;
@@ -59,6 +58,7 @@ var records_table = new bigquery.Table({ // LEGACY TABLE THAT STORES ALL RECORDS
 });
 
 var saveUrlsToDB = function() { // FUNCTION THAT INSERTS ARRAY OF OBJECTS INTO DB
+  var db = require('../Schemas/config.js');
   var numSavedRecords = final_records.length;
   final_records.forEach(function(val) {
     var info = new QueryData({
@@ -69,8 +69,9 @@ var saveUrlsToDB = function() { // FUNCTION THAT INSERTS ARRAY OF OBJECTS INTO D
       if (err) {
         throw err; 
       }
-      numSavedRecords--;
-      if (numSavedRecords === 0) {
+      numSavedRecords --;
+      if(numSavedRecords === 0){
+        db.close();
         emitPubNubEvent();
       }
     });

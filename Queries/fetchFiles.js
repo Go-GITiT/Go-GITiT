@@ -1,6 +1,7 @@
+//var api = require('../api.js');
 var request = require("request");
 var fs = require('fs');
-var db = require('../Schemas/config.js');
+var db; 
 var FetchedRepo = require('../Schemas/fetchedRepos.js').FetchedRepo;
 var QueryData = require('../Schemas/queryData.js').QueryData;
 var pubnubPublishKey = process.env.PUBNUB_PUBLISH_KEY || api.PUBNUB_PUBLISH_KEY;
@@ -10,11 +11,11 @@ var pubnub = require("pubnub")({
   publish_key: pubnubPublishKey,
   subscribe_key: pubnubSubscribeKey
 });
-//var api = require('./api.js');
 
 var fullnames;
 
 var retrieveFiles = function() {
+  db = require('../Schemas/config.js');
   QueryData.find(function(err, data) {
 
     if (err) {
@@ -66,14 +67,11 @@ var getHtml = function() {
 
             info.save(function(err) {
               if (err) {
-                throw err;
-              } else {
-                console.log('Saved!');
-                QueryData.find({
-                  repo_name: repoObj.repo_name
-                }).remove().exec();
+                console.error('Duplicate record not saved. Script: FETCHFILES.JS');
               }
-
+              QueryData.find({
+                repo_name: repoObj.repo_name
+              }).remove().exec();
               i++;
               saveUrlsToDB();
             });
@@ -94,6 +92,7 @@ var getHtml = function() {
 
     });
   } else {
+    db.close();
     emitPubNubEvent();
   }
 };

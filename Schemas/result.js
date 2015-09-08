@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
   {
     repo_name: String,
     repo_url: String,
-    file_url: String,
+    file_url: {type: String, unique: true},
     repo_data: String
 
   },
