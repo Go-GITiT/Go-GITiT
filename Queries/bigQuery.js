@@ -4,14 +4,14 @@ var api;
 var pubnub_message_a;
 var pubnub_message_b;
 console.log('ENVIRONMENT --------------------> ', process.env.NODE_ENV);
-if (process.env.NODE_ENV === 'TESTING' || process.env.NODE_ENV === undefined /* local env */) {
-  api = require('../api.js');
-  //  pubnub_message_a = 'somecrap';
-  //pubnub_message_b = 'someothercrap';
-} else {
-    //pubnub_message_a = process.env.PUBNUB_MSG_A;
-    //pubnub_message_b = process.env.PUBNUB_MSG_B;
-}                               
+// if (process.env.NODE_ENV === 'TESTING' || process.env.NODE_ENV === undefined /* local env */) {
+//   api = require('../api.js');
+//   //  pubnub_message_a = 'somecrap';
+//   //pubnub_message_b = 'someothercrap';
+// } else {
+pubnub_message_a = process.env.PUBNUB_MSG_A;
+pubnub_message_b = process.env.PUBNUB_MSG_B;
+// }                               
 
 var bigquery = require('bigquery-model');
 var QueryData = require('../Schemas/queryData.js').QueryData;
