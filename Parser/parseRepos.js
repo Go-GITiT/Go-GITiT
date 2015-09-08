@@ -1,7 +1,8 @@
 var request = require("request");
-var db = require('../Schemas/config.js');
 var FetchedRepo = require('../Schemas/fetchedRepos.js').FetchedRepo;
 var Results = require('../Schemas/result.js').Results;
+//var api = require('../api.js');
+var db;
 var pubnubPublishKey = process.env.PUBNUB_PUBLISH_KEY || api.PUBNUB_PUBLISH_KEY;
 var pubnubSubscribeKey = process.env.PUBNUB_SUBSCRIBE_KEY || api.PUBNUB_SUBSCRIBE_KEY;
 var pubnub = require("pubnub")({
@@ -20,6 +21,7 @@ var repoObjs;
 var numFilesToParse;
       
 var parseFiles = function() {
+  db = require('../Schemas/config.js');
   FetchedRepo.find(function(err, data) {
     if (err) {
       throw err;
@@ -80,23 +82,21 @@ var parseForJS = function(obj) {
       });
       repoStats.save(function(err) {
         if (err) {
-          console.log('Error : ', err);
-          throw err;
-        } else {
-          FetchedRepo.find({
-            repo_name: obj.repo_name
-          }).remove(function(){
-            numFilesToParse --;
-            if(numFilesToParse === 0){
-              emitPubNubEvent();
-            }
-          }).exec();
-        }
+          console.error('Duplicate record not saved. Script: PARSEREPOS.JS');
+        } 
+        FetchedRepo.find({
+          repo_name: obj.repo_name
+        }).remove(function(){
+          numFilesToParse --;
+          if(numFilesToParse === 0){
+            db.close();
+            emitPubNubEvent();
+          }
+        }).exec();
       });
     }
   });
 };
-
 // LISTEN ON PUBNUB MESSAGES !
 pubnub.subscribe({
   channel: "gitit_messages",
