@@ -1,5 +1,17 @@
 /*jshint multistr: true */
-//var api = require('./api.js');
+
+var api;
+var pubnub_message_a;
+var pubnub_message_b;
+if (process.env.NODE_ENV === 'TESTING' || process.env.NODE_ENV === 'LOCAL') {
+  api = require('../api.js');
+  pubnub_message_a = 'somecrap';
+  pubnub_message_b = 'someothercrap';
+}else{
+  pubnub_message_a = process.env.PUBNUB_MSG_A;
+  pubnub_message_b = process.env.PUBNUB_MSG_B;
+}
+
 var bigquery = require('bigquery-model');
 var db = require('../Schemas/config.js');
 var QueryData = require('../Schemas/queryData.js').QueryData;
@@ -10,6 +22,7 @@ var pubnub = require("pubnub")({
   publish_key: pubnubPublishKey,
   subscribe_key: pubnubSubscribeKey
 });
+
 
 var unparsed_records; // VARIABLE TO STORE RAW INCOMING RECORDS
 var parsed_records = []; // ARRAY TO STORE PARSED RECORD INFORMATION
@@ -27,7 +40,7 @@ bigquery.auth({ // AUTHORIZATION INFO FOR GOOGLE BIG QUERY
 var table = new bigquery.Table({ // TABLE THAT HANDLES GET REQUESTS
   projectId: 'test1000-1055',
   datasetId: 'oldstuff',
-  table: 'yes',
+  table: 'yes'
 });
 
 var records_table = new bigquery.Table({ // LEGACY TABLE THAT STORES ALL RECORDS
@@ -54,10 +67,10 @@ var saveUrlsToDB = function() { // FUNCTION THAT INSERTS ARRAY OF OBJECTS INTO D
     });
     info.save(function(err, data) {
       if (err) {
-        throw err;
+        throw err; 
       }
-      numSavedRecords --;
-      if(numSavedRecords === 0){
+      numSavedRecords--;
+      if (numSavedRecords === 0) {
         emitPubNubEvent();
       }
     });
@@ -141,7 +154,7 @@ pubnub.subscribe({
   channel: "gitit_messages",
   callback: function(message) {
     console.log("bigQueryWorker > ", message);
-    if (message.type === 'heroku_scheduler_event') {
+    if (message.type === pubnub_message_a) {
       runQuery();
     }
   }
@@ -149,7 +162,7 @@ pubnub.subscribe({
 
 var emitPubNubEvent = function() {
   var message = {
-    "type": "bigQueryWorker_job_complete"
+    "type": pubnub_message_b
   };
 
   pubnub.publish({
