@@ -1,5 +1,8 @@
 var expect = require('chai').expect;
+
+console.log(process.env.NODE_ENV);
 process.env.NODE_ENV = "TESTING";
+
 var bigQuery = require('../Queries/bigQuery.js'),
     foo = 'hello',
     beverages = {

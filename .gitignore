@@ -6,3 +6,4 @@ node_modules
 /.tern-port
 /.DS_Store
 /Queries/.DS_Store
+/Schemas/.tern-port
