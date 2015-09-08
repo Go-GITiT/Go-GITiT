@@ -28,6 +28,7 @@ var unparsed_records; // VARIABLE TO STORE RAW INCOMING RECORDS
 var parsed_records = []; // ARRAY TO STORE PARSED RECORD INFORMATION
 var results_records; // STRING TO CHECK FOR DUPES
 var bqemail = process.env.BIGDATA_EMAIL || api.EMAIL;
+console.log('PEM--->',process.env.BIGDATA_PEM);
 var bqpem = process.env.BIGDATA_PEM || api.PEM;
 bigquery.auth({ // AUTHORIZATION INFO FOR GOOGLE BIG QUERY
   email: bqemail,
