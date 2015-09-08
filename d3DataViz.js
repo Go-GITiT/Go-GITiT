@@ -1,4 +1,4 @@
-var Tally = require('/Schemas/tally.js').tally;
+var Tally = require('./Schemas/tally.js').Tally;
 
 console.log(Tally);
 
