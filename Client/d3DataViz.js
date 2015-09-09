@@ -3,14 +3,17 @@
 window.onload = function(){
 
 var data; // a global
-var react = '#1f77b4';
-var ember = '#ffbb78';
-var mithril = '#2ca02c';
-var angular = '#d62728';
-var backbone = '#9467bd';
-var polymer = '#e377c2';
-var spine = '#7f7f7f';
-var flight = '#9edae5';
+
+var frameworks = {
+react : '#1f77b4',
+ember : '#ff7f0e',
+mithril : '#2ca02c',
+angular : '#d62728',
+backbone : '#9467bd',
+polymer : '#e377c2',
+spine : '#7f7f7f',
+flight : '#9edae5'
+};
 
 var width = 960,
     height = 800,
@@ -19,7 +22,7 @@ var width = 960,
     maxRadius = 10;
 
 // var n = 1000, // total number of nodes
-    m = 20; // number of distinct clusters
+    m = Object.keys(frameworks).length; // number of distinct clusters
 
 
 // need to distinguish color by framework
@@ -53,7 +56,7 @@ var createNodes = function(n, framework){
   // determines which cluster/color/framework each node belongs to
   var i = framework, // which cluster/color, need to change to framework
       r = 10, // size
-      d = {cluster: i, radius: r}; // individual nodes that will be individual bubbles
+      d = {cluster: i, radius: r, type: framework}; // individual nodes that will be individual bubbles
       if (!clusters[i] || (r > clusters[i].radius)) clusters[i] = d;
       return d;
     });
@@ -71,7 +74,7 @@ d3.json("/tally", function(error, json) {
   data = json;
   console.log(data);
   for(var key in data){
-    createNodes(data[key], key);
+    createNodes(data[key], frameworks[key]);
   }
   var merged = [];
   merged = merged.concat.apply(merged, nodes);
@@ -124,7 +127,7 @@ var visualize = function(nodes){
   .data(nodes)
   .enter().append("circle")
     // Need an if statement where each node gets color based on framwork
-    .style("fill", function(d) { return color(d.cluster); })
+    .style("fill", function(d) { return d.type; })
     .call(force.drag)
     .on("mousedown", function() { d3.event.stopPropagation(); });
 
