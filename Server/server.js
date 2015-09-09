@@ -17,6 +17,10 @@ app.get('/', function(req, res){
 	res.sendFile(path.join(__dirname, '../Client', 'Gitit.html'));
 });
 
+app.get('/d3DataViz.js', function(req, res){
+	res.sendFile(path.join(__dirname, '../Client', 'd3DataViz.js'));
+});
+
 app.get('/tally', function(req, res){
 	var tally;
 	currentTally(function(tally){
