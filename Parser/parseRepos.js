@@ -34,7 +34,7 @@ var parseFiles = function() {
         } else {
           clearInterval(interval);
         }
-      }, 250);
+      }, 100);
     }
   });
 };
@@ -84,9 +84,9 @@ var parseForJS = function(obj) {
         repo_data: JSON.stringify(repoData)
       });
       repoStats.save(function(err) {
-        if (err) {
-          console.error('Duplicate record not saved. Script: PARSEREPOS.JS');
-        } 
+        if(err){
+          console.log(err);
+        }
         FetchedRepo.find({
           repo_name: obj.repo_name
         }).remove(function(){
@@ -99,6 +99,7 @@ var parseForJS = function(obj) {
     }
   });
 };
+
 // LISTEN ON PUBNUB MESSAGES !
 pubnub.subscribe({
   channel: "gitit_messages",
