@@ -1,6 +1,7 @@
   var mongoose = require('mongoose');
 
-  var mongoURI = process.env.MONGOLAB_URI || 'mongodb://heroku_bmkn0cw7:9qnkmthdbkodud914ks46ln1gh@ds035563.mongolab.com:35563/heroku_bmkn0cw7';
+  var mongoURI = process.env.MONGOLAB_URI || 'mongodb://localhost/gitit';
+  
   mongoose.connect(mongoURI);
 
   var db = mongoose.connection;
