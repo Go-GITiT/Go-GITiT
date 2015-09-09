@@ -28,10 +28,13 @@ var parseFiles = function() {
     } else {
       repoObjs = data;
       numFilesToParse = repoObjs.length;
-      repoObjs.forEach(function(item) {
-        var repo = item;
-        parseForJS(repo);  
-      });
+      var interval = setInterval(function(){
+        if(repoObjs.length > 0){
+          parseForJS(repoObjs.pop());
+        } else {
+          clearInterval(interval);
+        }
+      }, 100);
     }
   });
 };
@@ -81,9 +84,9 @@ var parseForJS = function(obj) {
         repo_data: JSON.stringify(repoData)
       });
       repoStats.save(function(err) {
-        if (err) {
-          console.error('Duplicate record not saved. Script: PARSEREPOS.JS');
-        } 
+        if(err){
+          console.log(err);
+        }
         FetchedRepo.find({
           repo_name: obj.repo_name
         }).remove(function(){
@@ -96,6 +99,7 @@ var parseForJS = function(obj) {
     }
   });
 };
+
 // LISTEN ON PUBNUB MESSAGES !
 pubnub.subscribe({
   channel: "gitit_messages",

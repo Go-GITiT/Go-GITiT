@@ -6,8 +6,10 @@ var path = require('path');
 
 app.use(express.static('../Client'));
 
-var server=app.listen(3000, function(){
-console.log("We have started our server on port 3000");
+var port = process.env.PORT || 1111;
+
+app.listen(port, function(){
+console.log("We have started our server on port " + port);
 
 });
 
