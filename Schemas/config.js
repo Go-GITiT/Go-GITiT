@@ -1,7 +1,6 @@
   var mongoose = require('mongoose');
 
-  var mongoURI = process.env.MONGOLAB_URI || 'mongodb://localhost/gitit';
-  
+  var mongoURI = process.env.MONGOLAB_URI || 'mongodb://localhost:';
   mongoose.connect(mongoURI);
 
   var db = mongoose.connection;

@@ -42,11 +42,38 @@ console.log(filedata);
 //   key: bqpem
 // });
 
-// var table = new bigquery.Table({ // TABLE THAT HANDLES GET REQUESTS
-//   projectId: 'test1000-1055',
-//   datasetId: 'oldstuff',
-//   table: 'yes'
-// });
+var runQuery = function() {
+  db = require('../Schemas/config.js');
+  // QUERY TO GET NEW RECORDS FROM YESTERDAY
+  table.query('SELECT repo.name, repo.url \
+  FROM [githubarchive:day.yesterday] \
+  WHERE payload CONTAINS \'"language":"JavaScript"\' \
+  GROUP EACH BY repo.name, repo.url \
+  ORDER BY repo.name')
+    .then(function(records) { // STORES RECORDS
+      unparsed_records = records;
+    })
+    .then(function() { // PARSES RECORDS
+        Results.find(function(err, data){
+          data = JSON.stringify(data);
+          unparsed_records[0].rows.forEach(function(row, ind, arr) {
+            var current = {};
+            current.repo_name = row.f[0].v;
+            current.repo_url = row.f[1].v;
+            
+            var repo = new RegExp(current.repo_name);
+            if(data.match(repo) === null){
+              parsed_records.push(current);
+            } else {
+              console.log('OMITTING DUPLICATE');
+            }
+            if(ind === arr.length-1){ 
+              saveUrlsToDB();
+            }
+          });
+        });
+    });
+};
 
 // var saveUrlsToDB = function() { // FUNCTION THAT INSERTS ARRAY OF OBJECTS INTO DB
 //   var numSavedRecords = parsed_records.length;
