@@ -3,3 +3,7 @@ node_modules
 *.pem
 /Queries/.tern-port
 /.DS_Store
+/.tern-port
+/.DS_Store
+/Queries/.DS_Store
+/Schemas/.tern-port

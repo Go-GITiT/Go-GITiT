@@ -1,5 +1,18 @@
 /*jshint multistr: true */
-//var api = require('../api.js');
+
+var api;
+var pubnub_message_a;
+var pubnub_message_b;
+console.log('ENVIRONMENT --------------------> ', process.env.NODE_ENV);
+// if (process.env.NODE_ENV === 'TESTING' || process.env.NODE_ENV === undefined /* local env */) {
+//   api = require('../api.js');
+//   //  pubnub_message_a = 'somecrap';
+//   //pubnub_message_b = 'someothercrap';
+// } else {
+pubnub_message_a = process.env.PUBNUB_MSG_A;
+pubnub_message_b = process.env.PUBNUB_MSG_B;
+// }                               
+
 var bigquery = require('bigquery-model');
 var QueryData = require('../Schemas/queryData.js').QueryData;
 var Results = require('../Schemas/result.js').Results;
@@ -15,6 +28,7 @@ var unparsed_records; // VARIABLE TO STORE RAW INCOMING RECORDS
 var parsed_records = []; // ARRAY TO STORE PARSED RECORD INFORMATION
 var results_records; // STRING TO CHECK FOR DUPES
 var bqemail = process.env.BIGDATA_EMAIL || api.EMAIL;
+console.log('PEM-->',process.env.BIGDATA_PEM);
 var bqpem = process.env.BIGDATA_PEM || api.PEM;
 bigquery.auth({ // AUTHORIZATION INFO FOR GOOGLE BIG QUERY
   email: bqemail,
@@ -24,7 +38,7 @@ bigquery.auth({ // AUTHORIZATION INFO FOR GOOGLE BIG QUERY
 var table = new bigquery.Table({ // TABLE THAT HANDLES GET REQUESTS
   projectId: 'test1000-1055',
   datasetId: 'oldstuff',
-  table: 'yes',
+  table: 'yes'
 });
 
 var saveUrlsToDB = function() { // FUNCTION THAT INSERTS ARRAY OF OBJECTS INTO DB
@@ -38,8 +52,8 @@ var saveUrlsToDB = function() { // FUNCTION THAT INSERTS ARRAY OF OBJECTS INTO D
       if (err) {
         throw err;
       }
-      numSavedRecords --;
-      if(numSavedRecords === 0){
+      numSavedRecords--;
+      if (numSavedRecords === 0) {
         console.log('BIGQUERY COMPLETE');
         db.close();
         emitPubNubEvent();
@@ -56,24 +70,25 @@ var runQuery = function() {
   WHERE payload CONTAINS \'"language":"JavaScript"\' \
   GROUP EACH BY repo.name, repo.url \
   ORDER BY repo.name')
+  //perhaps limit (10) in test mode
     .then(function(records) { // STORES RECORDS
       unparsed_records = records;
     })
     .then(function() { // PARSES RECORDS
-        Results.find(function(err, data){
-          data = JSON.stringify(data);
-          unparsed_records[0].rows.forEach(function(row, ind, arr) {
-            var current = {};
-            current.repo_name = row.f[0].v;
-            current.repo_url = row.f[1].v;
-            if(data.indexOf(current.repo_name === -1)){
-              parsed_records.push(current);
-            }
-            if(ind === arr.length-1){ 
-              saveUrlsToDB();
-            }
-          });
+      Results.find(function(err, data) {
+        data = JSON.stringify(data);
+        unparsed_records[0].rows.forEach(function(row, ind, arr) {
+          var current = {};
+          current.repo_name = row.f[0].v;
+          current.repo_url = row.f[1].v;
+          if (data.indexOf(current.repo_name === -1)) {
+            parsed_records.push(current);
+          }
+          if (ind === arr.length - 1) {
+            saveUrlsToDB();
+          }
         });
+      });
     });
 };
 
@@ -82,7 +97,7 @@ pubnub.subscribe({
   channel: "gitit_messages",
   callback: function(message) {
     console.log("bigQueryWorker > ", message);
-    if (message.type === 'heroku_scheduler_event') {
+    if (message.type === pubnub_message_a) {
       runQuery();
     }
   }
@@ -90,7 +105,7 @@ pubnub.subscribe({
 
 var emitPubNubEvent = function() {
   var message = {
-    "type": "bigQueryWorker_job_complete"
+    "type": pubnub_message_b
   };
 
   pubnub.publish({
