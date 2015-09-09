@@ -1,7 +1,7 @@
 var express = require('express');
 var app = express();
-var currentTally = require('./tallyQuery.js').currentTally;
-var db = require('../Schemas/config.js');
+var currentTally = require('./Queries/tallyQuery.js').currentTally;
+var db = require('./Schemas/config.js');
 
 
 var server=app.listen(3000, function(){
