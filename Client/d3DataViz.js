@@ -1,4 +1,14 @@
+
+
 window.onload = function(){
+
+var data; // a global
+
+d3.json("/tally", function(error, json) {
+  if (error) return console.warn(error);
+  data = json;
+  console.log(data);
+});
 
 var width = 960,
     height = 500,
