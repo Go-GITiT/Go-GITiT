@@ -28,10 +28,13 @@ var parseFiles = function() {
     } else {
       repoObjs = data;
       numFilesToParse = repoObjs.length;
-      repoObjs.forEach(function(item) {
-        var repo = item;
-        parseForJS(repo);  
-      });
+      var interval = setInterval(function(){
+        if(repoObjs.length > 0){
+          parseForJS(repoObjs.pop());
+        } else {
+          clearInterval(interval);
+        }
+      }, 250);
     }
   });
 };
