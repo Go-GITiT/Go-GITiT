@@ -1,0 +1,12 @@
+language: node_js
+node_js:
+- '0.10'
+before_script:
+- npm install -g gulp
+script: gulp
+deploy:
+
+ provider: heroku
+ app: gitit
+ api_key:
+   secure: r0WJLuhuD7835bRtksoObd1LMSojkj9N9Pr141wEel4359mZY/nxiOj4jW+N3uAANRGzwJvlpSS7sJoglmwYMTVAGGs86fAQFjybj4O/z34BzhoRJc8Yk0+Q7YhkPGKSaclPlbm/W8djKW0rHj66n8tWEFnbPfM5EbA3Gy33sLfsQThXht3JxMvZOsSxtfnEbXKkJJnf8m+dlrXvX6D1DFIIGtjLOYBepfC6TR+8C3LxX25DbrxBWixu5O6DK7PNjwusjq6NwQK6179GOx73HGNP/gkwrS08x44tPNncNhFLyD5EjA13DwZzgCKiEdTgwOSSRsQBe8EJAo273Gg9zs3TiFUOVnJp9zobruRvhnve/T/V1KmX/pacimLATb2R1UrLFoaGER9MTWrZ6FvYT2Bq1S+hG2dez+y8w+Zu2JczJAq99TIREOHW9ScpOkyHBPb9QHAesYY4CI4a6GMAy9xH5Ow3qsaTLamKP49vevevI/xz44hfzfGMlRNnJTtJtoMq1ur4rc50rzUZ08do27IBgVUdZPiAlaLbOHfq01mKIwZsop+itS8Mm5hW0sNuIvl5GEg1/PyMMn8ZePfantat5x/d9CxL3/TbX+qY4O+UVabR5aBoCiQ2aGQr0KmIyGvjzq0cG048cmhPc6phPilc7yqsvJrb7ri6nOGKPes=

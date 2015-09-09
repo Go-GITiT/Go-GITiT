@@ -17,8 +17,8 @@ var jsonParser = function(JSON){
 				polymer: false,
 				flight: false,
 				capuccino: false,
-				spine: false,
-				aurelia: false
+				aurelia: false,
+				spine: false
 			}
 		};
 		// loop through the dependencies

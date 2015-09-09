@@ -1,8 +1,4 @@
-<!DOCTYPE html>
-<meta charset="utf-8">
-<body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
-<script>
+window.onload = function(){
 
 var width = 960,
     height = 500,
@@ -20,12 +16,27 @@ var color = d3.scale.category10()
 
 // The largest node for each cluster.
 var clusters = new Array(m);
+
+// Need to import data from counter
+// d = individual nodes
+
+// first we need to pass the var nodes function to a variable.
+// then we will invoke that creator function N times of framework occurences
+// each node will have a name property, related to its representative framework
+// the representative framework will determine its color given a number 1-10
+
+// loop through the frameworks
+// the number of occurences is how many nodes we will make of the same name and color
+
+// Creator function ||||||||
+//                  VVVVVVVV
 // node needs a framework value to determine its color value
+// d3.range runs this function n number of times, adding d/node to an array of nodes
 var nodes = d3.range(n).map(function() {
   // determines which cluster/color/framework each node belongs to
-  var i = Math.floor(Math.random() * m),
-      r = 12,
-      d = {cluster: i, radius: r};
+  var i = Math.floor(Math.random() * m), // which cluster/color, need to change to framework
+      r = 12, // size
+      d = {cluster: i, radius: r}; // individual nodes that will be individual bubbles
   if (!clusters[i] || (r > clusters[i].radius)) clusters[i] = d;
   return d;
 });
@@ -43,7 +54,7 @@ d3.layout.pack()
 var force = d3.layout.force()
     .nodes(nodes)
     .size([width, height])
-    .gravity(.02)
+    .gravity(0.02)
     .charge(1)
     .on("tick", tick)
     .start();
@@ -65,14 +76,14 @@ node.transition()
     .delay(function(d, i) { return i * 5; })
     .attrTween("r", function(d) {
       var i = d3.interpolate(0, d.radius);
-      return function(t) { return d.radius = i(t); };
+      return function(t){ return d.radius = i(t); };
     });
 
-
+// function giving nodes location attributes
 function tick(e) {
   node
       .each(cluster(10 * e.alpha * e.alpha))
-      .each(collide(.5))
+      .each(collide(0.5))
       .attr("cx", function(d) { return d.x; })
       .attr("cy", function(d) { return d.y; });
 }
@@ -123,5 +134,4 @@ function collide(alpha) {
     });
   };
 }
-
-</script>
+};
