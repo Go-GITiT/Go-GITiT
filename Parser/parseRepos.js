@@ -2,7 +2,8 @@ var request = require("request");
 var FetchedRepo = require('../Schemas/fetchedRepos.js').FetchedRepo;
 var Results = require('../Schemas/result.js').Results;
 //var api = require('../api.js');
-var db;
+var db = require('../Schemas/config.js');
+
 var pubnubPublishKey = process.env.PUBNUB_PUBLISH_KEY || api.PUBNUB_PUBLISH_KEY;
 var pubnubSubscribeKey = process.env.PUBNUB_SUBSCRIBE_KEY || api.PUBNUB_SUBSCRIBE_KEY;
 var pubnub = require("pubnub")({
@@ -21,7 +22,6 @@ var repoObjs;
 var numFilesToParse;
       
 var parseFiles = function() {
-  db = require('../Schemas/config.js');
   FetchedRepo.find(function(err, data) {
     if (err) {
       throw err;
@@ -89,7 +89,6 @@ var parseForJS = function(obj) {
         }).remove(function(){
           numFilesToParse --;
           if(numFilesToParse === 0){
-            db.close();
             emitPubNubEvent();
           }
         }).exec();
