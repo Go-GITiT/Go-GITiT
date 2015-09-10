@@ -1,9 +1,9 @@
 var gulp = require('gulp'),
     jshint = require('gulp-jshint'),
-    mocha = require('gulp-mocha')
+    mocha = require('gulp-mocha'),
+    connect = require('gulp-connect'),
+    livereload = require('gulp-livereload')
 
-
-gulp.task('default', ['mocha']);
 
 gulp.task('jshint',function(){
   return gulp.src('[/**/*.js]')
@@ -22,3 +22,11 @@ gulp.task('mocha',function(){
   return gulp.src('spec/*.js',{read: false})
     .pipe(mocha({reporter: 'nyan'}))
 });
+
+gulp.task('webserver', function() {
+  connect.server({
+    livereload: true
+  });
+});
+
+gulp.task('default', ['mocha','watch','webserver']);
