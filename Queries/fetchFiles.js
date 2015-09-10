@@ -17,16 +17,12 @@ var fullnames;
 var retrieveFiles = function() {
   db = require('../Schemas/config.js');
   QueryData.find(function(err, data) {
-
     if (err) {
       throw err;
-
     } else {
-
       fullnames = data; //data array, retrieved from DB
       getHtml(); //
     }
-
   });
 };
 
@@ -67,7 +63,7 @@ var getHtml = function() {
         
         if (bod.items !== undefined && bod.items.length > 0) {
           bod.items.forEach(function(val, ind, arr){
-            if(val.path.match(/node_modules/) !== null){
+            if(val.path.match(/node_modules/) !== null || val.path.match(/bower_components/) !== null){
               arr.splice(ind);
             }
           });   
