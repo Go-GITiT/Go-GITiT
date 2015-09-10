@@ -43,53 +43,73 @@ var getHtml = function() {
       }
     };
 
+    var reqJson = {
+      url: "https://api.github.com/search/code?q=in:file+filename:package+extension:json+repo:" + repoObj.repo_name,
+      headers: {
+        'User-Agent': apiUser,
+        'Authorization': apiToken
+      }
+    };
+
     request(req, function(error, response, body) {
       if (error) {
         console.log(error);
       }
-
       var bod = JSON.parse(body);
+      request(reqJson, function(error, response, body){
+        var jsonbody = JSON.parse(body);
+        
+        if(jsonbody.items !== undefined && jsonbody.items.length > 0){
+          jsonbody.items.forEach(function(val){
+            bod.items.push(val);
+          });
+        }
+        
+        if (bod.items !== undefined && bod.items.length > 0) {
+          bod.items.forEach(function(val, ind, arr){
+            if(val.path.match(/node_modules/) !== null){
+              arr.splice(ind);
+            }
+          });   
+          
+          var i = 0;
+          var saveUrlsToDB = function() {
+            if (i < bod.items.length) {
 
-      if (bod.items !== undefined && bod.items.length > 0) {
+              var data = bod.items[i];
+              var url = data.html_url.replace('https://github.com', 'https://raw.githubusercontent.com').replace('/blob', '');
 
-        var i = 0;
-        var saveUrlsToDB = function() {
-          if (i < bod.items.length) {
+              var info = new FetchedRepo({
+                repo_name: repoObj.repo_name,
+                repo_url: repoObj.repo_url,
+                file_url: url
+              });
 
-            var data = bod.items[i];
-            var url = data.html_url.replace('https://github.com', 'https://raw.githubusercontent.com').replace('/blob', '');
+              info.save(function(err) {
+                if (err) {
+                  console.error('Duplicate record not saved. Script: FETCHFILES.JS');
+                }
+                QueryData.find({
+                  repo_name: repoObj.repo_name
+                }).remove().exec();
+                i++;
+                saveUrlsToDB();
+              });
+            } else {
+              setTimeout(getHtml.bind(this), 2500);
+            }
+          };
 
-            var info = new FetchedRepo({
-              repo_name: repoObj.repo_name,
-              repo_url: repoObj.repo_url,
-              file_url: url
-            });
+          saveUrlsToDB();
+        } else {
 
-            info.save(function(err) {
-              if (err) {
-                console.error('Duplicate record not saved. Script: FETCHFILES.JS');
-              }
-              QueryData.find({
-                repo_name: repoObj.repo_name
-              }).remove().exec();
-              i++;
-              saveUrlsToDB();
-            });
-          } else {
-            setTimeout(getHtml.bind(this), 2500);
-          }
-        };
+          QueryData.find({
+            repo_name: repoObj.repo_name
+          }).remove().exec();
 
-        saveUrlsToDB();
-      } else {
-
-        QueryData.find({
-          repo_name: repoObj.repo_name
-        }).remove().exec();
-
-        setTimeout(getHtml.bind(this), 2500);
-      }
-
+          setTimeout(getHtml.bind(this), 2500);
+        }
+      });
     });
   } else {
     db.close();
