@@ -66,8 +66,12 @@ var runQuery = function() {
             var current = {};
             current.repo_name = row.f[0].v;
             current.repo_url = row.f[1].v;
-            if(data.indexOf(current.repo_name === -1)){
+            
+            var repo = new RegExp(current.repo_name);
+            if(data.match(repo) === null){
               parsed_records.push(current);
+            } else {
+              console.log('OMITTING DUPLICATE');
             }
             if(ind === arr.length-1){ 
               saveUrlsToDB();

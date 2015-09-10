@@ -4,28 +4,84 @@ window.onload = function(){
 
 var data; // a global
 
+var frameworks = {
+react : '#1f77b4',
+ember : '#ff7f0e',
+mithril : '#2ca02c',
+angular : '#d62728',
+backbone : '#9467bd',
+polymer : '#e377c2',
+spine : '#7f7f7f',
+flight : '#9edae5'
+};
+
+var width = 960,
+    height = 800,
+    padding = 0.2, // separation between same-color nodes
+    clusterPadding = 3, // separation between different-color nodes
+    maxRadius = 10;
+
+// var n = 1000, // total number of nodes
+    m = Object.keys(frameworks).length; // number of distinct clusters
+
+
+// need to distinguish color by framework
+var color = d3.scale.category20()
+.domain(d3.range(m));
+
+// The largest node for each cluster.
+var clusters = new Array(m);
+
+// for each name in data object, invoke function to create nodes, n = data[name] value
+// push and join resulting array to nodes array
+// i will be color relative to data[name]
+// var nodes = [];
+
+
+
+// var nodes = d3.range(n).map(function() {
+//   // determines which cluster/color/framework each node belongs to
+//   var i = Math.floor(Math.random() * m), // which cluster/color, need to change to framework
+//       r = 12, // size
+//       d = {cluster: i, radius: r}; // individual nodes that will be individual bubbles
+//       if (!clusters[i] || (r > clusters[i].radius)) clusters[i] = d;
+//       return d;
+//     });
+
+
+var nodes = [];
+
+var createNodes = function(n, framework){
+  var newNodes = d3.range(n).map(function() {
+  // determines which cluster/color/framework each node belongs to
+  var i = framework, // which cluster/color, need to change to framework
+      r = 10, // size
+      d = {cluster: i, radius: r, type: framework}; // individual nodes that will be individual bubbles
+      if (!clusters[i] || (r > clusters[i].radius)) clusters[i] = d;
+      return d;
+    });
+  nodes.push(newNodes);
+};
+
+
+// var arrays = [["$6"], ["$12"], ["$25"], ["$25"], ["$18"], ["$22"], ["$10"], ["$0"], ["$15"],["$3"], ["$75"], ["$5"], ["$100"], ["$7"], ["$3"], ["$75"], ["$5"]];
+// var merged = [];
+// merged = merged.concat.apply(merged, arrays);
+
+
 d3.json("/tally", function(error, json) {
   if (error) return console.warn(error);
   data = json;
   console.log(data);
+  for(var key in data){
+    createNodes(data[key], frameworks[key]);
+  }
+  var merged = [];
+  merged = merged.concat.apply(merged, nodes);
+  console.log(merged);
+  visualize(merged);
 });
 
-var width = 960,
-    height = 500,
-    padding = 0.5, // separation between same-color nodes
-    clusterPadding = 6, // separation between different-color nodes
-    maxRadius = 12;
-
-var n = 200, // total number of nodes
-    m = 10; // number of distinct clusters
-
-
-// need to distinguish color by framework
-var color = d3.scale.category10()
-    .domain(d3.range(m));
-
-// The largest node for each cluster.
-var clusters = new Array(m);
 
 // Need to import data from counter
 // d = individual nodes
@@ -42,46 +98,40 @@ var clusters = new Array(m);
 //                  VVVVVVVV
 // node needs a framework value to determine its color value
 // d3.range runs this function n number of times, adding d/node to an array of nodes
-var nodes = d3.range(n).map(function() {
-  // determines which cluster/color/framework each node belongs to
-  var i = Math.floor(Math.random() * m), // which cluster/color, need to change to framework
-      r = 12, // size
-      d = {cluster: i, radius: r}; // individual nodes that will be individual bubbles
-  if (!clusters[i] || (r > clusters[i].radius)) clusters[i] = d;
-  return d;
-});
 
 // Use the pack layout to initialize node positions.
-d3.layout.pack()
-    .sort(null)
-    .size([width, height])
-    .children(function(d) { return d.values; })
-    .value(function(d) { return d.radius * d.radius; })
-    .nodes({values: d3.nest()
-      .key(function(d) { return d.cluster; })
-      .entries(nodes)});
 
-var force = d3.layout.force()
-    .nodes(nodes)
-    .size([width, height])
-    .gravity(0.02)
-    .charge(1)
-    .on("tick", tick)
-    .start();
+var visualize = function(nodes){
+  d3.layout.pack()
+  .sort(null)
+  .size([width, height])
+  .children(function(d) { return d.values; })
+  .value(function(d) { return d.radius * d.radius; })
+  .nodes({values: d3.nest()
+    .key(function(d) { return d.cluster; })
+    .entries(nodes)});
 
-var svg = d3.select("body").append("svg")
-    .attr("width", width)
-    .attr("height", height);
+  var force = d3.layout.force()
+  .nodes(nodes)
+  .size([width, height])
+  .gravity(0.05)
+  .charge(0.1)
+  .on("tick", tick)
+  .start();
 
-var node = svg.selectAll("circle")
-    .data(nodes)
-    .enter().append("circle")
+  var svg = d3.select("body").append("svg")
+  .attr("width", width)
+  .attr("height", height);
+
+  var node = svg.selectAll("circle")
+  .data(nodes)
+  .enter().append("circle")
     // Need an if statement where each node gets color based on framwork
-    .style("fill", function(d) { return color(d.cluster); })
+    .style("fill", function(d) { return d.type; })
     .call(force.drag)
     .on("mousedown", function() { d3.event.stopPropagation(); });
 
-node.transition()
+    node.transition()
     .duration(750)
     .delay(function(d, i) { return i * 5; })
     .attrTween("r", function(d) {
@@ -92,10 +142,10 @@ node.transition()
 // function giving nodes location attributes
 function tick(e) {
   node
-      .each(cluster(10 * e.alpha * e.alpha))
-      .each(collide(0.5))
-      .attr("cx", function(d) { return d.x; })
-      .attr("cy", function(d) { return d.y; });
+  .each(cluster(10 * e.alpha * e.alpha))
+  .each(collide(0.1))
+  .attr("cx", function(d) { return d.x; })
+  .attr("cy", function(d) { return d.y; });
 }
 
 // Move d to be adjacent to the cluster node.
@@ -104,9 +154,9 @@ function cluster(alpha) {
     var cluster = clusters[d.cluster];
     if (cluster === d) return;
     var x = d.x - cluster.x,
-        y = d.y - cluster.y,
-        l = Math.sqrt(x * x + y * y),
-        r = d.radius + cluster.radius;
+    y = d.y - cluster.y,
+    l = Math.sqrt(x * x + y * y),
+    r = d.radius + cluster.radius;
     if (l != r) {
       l = (l - r) / l * alpha;
       d.x -= x *= l;
@@ -122,16 +172,16 @@ function collide(alpha) {
   var quadtree = d3.geom.quadtree(nodes);
   return function(d) {
     var r = d.radius + maxRadius + Math.max(padding, clusterPadding),
-        nx1 = d.x - r,
-        nx2 = d.x + r,
-        ny1 = d.y - r,
-        ny2 = d.y + r;
+    nx1 = d.x - r,
+    nx2 = d.x + r,
+    ny1 = d.y - r,
+    ny2 = d.y + r;
     quadtree.visit(function(quad, x1, y1, x2, y2) {
       if (quad.point && (quad.point !== d)) {
         var x = d.x - quad.point.x,
-            y = d.y - quad.point.y,
-            l = Math.sqrt(x * x + y * y),
-            r = d.radius + quad.point.radius + (d.cluster === quad.point.cluster ? padding : clusterPadding);
+        y = d.y - quad.point.y,
+        l = Math.sqrt(x * x + y * y),
+        r = d.radius + quad.point.radius + (d.cluster === quad.point.cluster ? padding : clusterPadding);
         if (l < r) {
           l = (l - r) / l * alpha;
           d.x -= x *= l;
@@ -144,4 +194,5 @@ function collide(alpha) {
     });
   };
 }
+};
 };
