@@ -6,14 +6,14 @@ var gulp = require('gulp'),
 
 
 gulp.task('jshint',function(){
-  return gulp.src('[/**/*.js]')
+  return gulp.src(['**/*.js', '!node_modules/**/*.js'])
     .pipe(jshint())
     .pipe(jshint.reporter('jshint-stylish'));
 });
 
 gulp.task('watch',function(){
 
-  gulp.watch(['/**/*.js'],['jshint']);
+  gulp.watch(['**/*.js','!./node_modules/**'],['jshint','webserver']);
 
 });
 
