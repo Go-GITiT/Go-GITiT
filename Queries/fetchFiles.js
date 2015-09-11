@@ -57,7 +57,11 @@ var getHtml = function() {
         
         if(jsonbody.items !== undefined && jsonbody.items.length > 0){
           jsonbody.items.forEach(function(val){
-            bod.items.push(val);
+            if(bod.items !== undefined){
+              bod.items.push(val);
+            } else {
+              bod.items = [val];
+            }
           });
         }
         
