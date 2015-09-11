@@ -14,7 +14,7 @@ console.log("We have started our server on port " + port);
 });
 
 app.get('/', function(req, res){
-	res.sendFile(path.join(__dirname, '../Client', 'Gitit.html'));
+	res.sendFile(path.join(__dirname, '../Client', 'index.html'));
 });
 
 app.get('/d3DataViz.js', function(req, res){
