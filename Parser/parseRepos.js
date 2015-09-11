@@ -107,7 +107,7 @@ var parseForJS = function(obj) {
       });
       repoStats.save(function(err) {
         if(err){
-          console.log(err);
+          console.log('Ignoring duplicate entry');
         }
         FetchedRepo.find({
           repo_name: obj.repo_name
