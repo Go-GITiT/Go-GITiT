@@ -62,7 +62,7 @@ var parseForJS = function(obj) {
     // create an object to track framework occurences
     if (!error && response.statusCode == 200) {
       // parse raw html for all strings ending in js 
-      if(obj.file_url.match(/package\.json/) !== null && reposFound.indexOf(obj.repo_namei + 'h') === -1){
+      if(obj.file_url.match(/package\.json/) !== null && reposFound.indexOf(obj.repo_name + 'h') === -1){
         body = JSON.parse(body);
 	      var dependencies = body.dependencies;
         for(var dep in dependencies){
