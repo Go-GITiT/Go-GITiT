@@ -60,10 +60,12 @@ var parseForJS = function(obj) {
   };
   request(obj.file_url, function(error, response, body) {
     // create an object to track framework occurences
+    if(error){
+      console.log(error);
+    }
     if (!error && response.statusCode == 200) {
       // parse raw html for all strings ending in js 
       if(obj.file_url.match(/package\.json/) !== null && reposFound.indexOf(obj.repo_name + 'h') === -1){
-        body = JSON.parse(body);
 	      var dependencies = body.dependencies;
         for(var dep in dependencies){
           // loop through our comparators
@@ -90,7 +92,7 @@ var parseForJS = function(obj) {
               // to see if that string is contained in our js strings
               if (foundlib.contains(key2, true)) {
                 repoData.libraryCollection[key2] = true;
-                reposFound.push(obj.repo_name = 'h');
+                reposFound.push(obj.repo_name + 'h');
                 // set that framework to true indicating use
                 console.log('STORING INDEX: ' + obj.repo_name);
               }
