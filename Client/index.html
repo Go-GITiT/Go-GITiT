@@ -1,23 +1,74 @@
-<!DOCTYPE html>
-<html>
+<!Doctype html>
+<html lang="en">
+
 <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <title>Gitit</title>
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="style.css">
+  <style>
+    #bar-chart div {
+      font: 10px sans-serif;
+      background-color: steelblue;
+      text-align: right;
+      padding: 3px;
+      margin: 1px;
+      color: black;
+    }
+    .axis path {
+      fill: none;
+      stroke: #777;
+      shape-rendering: crispEdges;
+    }
+    .axis text {
+      font-family: Lato;
+      font-size: 13px;
+    }
+  </style>
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
-  <script src="d3DataViz.js"></script>
+  <!--<script src="d3DataViz.js"></script>-->
+  <script src="linechart.js"></script>
+  <script src="bar.js"></script>
 
 </head>
-<body class="container">
-  <nav class = "nav-bar"></nav>
-    <h1> GITiT</h1>
-  
-<div class="row">
-  <div class="col-md-8">hello</div>
-  <div class="col-md-4">bye</div>
-</div>
 
+<body>
+  <section class="container">
+    <header class="container">
+      <section class="col-md-4">
+        <h1> GITiT</h1>
+      </section>
+      <section class="col-md-8">
+        <nav class="nav-bar"><a href="about.html" class="btn btn-default btn-xs" role="button">About</a>
+        </nav>
+      </section>
+    </header>
+
+    <section class="row show-grid">
+      <div class="col-md-4">
+        <ul type="disc">
+          <li><a href="#" class="btn btn-default btn-sm disabled active" role="button">CLuster</a>
+          </li>
+          <li><a href="#" class="btn btn-default btn-sm" role="button">Bar</a>
+          </li>
+          <li><a href="#" class="btn btn-default btn-sm" role="button">Line</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-8">
+        <div id="bar-chart"></div>
+        <svg id="line-chart" width="1000px" height="720px">
+      </div>
+      </div>
+    </section>
+    <footer>footer, son!</footer>
+  </section>
 </body>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
 </html>
