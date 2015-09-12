@@ -34,6 +34,7 @@ var parseFiles = function() {
         } else {
           clearInterval(interval); // CLEARS THE INTERVAL WHEN THE REPOOBJS ARRAY IS EMPTY 
           emitPubNubEvent();
+          setTimeout(db.close, 3000);
         }
       }, 100);
     }
