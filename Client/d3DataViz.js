@@ -15,48 +15,48 @@ spine : '#7f7f7f',
 flight : '#9edae5'
 };
 
-var width = 960,
-    height = 800,
-    padding = 0.2, // separation between same-color nodes
-    clusterPadding = 3, // separation between different-color nodes
-    maxRadius = 10;
+  var width = 480,
+      height = 400,
+      padding = 0.2, // separation between same-color nodes
+      clusterPadding = 3, // separation between different-color nodes
+      maxRadius = 10;
 
-// var n = 1000, // total number of nodes
-    m = Object.keys(frameworks).length; // number of distinct clusters
-
-
-// need to distinguish color by framework
-var color = d3.scale.category20()
-.domain(d3.range(m));
-
-// The largest node for each cluster.
-var clusters = new Array(m);
-
-// for each name in data object, invoke function to create nodes, n = data[name] value
-// push and join resulting array to nodes array
-// i will be color relative to data[name]
-// var nodes = [];
+  // var n = 1000, // total number of nodes
+  m = Object.keys(frameworks).length; // number of distinct clusters
 
 
+  // need to distinguish color by framework
+  var color = d3.scale.category20()
+        .domain(d3.range(m));
 
-// var nodes = d3.range(n).map(function() {
-//   // determines which cluster/color/framework each node belongs to
-//   var i = Math.floor(Math.random() * m), // which cluster/color, need to change to framework
-//       r = 12, // size
-//       d = {cluster: i, radius: r}; // individual nodes that will be individual bubbles
-//       if (!clusters[i] || (r > clusters[i].radius)) clusters[i] = d;
-//       return d;
-//     });
+  // The largest node for each cluster.
+  var clusters = new Array(m);
+
+  // for each name in data object, invoke function to create nodes, n = data[name] value
+  // push and join resulting array to nodes array
+  // i will be color relative to data[name]
+  // var nodes = [];
 
 
-var nodes = [];
 
-var createNodes = function(n, framework){
-  var newNodes = d3.range(n).map(function() {
-  // determines which cluster/color/framework each node belongs to
-  var i = framework, // which cluster/color, need to change to framework
-      r = 10, // size
-      d = {cluster: i, radius: r, type: framework}; // individual nodes that will be individual bubbles
+  // var nodes = d3.range(n).map(function() {
+  //   // determines which cluster/color/framework each node belongs to
+  //   var i = Math.floor(Math.random() * m), // which cluster/color, need to change to framework
+  //       r = 12, // size
+  //       d = {cluster: i, radius: r}; // individual nodes that will be individual bubbles
+  //       if (!clusters[i] || (r > clusters[i].radius)) clusters[i] = d;
+  //       return d;
+  //     });
+
+
+  var nodes = [];
+
+  var createNodes = function(n, framework){
+    var newNodes = d3.range(n).map(function() {
+      // determines which cluster/color/framework each node belongs to
+      var i = framework, // which cluster/color, need to change to framework
+          r = 10, // size
+          d = {cluster: i, radius: r, type: framework}; // individual nodes that will be individual bubbles
       if (!clusters[i] || (r > clusters[i].radius)) clusters[i] = d;
       return d;
     });
@@ -119,7 +119,7 @@ var visualize = function(nodes){
   .on("tick", tick)
   .start();
 
-  var svg = d3.select("body").append("svg")
+  var svg = d3.select("#chart").append("svg")
   .attr("width", width)
   .attr("height", height);
 
