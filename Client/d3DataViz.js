@@ -17,8 +17,8 @@ flight : '#9edae5'
 
 var width = 960,
     height = 800,
-    padding = 0.75, // separation between same-color nodes
-    clusterPadding = 4, // separation between different-color nodes
+    padding = 0.2, // separation between same-color nodes
+    clusterPadding = 3, // separation between different-color nodes
     maxRadius = 10;
 
 // var n = 1000, // total number of nodes
@@ -115,8 +115,8 @@ var visualize = function(nodes){
   var force = d3.layout.force()
   .nodes(nodes)
   .size([width, height])
-  .gravity(0.10)
-  .charge(0)
+  .gravity(0.05)
+  .charge(0.1)
   .on("tick", tick)
   .start();
 
@@ -133,7 +133,7 @@ var visualize = function(nodes){
     .on("mousedown", function() { d3.event.stopPropagation(); });
 
     node.transition()
-    .duration(350)
+    .duration(750)
     .delay(function(d, i) { return i * 5; })
     .attrTween("r", function(d) {
       var i = d3.interpolate(0, d.radius);
@@ -144,7 +144,7 @@ var visualize = function(nodes){
 function tick(e) {
   node
   .each(cluster(10 * e.alpha * e.alpha))
-  .each(collide(0.2))
+  .each(collide(0.1))
   .attr("cx", function(d) { return d.x; })
   .attr("cy", function(d) { return d.y; });
 }
