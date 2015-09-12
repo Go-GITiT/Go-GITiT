@@ -15,11 +15,11 @@ spine : '#7f7f7f',
 flight : '#9edae5'
 };
 
-var width = 960,
-    height = 800,
-    padding = 0.2, // separation between same-color nodes
+var width = 600,
+    height = 600,
+    padding = 0.1, // separation between same-color nodes
     clusterPadding = 3, // separation between different-color nodes
-    maxRadius = 10;
+    maxRadius = 7;
 
 // var n = 1000, // total number of nodes
     m = Object.keys(frameworks).length; // number of distinct clusters
@@ -56,7 +56,7 @@ var createNodes = function(n, framework){
   var newNodes = d3.range(n).map(function() {
   // determines which cluster/color/framework each node belongs to
   var i = framework, // which cluster/color, need to change to framework
-      r = 10, // size
+      r = 7, // size
       d = {cluster: i, radius: r, type: framework}; // individual nodes that will be individual bubbles
       if (!clusters[i] || (r > clusters[i].radius)) clusters[i] = d;
       return d;
@@ -120,7 +120,7 @@ var visualize = function(nodes){
   .on("tick", tick)
   .start();
 
-  var svg = d3.select("body").append("svg")
+  var svg = d3.select("#chart").append("svg")
   .attr("width", width)
   .attr("height", height);
 

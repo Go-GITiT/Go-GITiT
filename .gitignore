@@ -1,5 +1,6 @@
 api.js
 node_modules
+.sass-cache
 *.pem
 /Queries/.tern-port
 /.DS_Store

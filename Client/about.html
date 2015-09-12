@@ -1,26 +1,87 @@
 <!DOCTYPE html>
-<html>
+
+<html lang="en">
+
 <head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Gitit</title>
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="style.css">
+
+
+  <title>Go Gitit</title>
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+
+  <!-- Custom CSS -->
+  <link href="style.css" rel="stylesheet">
+  <!-- Custom Fonts -->
+  <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+  <link href="http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="//code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
 </head>
-<body class="container">
-  <nav class = "nav-bar"></nav>
-    <h1> GITiT</h1>
-  
-<div class="row">
-  <div class="col-md-8">About</div>
-</div>
 
-<div>
-<p>
-GOGITiT was created as a group thesis project at Telegraph Academy. Seeing that github had no identifiers itself to give users information on what frameworks are being used based on popularity, the goal was to find a way to retrieve and display this data by order of frequency. 
+<body class="index">
 
-To achieve this goal we used Google's Big Query to retrieve daily activity from Github's API for all javascript repos. By parsing through the package.json and index.html files of each repo we were able to keep individual records of the frameworks being used and keep a cumulative count of the occurences that we would display using a series of D3 data visualization graphs.
-</div>
+ 
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>
+        </button>
+        <a href="index.html">
+          <img class="col-xs-6 " src="gititlogo.png" >
+        </a>
+      </div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
+        </li>
+        <li class="active">
+          <li class="page-scroll  active">
+            <a href="about.html">About</a>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </nav>
+
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="intro-text">
+            
+
+            
+            GOGITiT was created as a group thesis project at Telegraph Academy. Seeing that github had no identifiers itself to give users information on what frameworks are being used based on popularity, the goal was to find a way to retrieve and display this data by order of frequency. 
+
+            To achieve this goal we used Google's Big Query to retrieve daily activity from Github's API for all javascript repos. By parsing through the package.json and index.html files of each repo we were able to keep individual records of the frameworks being used and keep a cumulative count of the occurences that we would display using a series of D3 data visualization graphs.
+            
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <footer>
+    
+    
+  </footer>
 
 </body>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </html>
+
+
