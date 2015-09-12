@@ -25,45 +25,6 @@ function InitChart() {
 
     console.log(frameworks);
 
-    var data = [{
-      "sale": "202",
-      "year": "2000"
-    }, {
-      "sale": "215",
-      "year": "2002"
-    }, {
-      "sale": "179",
-      "year": "2004"
-    }, {
-      "sale": "199",
-      "year": "2006"
-    }, {
-      "sale": "134",
-      "year": "2008"
-    }, {
-      "sale": "176",
-      "year": "2010"
-    }];
-    var data2 = [{
-      "sale": "152",
-      "year": "2000"
-    }, {
-      "sale": "189",
-      "year": "2002"
-    }, {
-      "sale": "179",
-      "year": "2004"
-    }, {
-      "sale": "199",
-      "year": "2006"
-    }, {
-      "sale": "134",
-      "year": "2008"
-    }, {
-      "sale": "176",
-      "year": "2010"
-    }];
-
     var vis = d3.select("#line-chart"),
         WIDTH = 500,
         HEIGHT = 250,
