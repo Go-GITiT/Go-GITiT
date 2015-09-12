@@ -52,6 +52,7 @@ var clusters = new Array(m);
 var nodes = [];
 
 var createNodes = function(n, framework){
+  n = Math.ceil(n/5);  
   var newNodes = d3.range(n).map(function() {
   // determines which cluster/color/framework each node belongs to
   var i = framework, // which cluster/color, need to change to framework
