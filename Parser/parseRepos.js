@@ -16,7 +16,6 @@ String.prototype.contains = function(str, ignoreCase) {
     .indexOf(ignoreCase ? str.toUpperCase() : str) >= 0;
 };
 var repoObjs;
-var numFilesToParse;
 var reposFound = [];
 
 var parseFiles = function() {
@@ -25,15 +24,13 @@ var parseFiles = function() {
       throw err;
     } else {
       repoObjs = data;
-      numFilesToParse = repoObjs.length;
       var interval = setInterval(function(){
         if(repoObjs.length > 0){
-          parseForJS(repoObjs.pop());
+          var currRepo = repoObjs.pop(); 
+          parseForJS(currRepo);
           FetchedRepo.find({
-            repo_name: obj.repo_name
-          }).remove(function(){
-            numFilesToParse--;
-          }).exec();
+            repo_name: currRepo.repo_name
+          }).remove().exec();
         } else {
           clearInterval(interval); // CLEARS THE INTERVAL WHEN THE REPOOBJS ARRAY IS EMPTY 
           emitPubNubEvent();
