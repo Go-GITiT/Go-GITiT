@@ -8,3 +8,4 @@ node_modules
 /Queries/.DS_Store
 /Schemas/.tern-port
 /Parser/.tern-port
+/.DS_Store
