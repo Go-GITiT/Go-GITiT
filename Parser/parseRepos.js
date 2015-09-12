@@ -3,7 +3,6 @@ var FetchedRepo = require('../Schemas/fetchedRepos.js').FetchedRepo;
 var Results = require('../Schemas/result.js').Results;
 //var api = require('../api.js');
 var db = require('../Schemas/config.js');
-
 var pubnubPublishKey = process.env.PUBNUB_PUBLISH_KEY || api.PUBNUB_PUBLISH_KEY;
 var pubnubSubscribeKey = process.env.PUBNUB_SUBSCRIBE_KEY || api.PUBNUB_SUBSCRIBE_KEY;
 var pubnub = require("pubnub")({
@@ -16,8 +15,6 @@ String.prototype.contains = function(str, ignoreCase) {
   return (ignoreCase ? this.toUpperCase() : this)
     .indexOf(ignoreCase ? str.toUpperCase() : str) >= 0;
 };
-// sample url just for testing
-// REGEX /\S*.js\w*/gi 
 var repoObjs;
 var numFilesToParse;
 var reposFound = [];
@@ -32,8 +29,13 @@ var parseFiles = function() {
       var interval = setInterval(function(){
         if(repoObjs.length > 0){
           parseForJS(repoObjs.pop());
+          FetchedRepo.find({
+            repo_name: obj.repo_name
+          }).remove(function(){
+            numFilesToParse--;
+          }).exec();
         } else {
-          clearInterval(interval);
+          clearInterval(interval); // CLEARS THE INTERVAL WHEN THE REPOOBJS ARRAY IS EMPTY 
           emitPubNubEvent();
         }
       }, 100);
@@ -111,11 +113,6 @@ var parseForJS = function(obj) {
         if(err){
           console.log('Ignoring duplicate entry');
         }
-        FetchedRepo.find({
-          repo_name: obj.repo_name
-        }).remove(function(){
-          numFilesToParse --;
-        }).exec();
       });
     }
   });
