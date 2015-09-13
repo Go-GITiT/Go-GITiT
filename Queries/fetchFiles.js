@@ -21,7 +21,7 @@ var retrieveFiles = function() {
       throw err;
     } else {
       fullnames = data; //data array, retrieved from DB
-      getHtml(); //
+      getHtml(); 
     }
   });
 };
@@ -29,6 +29,10 @@ var retrieveFiles = function() {
 var getHtml = function() {
   if (fullnames.length > 0) {
     var repoObj = fullnames.pop();
+    QueryData.find({
+      repo_name: repoObj.repo_name
+    }).remove().exec();
+  
     var apiUser = process.env.GITHUB_API_NAME || api.API_NAME;
     var apiToken = process.env.GITHUB_API_TOKEN || api.API_TOKEN;
     var req = {
@@ -57,7 +61,11 @@ var getHtml = function() {
         
         if(jsonbody.items !== undefined && jsonbody.items.length > 0){
           jsonbody.items.forEach(function(val){
-            bod.items.push(val);
+            if(bod.items !== undefined){
+              bod.items.push(val);
+            } else {
+              bod.items = [val];
+            }
           });
         }
         
@@ -85,9 +93,6 @@ var getHtml = function() {
                 if (err) {
                   console.error('Duplicate record not saved. Script: FETCHFILES.JS');
                 }
-                QueryData.find({
-                  repo_name: repoObj.repo_name
-                }).remove().exec();
                 i++;
                 saveUrlsToDB();
               });
@@ -98,17 +103,12 @@ var getHtml = function() {
 
           saveUrlsToDB();
         } else {
-
-          QueryData.find({
-            repo_name: repoObj.repo_name
-          }).remove().exec();
-
           setTimeout(getHtml.bind(this), 2500);
         }
       });
     });
   } else {
-    db.close();
+    setTimeout(db.close, 3000);
     emitPubNubEvent();
   }
 };

@@ -11,11 +11,10 @@ var port = process.env.PORT || 1111;
 
 app.listen(port, function() {
   console.log("We have started our server on port " + port);
-
 });
 
 app.get('/', function(req, res) {
-  res.sendFile(path.join(__dirname, '../Client', 'Gitit.html'));
+  res.sendFile(path.join(__dirname, '../Client', 'index.html'));
 });
 
 app.get('/d3DataViz.js', function(req, res) {
@@ -28,8 +27,8 @@ app.get('/tally', function(req, res) {
   });
 });
 
-app.get('/snapshots', function(req, res){
-  snapshots(function(snaps){
+app.get('/snapshots', function(req, res) {
+  snapshots(function(snaps) {
     res.send(snaps);
   });
 });
