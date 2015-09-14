@@ -36,10 +36,15 @@ function initBarChart() {
         console.log(x(d.v) + "px");
         return x(d.v) + "px"; //x(parseInt(d.v)) + "px";
       })
+      .style("background-color", function(d){
+        var color = frameworks[d.t];
+        color = color || '#333';
+        return color;
+      })
       .text(function(d) {
         return d.t;
       });
-    console.log('do some mutherfucking shit!');
+
   });
 
 

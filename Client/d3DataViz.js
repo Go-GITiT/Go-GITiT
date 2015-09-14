@@ -1,3 +1,14 @@
+var frameworks = {
+  react: '#1f77b4',
+  ember: '#ff7f0e',
+  mithril: '#2ca02c',
+  angular: '#d62728',
+  backbone: '#9467bd',
+  polymer: '#e377c2',
+  spine: '#7f7f7f',
+  flight: '#9edae5'
+};
+
 window.onload = function() {
 
   initBarChart();
@@ -5,16 +16,16 @@ window.onload = function() {
   
   var data; // a global
 
-  var frameworks = {
-    react: '#1f77b4',
-    ember: '#ff7f0e',
-    mithril: '#2ca02c',
-    angular: '#d62728',
-    backbone: '#9467bd',
-    polymer: '#e377c2',
-    spine: '#7f7f7f',
-    flight: '#9edae5'
-  };
+  // var frameworks = {
+  //   react: '#1f77b4',
+  //   ember: '#ff7f0e',
+  //   mithril: '#2ca02c',
+  //   angular: '#d62728',
+  //   backbone: '#9467bd',
+  //   polymer: '#e377c2',
+  //   spine: '#7f7f7f',
+  //   flight: '#9edae5'
+  // };
 
   var width = 600,
       height = 600,
