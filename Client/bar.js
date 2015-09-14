@@ -1,6 +1,4 @@
-window.onload = function() {
-
-  InitChart();
+function initBarChart() {
   
   d3.json("/tally", function(error, json) {
     if (error) return console.warn(error);

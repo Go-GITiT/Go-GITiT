@@ -1,5 +1,8 @@
 window.onload = function() {
 
+  initBarChart();
+  initLineChart();
+  
   var data; // a global
 
   var frameworks = {
