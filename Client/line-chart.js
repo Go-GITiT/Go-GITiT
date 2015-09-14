@@ -1,6 +1,6 @@
 function initLineChart() {
 
-  
+
   var maxTime = Number.MIN_VALUE;
   var minTime = Number.MAX_VALUE;
   var frameworkData = {};
@@ -24,10 +24,10 @@ function initLineChart() {
         });
       }
     });
-    
+
     var div = d3.select("#line-chart"),
         WIDTH = 500,
-        HEIGHT = 250,
+        HEIGHT = 320,
         vis = div.append("svg")
           .attr("width", WIDTH)
           .attr("height", HEIGHT),
@@ -53,20 +53,20 @@ function initLineChart() {
       .attr("class", "y axis")
       .attr("transform", "translate(" + (MARGINS.left) + ",0)")
       .call(yAxis);
-    
+
     var lineGen = d3.svg.line()
-      .x(function(d) {
-        return xScale(d.year);
-      })
-      .y(function(d) {
-        return yScale(d.sale);
-      })
-      .interpolate("basis");
+          .x(function(d) {
+            return xScale(d.year);
+          })
+          .y(function(d) {
+            return yScale(d.sale);
+          });
+    // .interpolate("basis");
 
     for (var fw in frameworkData) {
       vis.append('svg:path')
         .attr('d', lineGen(frameworkData[fw]))
-        .attr('stroke', 'green')
+        .attr('stroke', frameworkColor[fw])
         .attr('stroke-width', 2)
         .attr('fill', 'none');
     }
