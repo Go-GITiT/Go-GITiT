@@ -1,3 +1,4 @@
+<<<<<<< HEAD
   var frameworkColor = {
     react: '#1f77b4',
     ember: '#ff7f0e',
@@ -13,7 +14,25 @@ window.onload = function() {
 
 
   var data; // a global
+=======
+var frameworkColor = {
+  react: '#1f77b4',
+  ember: '#ff7f0e',
+  mithril: '#2ca02c',
+  angular: '#d62728',
+  backbone: '#9467bd',
+  polymer: '#e377c2',
+  spine: '#7f7f7f',
+  flight: '#9edae5'
+};
 
+window.onload = function() {
+
+  initBarChart();
+  initLineChart();
+>>>>>>> f53463bfa9e98825fffea549e3432a9f5b44c2e5
+
+  var data; // a global
 
   var width = 600,
       height = 600,
@@ -23,8 +42,7 @@ window.onload = function() {
 
   // var n = 1000, // total number of nodes
   m = Object.keys(frameworkColor).length; // number of distinct clusters
-
-
+  
   // need to distinguish color by framework
   var color = d3.scale.category20()
         .domain(d3.range(m));
@@ -37,8 +55,6 @@ window.onload = function() {
   // i will be color relative to data[name]
   // var nodes = [];
 
-
-
   // var nodes = d3.range(n).map(function() {
   //   // determines which cluster/color/framework each node belongs to
   //   var i = Math.floor(Math.random() * m), // which cluster/color, need to change to framework
@@ -48,31 +64,34 @@ window.onload = function() {
   //       return d;
   //     });
 
-
   var nodes = [];
-
-
-var createNodes = function(n, framework){
-  n = Math.ceil(n/10);
-  var newNodes = d3.range(n).map(function() {
-  // determines which cluster/color/framework each node belongs to
-  var i = framework, // which cluster/color, need to change to framework
-      r = 7, // size
-      d = {cluster: i, radius: r, type: framework}; // individual nodes that will be individual bubbles
+  var createNodes = function(n, framework) {
+    n = Math.ceil(n / 10);
+    var newNodes = d3.range(n).map(function() {
+      // determines which cluster/color/framework each node belongs to
+      var i = framework, // which cluster/color, need to change to framework
+          r = 7, // size
+          d = {
+            cluster: i,
+            radius: r,
+            type: framework
+          }; // individual nodes that will be individual bubbles
       if (!clusters[i] || (r > clusters[i].radius)) clusters[i] = d;
       return d;
     });
     nodes.push(newNodes);
   };
 
-
   // var arrays = [["$6"], ["$12"], ["$25"], ["$25"], ["$18"], ["$22"], ["$10"], ["$0"], ["$15"],["$3"], ["$75"], ["$5"], ["$100"], ["$7"], ["$3"], ["$75"], ["$5"]];
   // var merged = [];
   // merged = merged.concat.apply(merged, arrays);
+<<<<<<< HEAD
 var resultCountColor = function(key, value){
       var keyCount = $("<span>").append(""+key+": "+value+"<br>"+"").css("color", frameworkColor[key]);
       $("#statCounts").append(keyCount);
 };
+=======
+>>>>>>> f53463bfa9e98825fffea549e3432a9f5b44c2e5
 
   d3.json("/tally", function(error, json) {
     if (error) return console.warn(error);
@@ -90,7 +109,6 @@ var resultCountColor = function(key, value){
     console.log(merged);
     visualize(merged);
   });
-
 
   // Need to import data from counter
   // d = individual nodes
