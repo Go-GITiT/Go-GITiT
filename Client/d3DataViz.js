@@ -1,18 +1,37 @@
-var frameworkColor = {
-  react: '#1f77b4',
-  ember: '#ff7f0e',
-  mithril: '#2ca02c',
-  angular: '#d62728',
-  backbone: '#9467bd',
-  polymer: '#e377c2',
-  spine: '#7f7f7f',
-  flight: '#9edae5'
-};
+  var frameworkColor = {
+    react: '#1f77b4',
+    ember: '#ff7f0e',
+    mithril: '#2ca02c',
+    angular: '#d62728',
+    backbone: '#9467bd',
+    polymer: '#e377c2',
+    spine: '#7f7f7f',
+    flight: '#9edae5',
+  };
 
 window.onload = function() {
 
-  initBarChart();
-  initLineChart();
+$("#bar-chart").hide();
+$("#line-chart").hide();
+
+$("#bubbleChartButton").click(function(){
+    $("#line-chart").hide();
+    $("#bar-chart").hide();
+    $("#chart").show();
+});
+
+
+$("#barGraphButton").click(function(){
+  $("#chart").hide();
+  $("#line-chart").hide();
+  $("#bar-chart").show();
+});
+
+$("#lineGraphButton").click(function(){
+  $("#chart").hide();
+  $("#bar-chart").hide();
+  $("#line-chart").show();
+});
 
   var data; // a global
 
@@ -68,12 +87,22 @@ window.onload = function() {
   // var merged = [];
   // merged = merged.concat.apply(merged, arrays);
 
+var resultCountColor = function(key, value){
+      var keyCount = $("<span>").append(""+key+": "+value+"<br>"+"").css("color", frameworkColor[key]);
+      $("#statCounts").append(keyCount);
+};
+
+
   d3.json("/tally", function(error, json) {
     if (error) return console.warn(error);
     data = json;
     console.log(data);
     for (var key in data) {
+  
+      resultCountColor(key, data[key]);
+
       createNodes(data[key], frameworkColor[key]);
+    
     }
     var merged = [];
     merged = merged.concat.apply(merged, nodes);
@@ -213,4 +242,10 @@ window.onload = function() {
       };
     }
   };
+
+
+
+  initBarChart();
+  initLineChart();
+  
 };
