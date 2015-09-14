@@ -13,7 +13,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use(express.static('../Client'));
+app.use(express.static(path.join(__dirname, '../Client')));
 
 app.listen(port, function() {
   console.log("We have started our server on port " + port);
