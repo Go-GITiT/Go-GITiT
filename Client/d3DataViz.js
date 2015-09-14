@@ -52,18 +52,7 @@ window.onload = function() {
 
   var nodes = [];
 
-  var createNodes = function(n, framework) {
-    var newNodes = d3.range(n).map(function() {
-      // determines which cluster/color/framework each node belongs to
-      var i = framework, // which cluster/color, need to change to framework
-          r = 10, // size
-          d = {
-            cluster: i,
-            radius: r,
-            type: framework
-          }; // individual nodes that will be individual bubbles
 
-<<<<<<< HEAD
 var createNodes = function(n, framework){
   n = Math.ceil(n/10);
   var newNodes = d3.range(n).map(function() {
@@ -71,8 +60,6 @@ var createNodes = function(n, framework){
   var i = framework, // which cluster/color, need to change to framework
       r = 7, // size
       d = {cluster: i, radius: r, type: framework}; // individual nodes that will be individual bubbles
-=======
->>>>>>> e10a1e6b9f43fe4bec42048fbde0cf2a0c5bb1f3
       if (!clusters[i] || (r > clusters[i].radius)) clusters[i] = d;
       return d;
     });
