@@ -6,14 +6,12 @@
     backbone: '#9467bd',
     polymer: '#e377c2',
     spine: '#7f7f7f',
-    flight: '#9edae5'
+    flight: '#9edae5',
   };
 
 window.onload = function() {
 
-  initBarChart();
-  initLineChart();
-  
+
   var data; // a global
 
 
@@ -71,14 +69,21 @@ var createNodes = function(n, framework){
   // var arrays = [["$6"], ["$12"], ["$25"], ["$25"], ["$18"], ["$22"], ["$10"], ["$0"], ["$15"],["$3"], ["$75"], ["$5"], ["$100"], ["$7"], ["$3"], ["$75"], ["$5"]];
   // var merged = [];
   // merged = merged.concat.apply(merged, arrays);
-
+var resultCountColor = function(key, value){
+      var keyCount = $("<span>").append(""+key+": "+value+"<br>"+"").css("color", frameworkColor[key]);
+      $("#statCounts").append(keyCount);
+};
 
   d3.json("/tally", function(error, json) {
     if (error) return console.warn(error);
     data = json;
     console.log(data);
     for (var key in data) {
+  
+      resultCountColor(key, data[key]);
+
       createNodes(data[key], frameworkColor[key]);
+    
     }
     var merged = [];
     merged = merged.concat.apply(merged, nodes);
@@ -219,4 +224,10 @@ var createNodes = function(n, framework){
       };
     }
   };
+
+
+
+  initBarChart();
+  initLineChart();
+  
 };
