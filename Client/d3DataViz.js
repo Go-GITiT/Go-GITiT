@@ -1,11 +1,4 @@
-window.onload = function() {
-
-  initBarChart();
-  initLineChart();
-  
-  var data; // a global
-
-  var frameworks = {
+  var frameworkColor = {
     react: '#1f77b4',
     ember: '#ff7f0e',
     mithril: '#2ca02c',
@@ -16,6 +9,14 @@ window.onload = function() {
     flight: '#9edae5'
   };
 
+window.onload = function() {
+
+  initBarChart();
+  initLineChart();
+  
+  var data; // a global
+
+
   var width = 600,
       height = 600,
       padding = 0.1, // separation between same-color nodes
@@ -23,7 +24,7 @@ window.onload = function() {
       maxRadius = 7;
 
   // var n = 1000, // total number of nodes
-  m = Object.keys(frameworks).length; // number of distinct clusters
+  m = Object.keys(frameworkColor).length; // number of distinct clusters
 
 
   // need to distinguish color by framework
@@ -52,17 +53,14 @@ window.onload = function() {
 
   var nodes = [];
 
-  var createNodes = function(n, framework) {
-    var newNodes = d3.range(n).map(function() {
-      // determines which cluster/color/framework each node belongs to
-      var i = framework, // which cluster/color, need to change to framework
-          r = 10, // size
-          d = {
-            cluster: i,
-            radius: r,
-            type: framework
-          }; // individual nodes that will be individual bubbles
 
+var createNodes = function(n, framework){
+  n = Math.ceil(n/10);
+  var newNodes = d3.range(n).map(function() {
+  // determines which cluster/color/framework each node belongs to
+  var i = framework, // which cluster/color, need to change to framework
+      r = 7, // size
+      d = {cluster: i, radius: r, type: framework}; // individual nodes that will be individual bubbles
       if (!clusters[i] || (r > clusters[i].radius)) clusters[i] = d;
       return d;
     });
@@ -80,7 +78,7 @@ window.onload = function() {
     data = json;
     console.log(data);
     for (var key in data) {
-      createNodes(data[key], frameworks[key]);
+      createNodes(data[key], frameworkColor[key]);
     }
     var merged = [];
     merged = merged.concat.apply(merged, nodes);
@@ -97,7 +95,7 @@ window.onload = function() {
   // each node will have a name property, related to its representative framework
   // the representative framework will determine its color given a number 1-10
 
-  // loop through the frameworks
+  // loop through the frameworkColor
   // the number of occurences is how many nodes we will make of the same name and color
 
   // Creator function ||||||||
