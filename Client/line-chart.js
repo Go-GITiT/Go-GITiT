@@ -65,7 +65,7 @@ function initLineChart() {
 
     for (var fw in frameworkData) {
       vis.append('svg:path')
-        .attr('d', lineGen(frameworksData[fw]))
+        .attr('d', lineGen(frameworkData[fw]))
         .attr('stroke', frameworkColor[fw])
         .attr('stroke-width', 2)
         .attr('fill', 'none');
