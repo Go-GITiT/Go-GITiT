@@ -18,8 +18,8 @@ function initBarChart() {
       max = Math.max(max, v);
     }
 
-    BARHEIGHT = Math.round(HEIGHT / data. length);
-    
+    BARHEIGHT = Math.round(HEIGHT / data.length);
+
     var x = d3.scale.linear()
           .domain([0, max])
           .range([0, WIDTH]);
