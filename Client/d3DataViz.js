@@ -1,4 +1,4 @@
-  var frameworks = {
+  var frameworkColor = {
     react: '#1f77b4',
     ember: '#ff7f0e',
     mithril: '#2ca02c',
@@ -8,7 +8,7 @@
     spine: '#7f7f7f',
     flight: '#9edae5'
   };
-  
+
 window.onload = function() {
 
   initBarChart();
@@ -24,7 +24,7 @@ window.onload = function() {
       maxRadius = 7;
 
   // var n = 1000, // total number of nodes
-  m = Object.keys(frameworks).length; // number of distinct clusters
+  m = Object.keys(frameworkColor).length; // number of distinct clusters
 
 
   // need to distinguish color by framework
@@ -78,7 +78,7 @@ var createNodes = function(n, framework){
     data = json;
     console.log(data);
     for (var key in data) {
-      createNodes(data[key], frameworks[key]);
+      createNodes(data[key], frameworkColor[key]);
     }
     var merged = [];
     merged = merged.concat.apply(merged, nodes);
@@ -95,7 +95,7 @@ var createNodes = function(n, framework){
   // each node will have a name property, related to its representative framework
   // the representative framework will determine its color given a number 1-10
 
-  // loop through the frameworks
+  // loop through the frameworkColor
   // the number of occurences is how many nodes we will make of the same name and color
 
   // Creator function ||||||||
