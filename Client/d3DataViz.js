@@ -1,4 +1,3 @@
-<<<<<<< HEAD
   var frameworkColor = {
     react: '#1f77b4',
     ember: '#ff7f0e',
@@ -12,25 +11,6 @@
 
 window.onload = function() {
 
-
-  var data; // a global
-=======
-var frameworkColor = {
-  react: '#1f77b4',
-  ember: '#ff7f0e',
-  mithril: '#2ca02c',
-  angular: '#d62728',
-  backbone: '#9467bd',
-  polymer: '#e377c2',
-  spine: '#7f7f7f',
-  flight: '#9edae5'
-};
-
-window.onload = function() {
-
-  initBarChart();
-  initLineChart();
->>>>>>> f53463bfa9e98825fffea549e3432a9f5b44c2e5
 
   var data; // a global
 
@@ -85,13 +65,12 @@ window.onload = function() {
   // var arrays = [["$6"], ["$12"], ["$25"], ["$25"], ["$18"], ["$22"], ["$10"], ["$0"], ["$15"],["$3"], ["$75"], ["$5"], ["$100"], ["$7"], ["$3"], ["$75"], ["$5"]];
   // var merged = [];
   // merged = merged.concat.apply(merged, arrays);
-<<<<<<< HEAD
+
 var resultCountColor = function(key, value){
       var keyCount = $("<span>").append(""+key+": "+value+"<br>"+"").css("color", frameworkColor[key]);
       $("#statCounts").append(keyCount);
 };
-=======
->>>>>>> f53463bfa9e98825fffea549e3432a9f5b44c2e5
+
 
   d3.json("/tally", function(error, json) {
     if (error) return console.warn(error);
