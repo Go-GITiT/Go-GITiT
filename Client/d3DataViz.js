@@ -1,10 +1,3 @@
-window.onload = function() {
-
-  initBarChart();
-  initLineChart();
-  
-  var data; // a global
-
   var frameworks = {
     react: '#1f77b4',
     ember: '#ff7f0e',
@@ -15,6 +8,14 @@ window.onload = function() {
     spine: '#7f7f7f',
     flight: '#9edae5'
   };
+  
+window.onload = function() {
+
+  initBarChart();
+  initLineChart();
+  
+  var data; // a global
+
 
   var width = 600,
       height = 600,
