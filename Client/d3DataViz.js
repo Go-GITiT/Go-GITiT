@@ -11,6 +11,27 @@
 
 window.onload = function() {
 
+$("#bar-chart").hide();
+$("#line-chart").hide();
+
+$("#bubbleChartButton").click(function(){
+    $("#line-chart").hide();
+    $("#bar-chart").hide();
+    $("#chart").show();
+});
+
+
+$("#barGraphButton").click(function(){
+  $("#chart").hide();
+  $("#line-chart").hide();
+  $("#bar-chart").show();
+});
+
+$("#lineGraphButton").click(function(){
+  $("#chart").hide();
+  $("#bar-chart").hide();
+  $("#line-chart").show();
+});
 
   var data; // a global
 
