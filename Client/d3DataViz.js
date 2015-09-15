@@ -6,27 +6,44 @@
     backbone: '#9467bd',
     polymer: '#e377c2',
     spine: '#7f7f7f',
-    flight: '#9edae5'
+    flight: '#9edae5',
   };
 
 window.onload = function() {
 
-  initBarChart();
-  initLineChart();
-  
+$("#bar-chart").hide();
+$("#line-chart").hide();
+
+$("#bubbleChartButton").click(function(){
+    $("#line-chart").hide();
+    $("#bar-chart").hide();
+    $("#chart").fadeIn();
+});
+
+
+$("#barGraphButton").click(function(){
+  $("#chart").hide();
+  $("#line-chart").hide();
+  $("#bar-chart").fadeIn();
+});
+
+$("#lineGraphButton").click(function(){
+  $("#chart").hide();
+  $("#bar-chart").hide();
+  $("#line-chart").fadeIn();
+});
+
   var data; // a global
 
-
-  var width = 600,
-      height = 600,
-      padding = 0.1, // separation between same-color nodes
+  var width = 500,
+      height = 350,
+      padding = 0.2, // separation between same-color nodes
       clusterPadding = 3, // separation between different-color nodes
-      maxRadius = 7;
+      maxRadius = 5;
 
   // var n = 1000, // total number of nodes
   m = Object.keys(frameworkColor).length; // number of distinct clusters
-
-
+  
   // need to distinguish color by framework
   var color = d3.scale.category20()
         .domain(d3.range(m));
@@ -39,8 +56,6 @@ window.onload = function() {
   // i will be color relative to data[name]
   // var nodes = [];
 
-
-
   // var nodes = d3.range(n).map(function() {
   //   // determines which cluster/color/framework each node belongs to
   //   var i = Math.floor(Math.random() * m), // which cluster/color, need to change to framework
@@ -50,27 +65,32 @@ window.onload = function() {
   //       return d;
   //     });
 
-
   var nodes = [];
-
-
-var createNodes = function(n, framework){
-  n = Math.ceil(n/10);
-  var newNodes = d3.range(n).map(function() {
-  // determines which cluster/color/framework each node belongs to
-  var i = framework, // which cluster/color, need to change to framework
-      r = 7, // size
-      d = {cluster: i, radius: r, type: framework}; // individual nodes that will be individual bubbles
+  var createNodes = function(n, framework) {
+    n = Math.ceil(n / 10);
+    var newNodes = d3.range(n).map(function() {
+      // determines which cluster/color/framework each node belongs to
+      var i = framework, // which cluster/color, need to change to framework
+          r = 12, // size
+          d = {
+            cluster: i,
+            radius: r,
+            type: framework
+          }; // individual nodes that will be individual bubbles
       if (!clusters[i] || (r > clusters[i].radius)) clusters[i] = d;
       return d;
     });
     nodes.push(newNodes);
   };
 
-
   // var arrays = [["$6"], ["$12"], ["$25"], ["$25"], ["$18"], ["$22"], ["$10"], ["$0"], ["$15"],["$3"], ["$75"], ["$5"], ["$100"], ["$7"], ["$3"], ["$75"], ["$5"]];
   // var merged = [];
   // merged = merged.concat.apply(merged, arrays);
+
+var resultCountColor = function(key, value){
+      var keyCount = $("<span>").append(""+key+": "+value+"<br>"+"").css("color", frameworkColor[key]);
+      $("#statCounts").append(keyCount);
+};
 
 
   d3.json("/tally", function(error, json) {
@@ -78,14 +98,17 @@ var createNodes = function(n, framework){
     data = json;
     console.log(data);
     for (var key in data) {
+  
+      resultCountColor(key, data[key]);
+
       createNodes(data[key], frameworkColor[key]);
+    
     }
     var merged = [];
     merged = merged.concat.apply(merged, nodes);
     console.log(merged);
     visualize(merged);
   });
-
 
   // Need to import data from counter
   // d = individual nodes
@@ -219,4 +242,10 @@ var createNodes = function(n, framework){
       };
     }
   };
+
+
+
+  initBarChart();
+  initLineChart();
+  
 };

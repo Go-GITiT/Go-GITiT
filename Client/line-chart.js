@@ -1,8 +1,10 @@
 function initLineChart() {
 
+
   var maxTime = Number.MIN_VALUE;
   var minTime = Number.MAX_VALUE;
-  var frameworks = {};
+  var frameworkData = {};
+
   d3.json("/snapshots", function(error, json) {
     if (error) console.warn(error);
 
@@ -13,21 +15,22 @@ function initLineChart() {
       maxTime = Math.max(time, maxTime);
       minTime = Math.min(time, minTime);
 
-      var t = JSON.parse(datum.tally);
-      for (var k in t) {
-        frameworks[k] = frameworks[k] || [];
-        frameworks[k].push({
-          sale: t[k],
+      var tally = JSON.parse(datum.tally);
+      for (var t in tally) {
+        frameworkData[t] = frameworkData[t] || [];
+        frameworkData[t].push({
+          sale: tally[t],
           year: time
         });
       }
     });
 
-    console.log(frameworks);
-
-    var vis = d3.select("#line-chart"),
+    var div = d3.select("#line-chart"),
         WIDTH = 500,
-        HEIGHT = 250,
+        HEIGHT = 320,
+        vis = div.append("svg")
+          .attr("width", WIDTH)
+          .attr("height", HEIGHT),
         MARGINS = {
           top: 20,
           right: 20,
@@ -50,28 +53,22 @@ function initLineChart() {
       .attr("class", "y axis")
       .attr("transform", "translate(" + (MARGINS.left) + ",0)")
       .call(yAxis);
+
     var lineGen = d3.svg.line()
           .x(function(d) {
             return xScale(d.year);
           })
           .y(function(d) {
             return yScale(d.sale);
-          })
-          .interpolate("basis");
+          });
+    // .interpolate("basis");
 
-    for (var fw in frameworks) {
+    for (var fw in frameworkData) {
       vis.append('svg:path')
-        .attr('d', lineGen(frameworks[fw]))
-        .attr('stroke', 'green')
+        .attr('d', lineGen(frameworkData[fw]))
+        .attr('stroke', frameworkColor[fw])
         .attr('stroke-width', 2)
         .attr('fill', 'none');
     }
-    
-    // vis.append('svg:path')
-    //   .attr('d', lineGen(data2))
-    //   .attr('stroke', 'blue')
-    //   .attr('stroke-width', 2)
-    //   .attr('fill', 'none');
-
   });
 }
