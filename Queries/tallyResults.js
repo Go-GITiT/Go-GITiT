@@ -15,10 +15,9 @@ var tally = {
   mithril: 0,
   polymer: 0,
   flight: 0,
-  capuccino: 0,
+  'objective-j': 0,
   spine: 0,
-  aurelia: 0,
-  other: 0
+  knockout: 0,
 };
 
 var tallyResults = function(){
