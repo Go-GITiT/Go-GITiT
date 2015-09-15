@@ -53,9 +53,9 @@ var parseForJS = function(obj) {
       mithril: false,
       polymer: false,
       flight: false,
-      capuccino: false,
+      'objective-j': false,
       spine: false,
-      aurelia: false
+      knockout: false
     }
   };
   request(obj.file_url, function(error, response, body) {
