@@ -99,7 +99,7 @@ var initBubbleChart = function() {
           .on("tick", tick)
           .start();
 
-    var svg = d3.select("#bubble-chart").prepend("svg")
+    var svg = d3.select("#bubble-chart").append("svg")
           .attr("viewBox", "0 0 " + width + " " + height)
           .attr("width", "100%")
           .attr("height", "100%")

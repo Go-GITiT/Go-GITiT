@@ -22,17 +22,17 @@ window.onload = function() {
   $("#bubbleChartButton").click(function() {
     $("#line-chart").hide();
     $("#bar-chart").hide();
-    $("#bubble-chart").fadeIn();
+    $("#bubbles").fadeIn();
   });
 
   $("#barGraphButton").click(function() {
-    $("#bubble-chart").hide();
+    $("#bubbles").hide();
     $("#line-chart").hide();
     $("#bar-chart").fadeIn();
   });
 
   $("#lineGraphButton").click(function() {
-    $("#bubble-chart").hide();
+    $("#bubbles").hide();
     $("#bar-chart").hide();
     $("#line-chart").fadeIn();
   });
