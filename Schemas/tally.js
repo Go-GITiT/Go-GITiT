@@ -3,7 +3,12 @@ var mongoose = require('mongoose');
 var tallySchema = new mongoose.Schema(
   {
     tally: String,
-    timestamp: Date 
+    timestamp: Date,
+    totals: {
+      total: Number,
+      indices: Number,
+      packages: Number
+    }
   },
   {collection: 'tally'}
 );
