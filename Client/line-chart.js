@@ -1,8 +1,8 @@
 function initLineChart() {
 
-
   var maxTime = Number.MIN_VALUE;
   var minTime = Number.MAX_VALUE;
+  var maxValue = Number.MIN_VALUE;
   var frameworkData = {};
 
   d3.json("/snapshots", function(error, json) {
@@ -19,19 +19,23 @@ function initLineChart() {
       for (var t in tally) {
         frameworkData[t] = frameworkData[t] || [];
         frameworkData[t].push({
-          sale: tally[t],
-          year: time
+          value: tally[t],
+          day: time
         });
+
+        maxValue = Math.max(maxValue, tally[t]);
+        
       }
     });
 
     var div = d3.select("#line-chart"),
         WIDTH = 500,
-        HEIGHT = 320,
+        HEIGHT = 350,
         vis = div.append("svg")
-          .attr("width", WIDTH)
-          .attr("height", HEIGHT)
-          .attr("preserveAspectRatio","none"),
+          .attr("viewBox", "0 0 " + WIDTH + " " + HEIGHT)
+          .attr("width", "100%")
+          .attr("height", "100%")
+          .attr("preserveAspectRatio", "xMinYMin meet"),
         MARGINS = {
           top: 20,
           right: 20,
@@ -39,7 +43,7 @@ function initLineChart() {
           left: 50
         },
         xScale = d3.scale.linear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([minTime, maxTime]),
-        yScale = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([0, 1000]),
+        yScale = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([0, maxValue + 100]),
         xAxis = d3.svg.axis()
           .scale(xScale),
         yAxis = d3.svg.axis()
@@ -57,12 +61,11 @@ function initLineChart() {
 
     var lineGen = d3.svg.line()
           .x(function(d) {
-            return xScale(d.year);
+            return xScale(d.day);
           })
           .y(function(d) {
-            return yScale(d.sale);
+            return yScale(d.value);
           });
-    // .interpolate("basis");
 
     for (var fw in frameworkData) {
       vis.append('svg:path')

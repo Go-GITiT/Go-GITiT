@@ -1,51 +1,13 @@
-  var frameworkColor = {
-    react: '#1f77b4',
-    ember: '#ff7f0e',
-    mithril: '#2ca02c',
-    angular: '#d62728',
-    backbone: '#9467bd',
-    polymer: '#e377c2',
-    spine: '#7f7f7f',
-    flight: '#9edae5',
-    knockout: '#771b17',
-    'objective-j': '#d8a93c'
-  };
-
-window.onload = function() {
-
-$("#bar-chart").hide();
-$("#line-chart").hide();
-
-$("#bubbleChartButton").click(function(){
-    $("#line-chart").hide();
-    $("#bar-chart").hide();
-    $("#chart").fadeIn();
-});
-
-
-$("#barGraphButton").click(function(){
-  $("#chart").hide();
-  $("#line-chart").hide();
-  $("#bar-chart").fadeIn();
-});
-
-$("#lineGraphButton").click(function(){
-  $("#chart").hide();
-  $("#bar-chart").hide();
-  $("#line-chart").fadeIn();
-});
+var initBubbleChart = function() {
 
   var data; // a global
-
   var width = 500,
       height = 350,
       padding = 0.2, // separation between same-color nodes
       clusterPadding = 3, // separation between different-color nodes
-      maxRadius = 5;
+      maxRadius = 5,
+      m = Object.keys(frameworkColor).length; // number of distinct clusters
 
-  // var n = 1000, // total number of nodes
-  m = Object.keys(frameworkColor).length; // number of distinct clusters
-  
   // need to distinguish color by framework
   var color = d3.scale.category20()
         .domain(d3.range(m));
@@ -56,16 +18,6 @@ $("#lineGraphButton").click(function(){
   // for each name in data object, invoke function to create nodes, n = data[name] value
   // push and join resulting array to nodes array
   // i will be color relative to data[name]
-  // var nodes = [];
-
-  // var nodes = d3.range(n).map(function() {
-  //   // determines which cluster/color/framework each node belongs to
-  //   var i = Math.floor(Math.random() * m), // which cluster/color, need to change to framework
-  //       r = 12, // size
-  //       d = {cluster: i, radius: r}; // individual nodes that will be individual bubbles
-  //       if (!clusters[i] || (r > clusters[i].radius)) clusters[i] = d;
-  //       return d;
-  //     });
 
   var nodes = [];
   var createNodes = function(n, framework) {
@@ -85,30 +37,21 @@ $("#lineGraphButton").click(function(){
     nodes.push(newNodes);
   };
 
-  // var arrays = [["$6"], ["$12"], ["$25"], ["$25"], ["$18"], ["$22"], ["$10"], ["$0"], ["$15"],["$3"], ["$75"], ["$5"], ["$100"], ["$7"], ["$3"], ["$75"], ["$5"]];
-  // var merged = [];
-  // merged = merged.concat.apply(merged, arrays);
-
-var resultCountColor = function(key, value){
-      var keyCount = $("<span>").append(""+key+": "+value+"<br>"+"").css("color", frameworkColor[key]);
-      $("#statCounts").append(keyCount);
-};
-
+  var resultCountColor = function(key, value) {
+    var keyCount = $("<span>").append("" + key + ": " + value + "<br>" + "").css("color", frameworkColor[key]);
+    $("#statCounts").append(keyCount);
+  };
 
   d3.json("/tally", function(error, json) {
     if (error) return console.warn(error);
     data = json;
     console.log(data);
     for (var key in data) {
-  
       resultCountColor(key, data[key]);
-
       createNodes(data[key], frameworkColor[key]);
-    
     }
     var merged = [];
     merged = merged.concat.apply(merged, nodes);
-    console.log(merged);
     visualize(merged);
   });
 
@@ -156,14 +99,15 @@ var resultCountColor = function(key, value){
           .on("tick", tick)
           .start();
 
-    var svg = d3.select("#chart").append("svg")
-          .attr("width", width)
-          .attr("height", height);
-
+    var svg = d3.select("#bubble-chart").append("svg")
+          .attr("viewBox", "0 0 " + width + " " + height)
+          .attr("width", "100%")
+          .attr("height", "100%")
+          .attr("preserveAspectRatio", "xMinYMin meet");
+        
     var node = svg.selectAll("circle")
           .data(nodes)
           .enter().append("circle")
-    // Need an if statement where each node gets color based on framwork
           .style("fill", function(d) {
             return d.type;
           })
@@ -244,10 +188,4 @@ var resultCountColor = function(key, value){
       };
     }
   };
-
-
-
-  initBarChart();
-  initLineChart();
-  
 };
