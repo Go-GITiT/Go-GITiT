@@ -17,29 +17,29 @@ $("#line-chart").hide();
 $("#bubbleChartButton").click(function(){
     $("#line-chart").hide();
     $("#bar-chart").hide();
-    $("#chart").show();
+    $("#chart").fadeIn();
 });
 
 
 $("#barGraphButton").click(function(){
   $("#chart").hide();
   $("#line-chart").hide();
-  $("#bar-chart").show();
+  $("#bar-chart").fadeIn();
 });
 
 $("#lineGraphButton").click(function(){
   $("#chart").hide();
   $("#bar-chart").hide();
-  $("#line-chart").show();
+  $("#line-chart").fadeIn();
 });
 
   var data; // a global
 
-  var width = 600,
-      height = 600,
-      padding = 0.1, // separation between same-color nodes
+  var width = 500,
+      height = 350,
+      padding = 0.2, // separation between same-color nodes
       clusterPadding = 3, // separation between different-color nodes
-      maxRadius = 7;
+      maxRadius = 5;
 
   // var n = 1000, // total number of nodes
   m = Object.keys(frameworkColor).length; // number of distinct clusters
@@ -71,7 +71,7 @@ $("#lineGraphButton").click(function(){
     var newNodes = d3.range(n).map(function() {
       // determines which cluster/color/framework each node belongs to
       var i = framework, // which cluster/color, need to change to framework
-          r = 7, // size
+          r = 12, // size
           d = {
             cluster: i,
             radius: r,
