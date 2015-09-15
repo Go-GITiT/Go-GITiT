@@ -8,9 +8,6 @@ var pubnub = require("pubnub")({
   subscribe_key: pubnubSubscribeKey
 });
 var tally = {
-  'Total Repos Parsed: ': 0,
-  'Index Files Parsed: ': 0,
-  'Package.jsons Parsed: ': 0,
   react: 0,
   angular: 0,
   ember: 0,
@@ -24,14 +21,15 @@ var tally = {
 };
 
 var tallyResults = function(){
+  var total = 0, indices = 0, packages = 0;
   var db = require('../Schemas/config.js');
   Results.find(function(err, data){
-    tally['Total Repos Parsed: '] = data.length;
+    total = data.length;
     data.forEach(function(item){
       if(item.file_url.match(/index\.html/)){
-        tally['Index Files Parsed: ']++;
+        indices++;
       } else if(item.file_url.match(/package\.json/)){
-        tally['Package.jsons Parsed: ']++;
+        packages++;
       }
       if(item.repo_data.match(/true/)){
         var curr = JSON.parse(item.repo_data);
@@ -44,7 +42,8 @@ var tallyResults = function(){
     });
     var today = new Tally({
       tally: JSON.stringify(tally),
-      timestamp: new Date()
+      timestamp: new Date(),
+      totals: {total: total, indices: indices, packages: packages}
     });
     today.save(function(err){
       if(err){
