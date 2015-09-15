@@ -67,6 +67,7 @@ header #text {
 .navbar-inverse {
   border: 0;
 }
+
 /* CHART STYLES */
 
 #bar-chart div {
@@ -117,3 +118,4 @@ header #text {
     height: 350px;
   }
 }
+
