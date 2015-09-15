@@ -35,18 +35,18 @@ function initBarChart() {
     vis.selectAll("svg")
       .data(data)
       .enter().append("rect")
-      .style("x", function(d) {
+      .attr("x", function(d) {
         foo += BARHEIGHT;
         return foo + "px";
       })
-      .style("y", function(d) {
+      .attr("y", function(d) {
         return (HEIGHT - x(d.v)) + "px";
       })
-      .style("height", function(d) {
+      .attr("height", function(d) {
         return x(d.v) + "px";
       })
-      .style("width", BARHEIGHT + "px")
-      .style("fill", function(d) {
+      .attr("width", BARHEIGHT + "px")
+      .attr("fill", function(d) {
         var color = frameworkColor[d.t];
         color = color || '#333';
         return color;
