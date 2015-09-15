@@ -100,8 +100,11 @@ var initBubbleChart = function() {
           .start();
 
     var svg = d3.select("#bubble-chart").append("svg")
-          .attr("width", width)
-          .attr("height", height);
+          .attr("viewBox", "0 0 " + width + " " + height)
+    // .attr("width", width)
+    // .attr("height", height);
+          .attr("width", "100%")
+          .attr("height", "100%");
 
     var node = svg.selectAll("circle")
           .data(nodes)
