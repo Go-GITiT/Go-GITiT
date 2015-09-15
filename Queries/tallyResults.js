@@ -43,7 +43,7 @@ var tallyResults = function(){
     var today = new Tally({
       tally: JSON.stringify(tally),
       timestamp: new Date(),
-      totals: {total: total, indices: indeces, packages: packages}
+      totals: {total: total, indices: indices, packages: packages}
     });
     today.save(function(err){
       if(err){
