@@ -108,7 +108,6 @@ var initBubbleChart = function() {
     var node = svg.selectAll("circle")
           .data(nodes)
           .enter().append("circle")
-    // Need an if statement where each node gets color based on framwork
           .style("fill", function(d) {
             return d.type;
           })
