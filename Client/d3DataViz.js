@@ -7,6 +7,8 @@
     polymer: '#e377c2',
     spine: '#7f7f7f',
     flight: '#9edae5',
+    knockout: '#771b17',
+    'objective-j': '#774b17'
   };
 
 window.onload = function() {
