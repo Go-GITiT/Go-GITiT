@@ -26,11 +26,12 @@ function initLineChart() {
 
     var div = d3.select("#line-chart"),
         WIDTH = 500,
-        HEIGHT = 320,
+        HEIGHT = 350,
         vis = div.append("svg")
-          .attr("width", WIDTH)
-          .attr("height", HEIGHT)
-          .attr("preserveAspectRatio","none"),
+          .attr("viewBox", "0 0 " + WIDTH + " " + HEIGHT)
+          .attr("width", "100%")
+          .attr("height", "100%")
+          .attr("preserveAspectRatio", "xMinYMin meet"),
         MARGINS = {
           top: 20,
           right: 20,
