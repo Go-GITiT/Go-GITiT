@@ -1,6 +1,5 @@
 function initLineChart() {
 
-
   var maxTime = Number.MIN_VALUE;
   var minTime = Number.MAX_VALUE;
   var frameworkData = {};
