@@ -87,3 +87,33 @@ header #text {
   font-family: Lato;
   font-size: 13px;
 }
+@media (max-width: 500px) {
+  #bubble-chart {
+    width: 100%;
+    height: 100%;
+  }
+  #line-chart {
+    width: 100%;
+    height: 100%;
+  }
+  #bar-chart {
+    width: 100%;
+    height: 100%;
+  }
+}
+/* Medium devices (desktops, 992px and up) */
+
+@media (min-width: 500px) {
+  #bubble-chart {
+    width: 500px;
+    height: 350px;
+  }
+  #line-chart {
+    width: 500px;
+    height: 350px;
+  }
+  #bar-chart {
+    width: 500px;
+    height: 350px;
+  }
+}
