@@ -30,7 +30,8 @@ function initLineChart() {
         HEIGHT = 320,
         vis = div.append("svg")
           .attr("width", WIDTH)
-          .attr("height", HEIGHT),
+          .attr("height", HEIGHT)
+          .attr("preserveAspectRatio","none"),
         MARGINS = {
           top: 20,
           right: 20,
