@@ -3,8 +3,8 @@ function initBarChart() {
   d3.json("/tally", function(error, json) {
     if (error) return console.warn(error);
 
-    var WIDTH = 420;
-    var HEIGHT = 420;
+    var WIDTH = 300;
+    var HEIGHT = 300;
     var BARHEIGHT;
     var data = [];
     var max = Number.NEGATIVE_INFINITY;
