@@ -7,24 +7,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Gitit</title>
   <style>
-  #bar-chart div {
-    font: 10px sans-serif;
-    /*background-color: steelblue;*/
-    
-    text-align: right;
-    padding: 3px;
-    margin: 1px;
-    color: black;
-  }
-  .axis path {
-    fill: none;
-    stroke: #777;
-    shape-rendering: crispEdges;
-  }
-  .axis text {
-    font-family: Lato;
-    font-size: 13px;
-  }
+    #bar-chart div {
+      font: 10px sans-serif;
+      /*background-color: steelblue;*/
+      
+      text-align: right;
+      padding: 3px;
+      margin: 1px;
+      color: black;
+    }
+    .axis path {
+      fill: none;
+      stroke: #777;
+      shape-rendering: crispEdges;
+    }
+    .axis text {
+      font-family: Lato;
+      font-size: 13px;
+    }
   </style>
 
 
@@ -46,58 +46,51 @@
           <span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>
         </button>
         <img class="col-xs-6 " src="gititlogo.png">
-      </a>
-    </div>
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav navbar-right">
-        <li class="active">
-        </li>
-        <li class="page-scroll">
-          <a href="about.html">About</a>
-        </li>
-      </ul>
-    </div>
-
-  </div>
-</nav>
-
-<header>
-  <div class="container" >
-    <div class="row">
-      <div class="col-md-4" id="statCounts">Number of Repo Occurences<br></div>
-      
-      <div id="text" class="col-md-8">
-        <div id="chart"></div>
-        <div id="bar-chart" ></div>
-        <div id="line-chart"></div>
+        </a>
       </div>
-      <!--       <div class="col-md-4"> -->
-      
-      <button id="bubbleChartButton" >Bubble Chart</button><button id="barGraphButton" >Bar Graph</button><button id="lineGraphButton" >Line Graph</button>
-      <!--       </div>   -->        
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
+          <li class="active">
+          </li>
+          <li class="page-scroll">
+            <a href="about.html">About</a>
+          </li>
+        </ul>
+      </div>
+
     </div>
-  </div>
-</div>
-</header>
+  </nav>
 
-<footer>
-  <div class="footer-col col-md-4">
-    <h3>Check us out on GitHub</h3>
-    <ul class="list-inline">
-      <li>
-        <a href="https://github.com/AdventuresomeBamboo" class="btn-social btn-outline"><i class="fa fa-fw fa-github"></i></a>
-      </li>
-    </ul>
-  </div>
+  <header>
+    <div class="container" >
+      <div class="row">
+    <div class="col-md-4" id="statCounts">Number of Repo Occurences<br></div>
+    
+          <div id="text" class="col-md-8">
+            <div id="chart"></div>
+            <div id="bar-chart" ></div>
+            <div id="line-chart"></div>
+          </div>
+<!--       <div class="col-md-4"> -->
+        
+      <button id="bubbleChartButton" >Bubble Chart</button><button id="barGraphButton" >Bar Graph</button><button id="lineGraphButton" >Line Graph</button>
+<!--       </div>   -->        
+        </div>
+      </div>
+    </div>
+  </header>
 
-</footer>
-<!-- JavaScript Files -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<script src="d3DataViz.js"></script>
-<script src="line-chart.js"></script>
-<script src="bar-chart.js"></script>
-</body>
+  <footer>
+     <a href="https://github.com/Gitit-TGA/Gitit"><img src="GitHub-Mark-64px.png"></a>
+
+  </footer>
+  <!-- JavaScript Files -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script src="d3DataViz.js"></script>
+  <script src="line-chart.js"></script>
+  <script src="bar-chart.js"></script>
+  </body>
 
 </html>
