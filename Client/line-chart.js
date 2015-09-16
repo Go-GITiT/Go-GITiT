@@ -9,8 +9,8 @@ function initLineChart() {
     if (error) console.warn(error);
 
     json.forEach(function(datum) {
-      console.log(datum.timestamp);
-      console.log(d3.time.format("%Y-%m-%dT%H:%M:%S.%LZ").parse(datum.timestamp));
+      //console.log(datum.timestamp);
+      //console.log(d3.time.format("%Y-%m-%dT%H:%M:%S.%LZ").parse(datum.timestamp));
       var time = (new Date(datum.timestamp).getTime());
       var tally = JSON.parse(datum.tally);
       maxTime = Math.max(time, maxTime);
@@ -35,8 +35,8 @@ function initLineChart() {
           .attr("preserveAspectRatio", "xMinYMin meet"),
         MARGINS = {
           top: 20,
-          right: 20,
-          bottom: 50,//20,
+          right: 50,
+          bottom: 50, //20,
           left: 50
         },
         xScale = d3.time.scale().range([MARGINS.left, WIDTH - MARGINS.right]).domain([minTime, maxTime]),
