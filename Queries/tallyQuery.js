@@ -8,7 +8,7 @@ var currentTally = function(callback) {
     if (err) {
       throw err;
     } else {
-      lastTally = JSON.parse(data[data.length - 1].tally);
+      lastTally = JSON.parse(data[data.length - 1]);
       callback(lastTally);
     }
   });
@@ -18,7 +18,7 @@ var snapshots = function(callback) {
   Tally.find(function(err, data){
     if(err) throw err;
     callback(data);
-  })
+  });
 };
 
 module.exports.currentTally = currentTally;
