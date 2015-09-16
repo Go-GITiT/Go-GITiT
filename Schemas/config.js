@@ -1,4 +1,4 @@
-//var mongoose = require('mongoose');
+var mongoose = require('mongoose');
 
 //var api = require('../api.js');
 var mongoURI = process.env.MONGOLAB_URI || api.MONGO_DB;
