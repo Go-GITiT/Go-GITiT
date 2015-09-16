@@ -1,7 +1,6 @@
 var express = require('express');
 var app = express();
-var currentTally = require('../Queries/tallyQuery.js').currentTally.tally;
-var currentTotal = require('../Queries/tallyQuery.js').currentTotal.totals;
+var currentTally = require('../Queries/tallyQuery.js').currentTally;
 var snapshots = require('../Queries/tallyQuery.js').snapshots;
 var db = require('../Schemas/config.js');
 var path = require('path');
@@ -29,14 +28,14 @@ app.get('/', function(req, res) {
 // });
 
 app.get('/tally', function(req, res) {
-  currentTally(function(tally) {
-    res.send(JSON.stringify(tally));
+  currentTally(function(data) {
+    res.send(JSON.stringify(data.tally));
   });
 });
 
 app.get('/total', function(req, res) {
-  currentTotal(function(total) {
-    res.send(JSON.stringify(total));
+  currentTally(function(data) {
+    res.send(JSON.stringify(data.totals));
   });
 });
 
