@@ -35,7 +35,7 @@ function initLineChart() {
           .attr("preserveAspectRatio", "xMinYMin meet"),
         MARGINS = {
           top: 20,
-          right: 20,
+          right: 50,
           bottom: 50, //20,
           left: 50
         },
