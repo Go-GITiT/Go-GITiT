@@ -3,8 +3,12 @@ header {
   font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 1.5em;
   font-weight: 600;
-  color: #D4D4D4;
+  color: #333333;
   background: #fff;
+}
+
+.totals {
+  color: red;
 }
 header .container {
   padding-top: 100px;
