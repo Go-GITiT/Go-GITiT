@@ -1,6 +1,8 @@
 var initBubbleChart = function() {
 
   var data; // a global
+  var maxBubbles = 200;
+  var scaleFactor;
   var width = 500,
       height = 350,
       padding = 0.3, // separation between same-color nodes
@@ -17,7 +19,7 @@ var initBubbleChart = function() {
 
   var nodes = [];
   var createNodes = function(n, framework) {
-    n = Math.ceil(n / 10);
+    n = Math.ceil(n / scaleFactor);
     var newNodes = d3.range(n).map(function() {
       // determines which cluster/color/framework each node belongs to
       var i = framework, // which cluster/color, need to change to framework
@@ -42,10 +44,21 @@ var initBubbleChart = function() {
     if (error) return console.warn(error);
     data = json;
     console.log(data);
+
+    // sum number of hits
+    var sum = 0;
+    for (var key in data) {
+      sum += data[key];
+    }
+
+    //calculate scale factor
+    scaleFactor = 5 * (Math.round((sum / maxBubbles) / 5));
+    
     for (var key in data) {
       resultCountColor(key, data[key]);
       createNodes(data[key], frameworkColor[key]);
     }
+
     var merged = [];
     merged = merged.concat.apply(merged, nodes);
     visualize(merged);
@@ -82,7 +95,7 @@ var initBubbleChart = function() {
           .attr("width", "100%")
           .attr("height", "100%")
           .attr("preserveAspectRatio", "xMinYMin meet");
-        
+
     var node = svg.selectAll("circle")
           .data(nodes)
           .enter().append("circle")
