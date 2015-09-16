@@ -28,14 +28,14 @@ app.get('/', function(req, res) {
 // });
 
 app.get('/tally', function(req, res) {
-  currentTally(function(data) {
-    res.send(JSON.stringify(data.tally));
+  currentTally('tally', function(data) {
+    res.send(JSON.stringify(data));
   });
 });
 
 app.get('/total', function(req, res) {
-  currentTally(function(data) {
-    res.send(JSON.stringify(data.totals));
+  currentTally('totals', function(data) {
+    res.send(JSON.stringify(data));
   });
 });
 
