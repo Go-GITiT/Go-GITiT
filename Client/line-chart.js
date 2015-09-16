@@ -9,22 +9,19 @@ function initLineChart() {
     if (error) console.warn(error);
 
     json.forEach(function(datum) {
-
+      console.log(datum.timestamp);
+      console.log(d3.time.format("%Y-%m-%dT%H:%M:%S.%LZ").parse(datum.timestamp));
       var time = (new Date(datum.timestamp).getTime());
-
+      var tally = JSON.parse(datum.tally);
       maxTime = Math.max(time, maxTime);
       minTime = Math.min(time, minTime);
-
-      var tally = JSON.parse(datum.tally);
       for (var t in tally) {
+        maxValue = Math.max(maxValue, tally[t]);
         frameworkData[t] = frameworkData[t] || [];
         frameworkData[t].push({
           value: tally[t],
           day: time
         });
-
-        maxValue = Math.max(maxValue, tally[t]);
-        
       }
     });
 
@@ -39,13 +36,15 @@ function initLineChart() {
         MARGINS = {
           top: 20,
           right: 20,
-          bottom: 20,
+          bottom: 50,//20,
           left: 50
         },
-        xScale = d3.scale.linear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([minTime, maxTime]),
-        yScale = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([0, maxValue + 100]),
+        xScale = d3.time.scale().range([MARGINS.left, WIDTH - MARGINS.right]).domain([minTime, maxTime]),
+        yScale = d3.scale.linear().range([HEIGHT - MARGINS.bottom, MARGINS.bottom]).domain([0, maxValue + 100]),
         xAxis = d3.svg.axis()
-          .scale(xScale),
+          .scale(xScale)
+          .orient('botttom')
+          .tickFormat(d3.time.format("%Y-%m-%d")),
         yAxis = d3.svg.axis()
           .scale(yScale)
           .orient("left");
@@ -53,7 +52,13 @@ function initLineChart() {
     vis.append("svg:g")
       .attr("class", "x axis")
       .attr("transform", "translate(0," + (HEIGHT - MARGINS.bottom) + ")")
-      .call(xAxis);
+      .call(xAxis)
+      .selectAll("text")
+      .attr("y", 0)
+      .attr("x", 9)
+      .attr("dy", ".35em")
+      .attr("transform", "rotate(35) translate(10, 0) scale(.8)")
+      .style("text-anchor", "start");
     vis.append("svg:g")
       .attr("class", "y axis")
       .attr("transform", "translate(" + (MARGINS.left) + ",0)")
