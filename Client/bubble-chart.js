@@ -3,9 +3,9 @@ var initBubbleChart = function() {
   var data; // a global
   var width = 500,
       height = 350,
-      padding = 0.2, // separation between same-color nodes
+      padding = 0.3, // separation between same-color nodes
       clusterPadding = 3, // separation between different-color nodes
-      maxRadius = 5,
+      maxRadius = 12,
       m = Object.keys(frameworkColor).length; // number of distinct clusters
 
   // need to distinguish color by framework
@@ -122,7 +122,7 @@ var initBubbleChart = function() {
         return i * 5;
       })
       .attrTween("r", function(d) {
-        var i = d3.interpolate(0, d.radius);
+        var i = d3.interpolate(2, d.radius);
         return function(t) {
           return d.radius = i(t);
         };
@@ -132,7 +132,7 @@ var initBubbleChart = function() {
     function tick(e) {
       node
         .each(cluster(10 * e.alpha * e.alpha))
-        .each(collide(0.1))
+        .each(collide(0.15))
         .attr("cx", function(d) {
           return d.x;
         })
