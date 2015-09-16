@@ -9,6 +9,7 @@ header {
 
 .totals {
   color: red;
+  padding-left: 10px;
 }
 .disclaimer {
   color:#d3d3d3;
