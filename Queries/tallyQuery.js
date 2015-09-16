@@ -1,14 +1,14 @@
 var Tally = require('../Schemas/tally.js').Tally;
 var db = require('../Schemas/config.js');
 
-var currentTally = function(callback) {
+var currentTally = function(dataPoint, callback) {
   Tally.find(function(err, data) {
     var lastTally;
 
     if (err) {
       throw err;
     } else {
-      lastTally = JSON.parse(data[data.length - 1]);
+      lastTally = JSON.parse(data[data.length - 1][dataPoint]);
       callback(lastTally);
     }
   });
