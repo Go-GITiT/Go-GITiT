@@ -14,10 +14,10 @@ header {
   color:#d3d3d3;
   font-size:12px;
 }
-header .container {
-  padding-top: 100px;
+/*header .container {
+  padding-top: 50px;
   padding-bottom: 50px;
-}
+}*/
 header #text {
   display: block;
   text-transform: uppercase;
@@ -126,8 +126,8 @@ header #text {
     height: 350px;
   }
 }
-.footer-above {
+/*.footer-above {
     border-style: solid;
     border-top: thick double #dbdbdb;
-}
+}*/
 
