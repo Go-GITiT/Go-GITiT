@@ -5,7 +5,7 @@ var initBubbleChart = function() {
       height = 350,
       padding = 0.3, // separation between same-color nodes
       clusterPadding = 3, // separation between different-color nodes
-      maxRadius = 12,
+      maxRadius = 10,
       m = Object.keys(frameworkColor).length; // number of distinct clusters
 
   // need to distinguish color by framework
@@ -21,7 +21,7 @@ var initBubbleChart = function() {
     var newNodes = d3.range(n).map(function() {
       // determines which cluster/color/framework each node belongs to
       var i = framework, // which cluster/color, need to change to framework
-          r = 12, // size
+          r = 10, // size
           d = {
             cluster: i,
             radius: r,
