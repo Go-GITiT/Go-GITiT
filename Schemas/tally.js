@@ -4,11 +4,7 @@ var tallySchema = new mongoose.Schema(
   {
     tally: String,
     timestamp: Date,
-    totals: {
-      total: Number,
-      indices: Number,
-      packages: Number
-    }
+    totals: String 
   },
   {collection: 'tally'}
 );
