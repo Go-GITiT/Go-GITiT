@@ -20,16 +20,21 @@ var tally = {
   knockout: 0,
 };
 
+var totals = {
+  total: 0,
+  indices: 0,
+  packages: 0,
+};
+  
 var tallyResults = function(){
-  var total = 0, indices = 0, packages = 0;
   var db = require('../Schemas/config.js');
   Results.find(function(err, data){
-    total = data.length;
+    totals.total = data.length;
     data.forEach(function(item){
       if(item.file_url.match(/index\.html/)){
-        indices++;
+        totals.indices++;
       } else if(item.file_url.match(/package\.json/)){
-        packages++;
+        totals.packages++;
       }
       if(item.repo_data.match(/true/)){
         var curr = JSON.parse(item.repo_data);
@@ -43,7 +48,7 @@ var tallyResults = function(){
     var today = new Tally({
       tally: JSON.stringify(tally),
       timestamp: new Date(),
-      totals: {total: total, indices: indeces, packages: packages}
+      totals: JSON.stringify(totals) 
     });
     today.save(function(err){
       if(err){

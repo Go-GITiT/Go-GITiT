@@ -23,13 +23,15 @@ app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, '../Client', 'index.html'));
 });
 
-// app.get('/d3DataViz.js', function(req, res) {
-//   res.sendFile(path.join(__dirname, '../Client', 'd3DataViz.js'));
-// });
-
 app.get('/tally', function(req, res) {
-  currentTally(function(tally) {
-    res.send(JSON.stringify(tally));
+  currentTally('tally', function(data) {
+    res.send(JSON.stringify(data));
+  });
+});
+
+app.get('/total', function(req, res) {
+  currentTally('totals', function(data) {
+    res.send(JSON.stringify(data));
   });
 });
 

@@ -3,9 +3,9 @@ var initBubbleChart = function() {
   var data; // a global
   var width = 500,
       height = 350,
-      padding = 0.2, // separation between same-color nodes
+      padding = 0.3, // separation between same-color nodes
       clusterPadding = 3, // separation between different-color nodes
-      maxRadius = 5,
+      maxRadius = 12,
       m = Object.keys(frameworkColor).length; // number of distinct clusters
 
   // need to distinguish color by framework
@@ -14,10 +14,6 @@ var initBubbleChart = function() {
 
   // The largest node for each cluster.
   var clusters = new Array(m);
-
-  // for each name in data object, invoke function to create nodes, n = data[name] value
-  // push and join resulting array to nodes array
-  // i will be color relative to data[name]
 
   var nodes = [];
   var createNodes = function(n, framework) {
@@ -54,24 +50,6 @@ var initBubbleChart = function() {
     merged = merged.concat.apply(merged, nodes);
     visualize(merged);
   });
-
-  // Need to import data from counter
-  // d = individual nodes
-
-  // first we need to pass the var nodes function to a variable.
-  // then we will invoke that creator function N times of framework occurences
-  // each node will have a name property, related to its representative framework
-  // the representative framework will determine its color given a number 1-10
-
-  // loop through the frameworkColor
-  // the number of occurences is how many nodes we will make of the same name and color
-
-  // Creator function ||||||||
-  //                  VVVVVVVV
-  // node needs a framework value to determine its color value
-  // d3.range runs this function n number of times, adding d/node to an array of nodes
-
-  // Use the pack layout to initialize node positions.
 
   var visualize = function(nodes) {
     d3.layout.pack()
@@ -122,7 +100,7 @@ var initBubbleChart = function() {
         return i * 5;
       })
       .attrTween("r", function(d) {
-        var i = d3.interpolate(0, d.radius);
+        var i = d3.interpolate(2, d.radius);
         return function(t) {
           return d.radius = i(t);
         };
@@ -132,7 +110,7 @@ var initBubbleChart = function() {
     function tick(e) {
       node
         .each(cluster(10 * e.alpha * e.alpha))
-        .each(collide(0.1))
+        .each(collide(0.15))
         .attr("cx", function(d) {
           return d.x;
         })
