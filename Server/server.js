@@ -23,10 +23,6 @@ app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, '../Client', 'index.html'));
 });
 
-// app.get('/d3DataViz.js', function(req, res) {
-//   res.sendFile(path.join(__dirname, '../Client', 'd3DataViz.js'));
-// });
-
 app.get('/tally', function(req, res) {
   currentTally('tally', function(data) {
     res.send(JSON.stringify(data));
