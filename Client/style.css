@@ -10,15 +10,18 @@ header {
 .totals {
   color: red;
 }
+
 .disclaimer {
   color:#d3d3d3;
   font-size:12px;
 }
+
 header .container {
   padding-top: 50px;
   padding-bottom: 50px;
 }
-header #text{
+
+header #text {
   display: block;
   text-transform: uppercase;
   font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -27,6 +30,11 @@ header #text{
   font-size: 1.25em;
   font-weight: 300;
 }
+
+.bubbleText {
+  font-size: 10px;
+  position: absolute;
+}j
 
 header h1 {
   display: block;
