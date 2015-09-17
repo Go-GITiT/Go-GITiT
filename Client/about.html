@@ -19,7 +19,6 @@
   <!-- Custom CSS -->
   <link href="style.css" rel="stylesheet">
   <!-- Custom Fonts -->
-  <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
   <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
   <link href="http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="//code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
@@ -59,35 +58,54 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-12">
-          <table>
-            <tr>
-              <td>REPOS PARSED: </td>
-              <td style="padding-left: 10px" class="total totals">A LOT</td>
-            </tr>
-            <tr>
-              <td>INDEX.HTML: </td>
-              <td style="padding-left: 10px"class="indices totals">TONS</td>
-            </tr>
-            <tr>
-              <td>PACKAGE.JSON: </td>
-              <td class="packages totals">MANY</td>
-            </tr>
-          </table>
-          </br>
-          <p class="text">
-            GoGITiT is a group thesis project by <a href='https://github.com/fusupo' target="_blank">Marc Christophe</a>, <a href='https://github.com/dhernz' target="_blank">Doris Hernandez</a>, <a href='https://github.com/demesheo' target="_blank">Demesheo Wilson</a>, and <a href='https://github.com/Ryan-McBride' target="_blank">Ryan McBride</a> at Telegraph Academy. GitHub has no means to provide information about what frameworks are being used. The goal of this project is to gather and parse GitHub repository information to create accurate usage metrics of JavaScript frontend frameworks. 
-          </p>
-          <p class="text">
-            To achieve this goal we used Google BigQuery to retrieve daily activity from GitHub for all javascript repos. We would then use GitHub's API to fetch files to use as framework identifiers. By parsing through the package.json and index.html files of each repo we keep individual records of the frameworks being used and keep a cumulative count of the occurences to display using a series of D3 data visualization graphs. 
-          </p> 
-        </div>
+
+        <h1>GoGitit</h1>
+        <h4>Data driven data about JavaScript front-end frameworks</h4>
+        <p>GoGitit is a node project that leverages the Google BigQuery API and Github's API to gather data about the usage statistics of different front-end frameworks</p>
+        <h2>Problem</h2>
+        <p>There is currently no available hard data on front-end framework usage. When you want to see what framework is gaining steam in the open source community, you really only have speculation to go off of.</p>
+        <h2>Solutions</h2>
+        <p>GoGitit gathers hard data from from identifiers in public GitHub files. Our current MVP parses through index.htmls and package.jsons. We're gathering information on Angular, React, Ember, Mithril, Flight, Polymer, and Spine. Support for more frameworks will be added over time.</p>
+        <h2>Quote from the Project Owner</h2>
+        <p>&quot;I mean what do you want me to say?&quot;</p>
+        <h2>How to get started</h2>
+        <ol>
+          <li>Clone the repository</li>
+          <li>run npm install</li>
+          <li>Provide the needed information in the <code>/api.js</code> file to interact with the necessary APIs.</li>
+          <li>Configure the connection to a local Mongo instance in <code>/Schemas/config.js</code></li>
+          <li>run <code>$node server.js</code> in <code>/Servers</code></li>
+          <li>Open http://localhost:1111/ in the browser to see the results!</li>
+        </ol>
+        <p>The parsing scripts take some time to run due to the dataset size, The order is bigQuery.js &gt; fetchFiles.js &gt; parseRepos.js &gt; tally.js. We recommend hosting on heroku and using the PubNub plugin to handle script triggering.</p>
+        <h2>Customer Quote</h2>
+        <p>&quot;This is pretty cool.&quot;</p>
+        <p>The information we display isn't a 100% accurate sample, as we are still gathering the huge amounts of data necessary to accurately track trends.</p>
+
       </div>
-    </div> 
-    <div class="row">
-      <center>OUR STACK</center>
-        <img class="col-xs-12"src='./images/stack.png'/>
     </div>
+  </div> 
+    <div class="table-responsive">
+      <table class="table-striped">
+        <tr>
+          <td>REPOS PARSED: </td>
+          <td style="padding-left: 10px" class="total totals">A LOT</td>
+        </tr>
+        <tr>
+          <td>INDEX.HTML: </td>
+          <td style="padding-left: 10px"class="indices totals">TONS</td>
+        </tr>
+        <tr>
+          <td>PACKAGE.JSON: </td>
+          <td class="packages totals">MANY</td>
+        </tr>
+      </table>
+    </div>
+  <div class="row">
+    <center>OUR STACK</center>
+    <img class="col-xs-12"src='./images/stack.png'/>
+  </div> 
   </header>
-<script src="./tally-total.js"></script>
+  <script src="./tally-total.js"></script>
 </body>
 </html>
