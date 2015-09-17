@@ -6,7 +6,7 @@ var initBubbleChart = function() {
   var width = 500,
       height = 350,
       padding = 0.3, // separation between same-color nodes
-      clusterPadding = 3, // separation between different-color nodes
+      clusterPadding = 2, // separation between different-color nodes
       maxRadius = 10,
       m = Object.keys(frameworkColor).length; // number of distinct clusters
 
@@ -118,7 +118,6 @@ var initBubbleChart = function() {
           return d.radius = i(t);
         };
       });
-
     // function giving nodes location attributes
     function tick(e) {
       node
@@ -178,5 +177,24 @@ var initBubbleChart = function() {
         });
       };
     }
+
+    svg.append("text")
+      .text('Based on the force layout by mbostock')
+      .attr("x", 25)
+      .attr("y", 25)
+      .attr("z", 1)
+      .attr("font-family", "Arial")
+      .attr("font-size", "6px")
+      .attr("fill", "black");
+
+      svg.append("text")
+      .text('Each bubble represents '+scaleFactor+' repos rounded up')
+      .attr("x", 25)
+      .attr("y", 35)
+      .attr("z", 1)
+      .attr("font-family", "Arial")
+      .attr("font-size", "6px")
+      .attr("fill", "black");
+
   };
 };
