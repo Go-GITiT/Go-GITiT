@@ -34,6 +34,34 @@ header #text {
 .bubbleText {
   font-size: 10px;
   position: absolute;
+}j
+
+header h1 {
+  display: block;
+  text-transform: uppercase;
+  font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 2em;
+  font-weight: 700;
+  font-size: 1.25em;
+  font-weight: 300;
+}
+
+header p {
+  display: block;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 1em;
+  font-weight: 700;
+  font-size: 1em;
+  font-weight: 300;
+}
+
+header .table-responsive{
+  display: block;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 1em;
+  font-weight: 700;
+  font-size: 1em;
+  font-weight: 300;
 }
 
 @media(min-width:768px) {
@@ -135,8 +163,5 @@ header #text {
     height: 350px;
   }
 }
-/*.footer-above {
-    border-style: solid;
-    border-top: thick double #dbdbdb;
-}*/
+
 

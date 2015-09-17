@@ -57,39 +57,37 @@
   <header>
     <div class="container">
       <div class="row">
-        <div class="col-lg-12">
+        <div class="col-lg-12 info" >
 
-        <h1>GoGitit</h1>
-        <h4>Data Visualization of Popular JavaScript Front End Frameworks</h4>
-        <p>GoGitit is a node project that leverages the Google BigQuery API and Github's API to gather data about the usage statistics of different front-end frameworks</p>
+          <h1>GoGitit</h1>
+          
+          <h4>Data Visualization of Popular JavaScript Front End Frameworks</h4>
+          <p>GoGitit is a node project that leverages the Google BigQuery API and Github's API to gather data about the usage statistics of different front-end frameworks</p>
 
-        <h2>The Problem</h2>
-      
-        <p>
-          GitHub has no means to provide information about what frameworks are being used. The goal of this project is to gather and parse GitHub repository information to create accurate usage metrics of JavaScript frontend frameworks. 
-        </p>    
+          <h2>The Problem</h2>
 
-
-        <h2>Solutions</h2>
-        <p>GoGitit gathers hard data from from identifiers in public GitHub files. Our current MVP parses through index.htmls and package.jsons. We're gathering information on Angular, React, Ember, Mithril, Flight, Polymer, and Spine. Support for more frameworks will be added over time.</p>
-
-<p class="text">
-            GoGITiT is a group project by <a href='https://github.com/fusupo' target="_blank">Marc Christophe</a>, <a href='https://github.com/dhernz' target="_blank">Doris Hernandez</a>, <a href='https://github.com/demesheo' target="_blank">Demesheo Wilson</a>, and <a href='https://github.com/Ryan-McBride' target="_blank">Ryan McBride</a> at Telegraph Academy. 
-
-          </p>
-          <p class="text">
-            To achieve this goal we used Google BigQuery to retrieve daily activity from GitHub for all javascript repos. We would then use GitHub's API to fetch files to use as framework identifiers.
-
-             By parsing through the package.json and index.html files of each repo we keep individual records of the frameworks being used and keep a cumulative count of the occurences to display using a series of D3 data visualization graphs. Support for more frameworks will be added over time.
-          </p> 
+          <p>
+            GitHub has no means to provide information about what frameworks are being used. The goal of this project is to gather and parse GitHub repository information to create accurate usage metrics of JavaScript frontend frameworks. 
+          </p>    
 
 
+          <h2>Solution</h2>
 
+          <p>  To achieve this goal we used Google BigQuery to retrieve daily activity from GitHub for all javascript repos. We would then use GitHub's API to fetch files to use as framework identifiers.
 
+           By parsing through the package.json and index.html files of each repo we keep individual records of the frameworks being used and keep a cumulative count of the occurences to display using a series of D3 data visualization graphs. Support for more frameworks will be added over time.
+         </p> 
 
+         <h2>The Team</h2>
+         <p>
 
+         GoGITiT is a group project by <a href='https://github.com/fusupo' target="_blank">Marc Christophe</a>, <a href='https://github.com/dhernz' target="_blank">Doris Hernandez</a>, <a href='https://github.com/demesheo' target="_blank">Demesheo Wilson</a>, and <a href='https://github.com/Ryan-McBride' target="_blank">Ryan McBride</a> at Telegraph Academy. 
+
+       </p>
       </div>
     </div>
+    <h2>Cool Statistics</h2>
+    <br>
     <div class="table-responsive">
       <table class="table-striped">
         <tr>
@@ -102,7 +100,7 @@
         </tr>
         <tr>
           <td>PACKAGE.JSON: </td>
-          <td class="packages totals">MANY</td>
+          <td style="padding-left: 10px" class="packages totals">MANY</td>
         </tr>
       </table>
     </div>
@@ -122,5 +120,6 @@
     ga('create', 'UA-67769620-1', 'auto');
     ga('send', 'pageview');
   </script>
+
 </body>
 </html>
