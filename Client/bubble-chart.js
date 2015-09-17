@@ -188,7 +188,7 @@ var initBubbleChart = function() {
       .attr("fill", "black");
 
       svg.append("text")
-      .text('Each bubble represents 10 repos rounded up')
+      .text('Each bubble represents '+scaleFactor+' repos rounded up')
       .attr("x", 25)
       .attr("y", 35)
       .attr("z", 1)
