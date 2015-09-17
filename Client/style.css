@@ -10,14 +10,17 @@ header {
 .totals {
   color: red;
 }
+
 .disclaimer {
   color:#d3d3d3;
   font-size:12px;
 }
+
 header .container {
   padding-top: 50px;
   padding-bottom: 50px;
 }
+
 header #text {
   display: block;
   text-transform: uppercase;
@@ -27,6 +30,12 @@ header #text {
   font-size: 1.25em;
   font-weight: 300;
 }
+
+.bubbleText {
+  font-size: 10px;
+  position: absolute;
+}
+
 @media(min-width:768px) {
   header .container {
     padding-top: 200px;

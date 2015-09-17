@@ -53,6 +53,7 @@ var initBubbleChart = function() {
 
     //calculate scale factor
     scaleFactor = 5 * (Math.round((sum / maxBubbles) / 5));
+    $('#scaleFactor').text(scaleFactor);
     
     for (var key in data) {
       resultCountColor(key, data[key]);
@@ -177,24 +178,5 @@ var initBubbleChart = function() {
         });
       };
     }
-
-    svg.append("text")
-      .text('Based on the force layout by mbostock')
-      .attr("x", 25)
-      .attr("y", 25)
-      .attr("z", 1)
-      .attr("font-family", "Arial")
-      .attr("font-size", "6px")
-      .attr("fill", "black");
-
-      svg.append("text")
-      .text('Each bubble represents '+scaleFactor+' repos rounded up')
-      .attr("x", 25)
-      .attr("y", 35)
-      .attr("z", 1)
-      .attr("font-family", "Arial")
-      .attr("font-size", "6px")
-      .attr("fill", "black");
-
   };
 };
