@@ -1,10 +1,12 @@
 var initBubbleChart = function() {
 
   var data; // a global
+  var maxBubbles = 200;
+  var scaleFactor;
   var width = 500,
       height = 350,
       padding = 0.3, // separation between same-color nodes
-      clusterPadding = 3, // separation between different-color nodes
+      clusterPadding = 2, // separation between different-color nodes
       maxRadius = 10,
       m = Object.keys(frameworkColor).length; // number of distinct clusters
 
@@ -17,7 +19,7 @@ var initBubbleChart = function() {
 
   var nodes = [];
   var createNodes = function(n, framework) {
-    n = Math.ceil(n / 10);
+    n = Math.ceil(n / scaleFactor);
     var newNodes = d3.range(n).map(function() {
       // determines which cluster/color/framework each node belongs to
       var i = framework, // which cluster/color, need to change to framework
@@ -42,10 +44,21 @@ var initBubbleChart = function() {
     if (error) return console.warn(error);
     data = json;
     console.log(data);
+
+    // sum number of hits
+    var sum = 0;
+    for (var key in data) {
+      sum += data[key];
+    }
+
+    //calculate scale factor
+    scaleFactor = 5 * (Math.round((sum / maxBubbles) / 5));
+    
     for (var key in data) {
       resultCountColor(key, data[key]);
       createNodes(data[key], frameworkColor[key]);
     }
+
     var merged = [];
     merged = merged.concat.apply(merged, nodes);
     visualize(merged);
@@ -82,7 +95,7 @@ var initBubbleChart = function() {
           .attr("width", "100%")
           .attr("height", "100%")
           .attr("preserveAspectRatio", "xMinYMin meet");
-        
+
     var node = svg.selectAll("circle")
           .data(nodes)
           .enter().append("circle")
@@ -105,7 +118,6 @@ var initBubbleChart = function() {
           return d.radius = i(t);
         };
       });
-
     // function giving nodes location attributes
     function tick(e) {
       node
@@ -165,5 +177,24 @@ var initBubbleChart = function() {
         });
       };
     }
+
+    svg.append("text")
+      .text('Based on the force layout by mbostock')
+      .attr("x", 25)
+      .attr("y", 25)
+      .attr("z", 1)
+      .attr("font-family", "Arial")
+      .attr("font-size", "6px")
+      .attr("fill", "black");
+
+      svg.append("text")
+      .text('Each bubble represents '+scaleFactor+' repos rounded up')
+      .attr("x", 25)
+      .attr("y", 35)
+      .attr("z", 1)
+      .attr("font-family", "Arial")
+      .attr("font-size", "6px")
+      .attr("fill", "black");
+
   };
 };

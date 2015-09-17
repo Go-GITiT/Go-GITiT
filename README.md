@@ -33,4 +33,3 @@ The parsing scripts take some time to run due to the dataset size, The order is 
 
 The information we display isn't a 100% accurate sample, as we are still gathering the huge amounts of data necessary to accurately track trends.
 
-[![Build Status](https://travis-ci.org/Gitit-TGA/Gitit.svg?branch=master)](https://travis-ci.org/Gitit-TGA/Gitit)
