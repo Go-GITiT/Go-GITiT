@@ -9,16 +9,15 @@ header {
 
 .totals {
   color: red;
-  padding-left: 10px;
 }
 .disclaimer {
   color:#d3d3d3;
   font-size:12px;
 }
-/*header .container {
+header .container {
   padding-top: 50px;
   padding-bottom: 50px;
-}*/
+}
 header #text {
   display: block;
   text-transform: uppercase;
