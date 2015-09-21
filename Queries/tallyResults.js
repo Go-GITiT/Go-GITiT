@@ -8,16 +8,16 @@ var pubnub = require("pubnub")({
   subscribe_key: pubnubSubscribeKey
 });
 var tally = {
-  react: 0,
   angular: 0,
-  ember: 0,
   backbone: 0,
-  mithril: 0,
-  polymer: 0,
-  flight: 0,
-  'objective-j': 0,
-  spine: 0,
+  react: 0,
+  ember: 0,
   knockout: 0,
+  mithril: 0,
+  spine: 0,
+  flight: 0,
+  polymer: 0,
+  'objective-j': 0
 };
 
 var totals = {
@@ -48,7 +48,7 @@ var tallyResults = function(){
     var today = new Tally({
       tally: JSON.stringify(tally),
       timestamp: new Date(),
-      totals: JSON.stringify(totals) 
+      totals: JSON.stringify(totals)
     });
     today.save(function(err){
       if(err){
