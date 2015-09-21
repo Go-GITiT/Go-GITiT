@@ -40,10 +40,8 @@ var initBubbleChart = function() {
     $("#statCounts").append(keyCount);
   };
 
-  d3.json("/tally", function(error, json) {
+  d3.json("/tally", function(error, data) {
     if (error) return console.warn(error);
-    data = json;
-    console.log(data);
 
     // sum number of hits
     var sum = 0;
@@ -54,11 +52,23 @@ var initBubbleChart = function() {
     //calculate scale factor
     scaleFactor = 5 * (Math.round((sum / maxBubbles) / 5));
     $('#scaleFactor').text(scaleFactor);
-    
-    for (var key in data) {
-      resultCountColor(key, data[key]);
-      createNodes(data[key], frameworkColor[key]);
+
+    var sortedResults = []; // sorting the results based on occurrences
+    for(var frame in data){
+      var curr = {};
+      curr[frame] = data[frame];
+      sortedResults.push(curr);
     }
+    
+    sortedResults.sort(function(a, b){
+      return b[Object.keys(b)[0]] - a[Object.keys(a)[0]];
+    });
+
+    sortedResults.forEach(function(val){
+      var frame = Object.keys(val)[0];
+      resultCountColor(frame, val[frame]);
+      createNodes(val[frame], frameworkColor[frame]);
+    });
 
     var merged = [];
     merged = merged.concat.apply(merged, nodes);
