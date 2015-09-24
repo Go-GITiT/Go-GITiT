@@ -28,7 +28,8 @@ The parsing scripts take some time to run due to the dataset size, The order is 
 
 ##Customer Quote
 
-"This is pretty cool."
+"Nice. Good to see this data."
+~ seshakiran (some guy on Hacker News)
 
 
 The information we display isn't a 100% accurate sample, as we are still gathering the huge amounts of data necessary to accurately track trends.
